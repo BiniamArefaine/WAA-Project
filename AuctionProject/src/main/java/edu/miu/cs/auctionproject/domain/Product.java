@@ -19,4 +19,8 @@ public class Product {
     @ElementCollection
     private List<String> imageLink;
 
+    @OneToMany
+    @JoinColumn
+    private List<Category>categories;
+
 }
