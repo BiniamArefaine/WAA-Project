@@ -18,6 +18,8 @@ public class User {
     @OneToMany
     private List<Product> product;
     private boolean verification;
+    @OneToOne
+    private Role role;
 
 
 
