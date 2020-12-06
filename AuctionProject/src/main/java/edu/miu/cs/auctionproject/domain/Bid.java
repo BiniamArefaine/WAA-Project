@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Entity
 @Data
-public class Bid {
+public class Bid  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
