@@ -1,5 +1,7 @@
 package edu.miu.cs.auctionproject.controller;
 
-//@Controller
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class BidController    {
 }
