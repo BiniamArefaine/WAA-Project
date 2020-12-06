@@ -1,5 +1,5 @@
 package edu.miu.cs.auctionproject.controller;
 
 //@Controller
-public class BidController{
+public class BidController    {
 }
