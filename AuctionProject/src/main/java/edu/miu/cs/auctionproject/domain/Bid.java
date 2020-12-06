@@ -1,6 +1,6 @@
 package edu.miu.cs.auctionproject.domain;
 
-import jdk.vm.ci.meta.Local;
+
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,7 +19,7 @@ public class Bid {
     private LocalDate dueDate;
 
     @OneToOne
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Product product;
 
 
