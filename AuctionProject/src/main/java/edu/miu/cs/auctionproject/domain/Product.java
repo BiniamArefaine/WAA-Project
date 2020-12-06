@@ -19,4 +19,7 @@ public class Product {
     @ElementCollection
     private List<String> imageLink;
 
+    @OneToMany
+    private List<Product>products;
+
 }

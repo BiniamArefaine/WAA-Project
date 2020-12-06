@@ -19,6 +19,7 @@ public class User {
     private List<Product> product;
     private boolean verification;
     @OneToOne
+    @JoinColumn
     private Role role;
 
 
