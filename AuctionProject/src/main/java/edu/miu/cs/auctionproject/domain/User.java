@@ -16,6 +16,7 @@ public class User {
     private String email;
     private String licenceNumber;
     @OneToMany
+    @JoinColumn(name = "user_id")
     private List<Product> product;
     private boolean verification;
     @OneToOne

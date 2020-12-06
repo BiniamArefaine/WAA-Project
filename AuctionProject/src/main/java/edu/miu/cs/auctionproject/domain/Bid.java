@@ -20,6 +20,9 @@ public class Bid {
     private Product product;
 
     @ElementCollection
+    @MapKeyColumn(name="user")
+    @Column(name="price")
+    @CollectionTable(name="bid_user", joinColumns=@JoinColumn(name="bid_id"))
     private Map<User,Double> users;
 
 

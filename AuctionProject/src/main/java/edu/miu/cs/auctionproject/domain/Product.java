@@ -20,6 +20,7 @@ public class Product {
     private List<String> imageLink;
 
     @OneToMany
-    private List<Product>products;
+    @JoinColumn
+    private List<Category>categories;
 
 }
