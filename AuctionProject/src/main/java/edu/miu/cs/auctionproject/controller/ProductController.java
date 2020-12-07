@@ -1,6 +1,8 @@
 package edu.miu.cs.auctionproject.controller;
 
+import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.service.CategoryService;
 import edu.miu.cs.auctionproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ import java.util.Optional;
 public class ProductController {
     @Autowired
     ProductService productService;
+
+    @Autowired
+    CategoryService categoryService;
 
 //    @PostMapping(value = {"/add"})
 //    public void addNewProduct(@RequestBody Product product) {
@@ -84,7 +89,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = {"/new" })
-    public String inputProduct(@ModelAttribute("product") Product product) {
+    public String inputProduct(@ModelAttribute("product") Product product,Model model) {
+        List<Category>categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
         return "addproduct";
     }
 

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+        <html lang="en" xmlns:th="http://www.thymeleaf.org">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="description" content="">
+        <meta name="author" content="Essey T.">
+        <link rel="icon" href="favicon.ico">
+        <link
+        href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+        crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+        <title>
+        List Products</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div style="margin-top: 1em; margin-bottom: 1em;" class="container">
+    <div>
+        <span style="font-size: 2em; color: #32a5e7;">Categories in our data</span> <span style="float: right;"> <a
+            class="btn btn-outline-success btn-lg"
+            href="/categories/new">Add a new Category</a>
+			</span>
+    </div>
+    <!-- Search panel -->
+
+    <div style="font-size: 1em">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category Name</th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="category,iterStat : ${categories}">
+                <th scope="row" th:text="${iterStat.count}+${'.'}"></th>
+                <td th:text="${category.name}"></td>
+                <td><a th:href="@{'categories/edit/{id}'(id=${category.id})}">Edit</a></td>
+                <td>
+                    <a  data-target="#confirmDeleteProductModal"
+                        th:href="@{'delete/' + ${category.id}}">Delete</a>
+                </td>
+            </tr>
+            <tr th:if="${categorysCount < 1}">
+                <td colspan="8" th:align="center">No student found</td>
+            </tr>
+            </tbody>
+        </table>
+        <!--        <div>-->
+        <!--            <ul class="nav nav-pills">-->
+        <!--                <li class="nav-item"-->
+        <!--                    th:each="i:${#numbers.sequence(0,proucts.totalPages-1)}">-->
+        <!--                    <a th:href="@{/eregistrar/student/list(pageNo=${i})}" th:text="${i}" class="nav-link"-->
+        <!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
+        <!--                </li>-->
+        <!--            </ul>-->
+        <!--        </div>-->
+    </div>
+
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>
