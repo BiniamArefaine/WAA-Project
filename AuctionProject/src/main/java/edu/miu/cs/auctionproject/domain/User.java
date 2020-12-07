@@ -1,12 +1,16 @@
 package edu.miu.cs.auctionproject.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,11 +20,11 @@ public class User {
     private String email;
     private String licenceNumber;
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = true)
     private List<Product> product;
     private boolean verification;
     @OneToOne
-    @JoinColumn
+    @JoinColumn(nullable = true)
     private Role role;
 
 
