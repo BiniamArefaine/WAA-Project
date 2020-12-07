@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="author" content="Essey T.">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <title>
+        List Products</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div style="margin-top: 1em; margin-bottom: 1em;" class="container">
+    <div>
+			<span style="font-size: 2em; color: #32a5e7;">Product in our data</span> <span style="float: right;"> <a
+            class="btn btn-outline-success btn-lg"
+            href="/product/new">Add a new Product</a>
+			</span>
+    </div>
+    <!-- Search panel -->
+    <form id="searchStudentForm" method="get"
+          action="/eregistrar/student/search">
+        <div style="margin-top: 1em;" class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchString"
+                           name="searchString"
+                           placeholder="Enter a string to search for students"
+                           th:value="${searchString}" autofocus/>
+                    <div class="input-group-append">
+                        <button id="btnSubmit" type="submit"
+                                class="btn btn-outline-success">Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div style="font-size: 1em">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Starting Price</th>
+                <th scope="col">Images</th>
+                <th scope="col">Description</th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product,iterStat : ${products}">
+                <th scope="row" th:text="${iterStat.count}+${'.'}"></th>
+                <td th:text="${product.productName}"></td>
+                <td th:text="${product.startingPrice}"></td>
+                <td th:text="${product.imageLink}"></td>
+                <td th:text="${product.description}"></td>
+                <td><a th:href="@{'product/edit/{id}'(id=${product.id})}">Edit</a></td>
+                <td>
+                    <a  data-target="#confirmDeleteProductModal"
+                        th:href="@{'product/delete/' + ${product.id}}">Delete</a>
+                </td>
+            </tr>
+            <tr th:if="${productsCount < 1}">
+                <td colspan="8" th:align="center">No student found</td>
+            </tr>
+            </tbody>
+        </table>
+<!--        <div>-->
+<!--            <ul class="nav nav-pills">-->
+<!--                <li class="nav-item"-->
+<!--                    th:each="i:${#numbers.sequence(0,proucts.totalPages-1)}">-->
+<!--                    <a th:href="@{/eregistrar/student/list(pageNo=${i})}" th:text="${i}" class="nav-link"-->
+<!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+    </div>
+
+    <!-- Modal -->
+    <!--    <div class="modal fade" id="confirmDeleteBookModal" tabindex="-1"-->
+    <!--         role="dialog" aria-labelledby="exampleModalCenterTitle"-->
+    <!--         aria-hidden="true">-->
+    <!--        <div class="modal-dialog modal-dialog-centered" role="document">-->
+    <!--            <div class="modal-content">-->
+    <!--                <div class="modal-header">-->
+    <!--                    <h5 class="modal-title" id="exampleModalCenterTitle">Confirm-->
+    <!--                        Delete</h5>-->
+    <!--                    <button type="button" class="close" data-dismiss="modal"-->
+    <!--                            aria-label="Close">-->
+    <!--                        <span aria-hidden="true">&times;</span>-->
+    <!--                    </button>-->
+    <!--                </div>-->
+    <!--                <div class="modal-body">Are you sure you wish to delete this-->
+    <!--                    student data?-->
+    <!--                </div>-->
+    <!--                <div class="modal-footer">-->
+    <!--                    <button type="button" class="btn btn-secondary"-->
+    <!--                            data-dismiss="modal">No-->
+    <!--                    </button>-->
+    <!--                    <button type="button" class="btn btn-primary">Yes</button>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+</body>
+</html>
