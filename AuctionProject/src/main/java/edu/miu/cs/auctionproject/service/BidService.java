@@ -8,8 +8,8 @@ import java.util.Optional;
 public interface BidService {
 
     List<Bid> getAllBids();
-    Optional<Bid> getBidById(Long id);
-    void saveBid(Bid bid);
-    void deleteBid(Long id);
+    Bid getBidById(Long id);
+    void save(Bid bid);
+    void deleteById(Long id);
 
 }
