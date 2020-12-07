@@ -10,9 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,10 +63,9 @@ public class ProductController {
 
     @PostMapping(value = {"/edit"})
     public String updateProduct(@Validated @ModelAttribute("product") Product product,
-                                BindingResult bindingResult, Model model) {
+                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", bindingResult.getAllErrors());
-            return "/editproductform";
+            return "/productEdit";
         }
         productService.saveProduct(product);
         return "redirect:/product/getall";
@@ -125,4 +128,27 @@ public class ProductController {
         productService.deleteProduct(productId);
         return "redirect:/product/getall";
     }
+//    @RequestMapping(value="/employee_save", method = RequestMethod.POST)
+//    public String saveEmployee(@Valid @ModelAttribute("employee")  Employee employee, BindingResult bindingResult,
+//                               Model model, HttpServletRequest request) throws FileNotFoundException {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "EmployeeForm";
+//        }
+//
+//        MultipartFile image = employee.getImage();
+//        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+//
+//        if (image!=null && !image.isEmpty()) {
+//            try {
+//                image.transferTo(new File(rootDirectory+"//images//"+ employee.getId() + ".png"));
+//            } catch (Exception e) {
+//                System.out.println(e);
+//                throw new FileNotFoundException("Unable to save image: " + image.getOriginalFilename() );
+//            }
+//        }
+//        model.addAttribute("employee", employee);
+//
+//        return "EmployeeDetails";
+//    }
 }

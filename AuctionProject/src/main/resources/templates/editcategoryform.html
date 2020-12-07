@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<h3>Category<sup>&reg;</sup> Seller</h3>
+<hr/>
+<div style="padding-top:1em;" class="container">
+    <div style="margin-bottom: 1em;">
+        <span style="font-size: 2em; color: #32a5e7;">Edit Category data with categoryId: [[${category.id}]]</span>
+    </div>
+
+    <form id="editCategoryForm" method="post"
+          action="/categories/edit" th:object="${category}">
+        <fieldset>
+            <input type="hidden" name="id"
+                   th:value="${category.id}"/>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">Category Name</label>
+                        <span
+                                th:if="${#fields.hasErrors('name')}"
+                                th:errors="*{name}" class="alert alert-danger"></span>
+                        <input id="name" name="name" type="text"
+                               class="form-control" th:value="${category.name}">
+                    </div>
+                </div>
+
+            </div>
+            <div style="float:right;">
+                <a href="/categories/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
+                <button id="btnSubmit" type="submit" class="btn btn-outline-success">Update Category</button>
+            </div>
+
+        </fieldset>
+
+
+    </form>
+</div>
+
+</div>
+
+<th:block layout:fragment="footer"></th:block>
+
+</body>
+</html>

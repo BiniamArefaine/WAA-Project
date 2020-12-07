@@ -40,7 +40,7 @@
             <tr th:each="category,iterStat : ${categories}">
                 <th scope="row" th:text="${iterStat.count}+${'.'}"></th>
                 <td th:text="${category.name}"></td>
-                <td><a th:href="@{'categories/edit/{id}'(id=${category.id})}">Edit</a></td>
+                <td><a th:href="@{'edit/{id}'(id=${category.id})}">Edit</a></td>
                 <td>
                     <a  data-target="#confirmDeleteProductModal"
                         th:href="@{'delete/' + ${category.id}}">Delete</a>

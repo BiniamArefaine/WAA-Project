@@ -3,9 +3,7 @@ package edu.miu.cs.auctionproject.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
+
 
 @Entity
 @Data
@@ -36,9 +35,11 @@ public class Product {
     private boolean release;
     //biniam-dave
     private LocalDate upLoadedDate;
-    @ElementCollection
-    private List<String> imageLink;
-
+//    @ElementCollection
+//    private List<MultipartFile> imageLink;
+    @Lob
+    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+    private byte[] images;
     @OneToMany
     private List<Category>categories;
 

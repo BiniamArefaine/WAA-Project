@@ -55,21 +55,20 @@ public class CategoryController {
     public String editCategory(@PathVariable long categoryId, Model model) {
         Optional<Category> category = categoryService.getCategoryById(categoryId);
         if (category.isPresent()) {
-            model.addAttribute("categories", category.get());
+            model.addAttribute("category", category.get());
             return "/editcategoryform";
         }
-        return "/getall";
+        return "listcategory";
     }
 
     @PostMapping(value = {"/edit"})
     public String updateCategory(@Validated @ModelAttribute("category") Category category,
-                                BindingResult bindingResult, Model model) {
+                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", bindingResult.getAllErrors());
             return "/editcategoryform";
         }
-        categoryService.save(category);
-        return "redirect:categories/getall";
+        category=categoryService.save(category);
+        return "redirect:/categories/getall";
     }
 
     @RequestMapping(value={"/getall"})
