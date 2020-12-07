@@ -51,9 +51,10 @@ public class ProductController {
         Optional<Product> product = productService.findProductById(productId);
         if (product.isPresent()) {
             model.addAttribute("product", product.get());
-            return "/editproductform";
+            model.addAttribute("categories",categoryService.getAllCategories());
+            return "/productEdit";
         }
-        return "/getall";
+        return "listproduct";
     }
 
     @PostMapping(value = {"/edit"})
@@ -64,7 +65,7 @@ public class ProductController {
             return "/editproductform";
         }
         productService.saveProduct(product);
-        return "redirect:product/getall";
+        return "redirect:/product/getall";
     }
 
     @GetMapping(value = {"/getDetails/{id}"})
@@ -116,6 +117,11 @@ public class ProductController {
         productService.saveProduct(product);
         model.addAttribute("product", product);
 
+        return "redirect:/product/getall";
+    }
+    @GetMapping(value = {"/delete/{productId}"})
+    public String deleteStudent(@PathVariable Long productId, Model model) {
+        productService.deleteProduct(productId);
         return "redirect:/product/getall";
     }
 }

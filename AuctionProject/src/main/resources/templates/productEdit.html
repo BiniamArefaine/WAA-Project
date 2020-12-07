@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      layout:decorate="~{layouts/master-layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>The eRegistrar - a Spring Security Demo webapp - Users Management</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
-<div layout:fragment="content" style="padding-top:1em;" class="container">
-    <h3>eRegistrar<sup>&reg;</sup> Users</h3>
+<div th:replace="fragments/header :: header"></div>
+    <h3>Product<sup>&reg;</sup> Seller</h3>
     <hr/>
     <div style="padding-top:1em;" class="container">
         <div style="margin-bottom: 1em;">
-            <span style="font-size: 2em; color: #32a5e7;">Edit Student data with studentId: [[${student.studentId}]]</span>
+            <span style="font-size: 2em; color: #32a5e7;">Edit Product data with productId: [[${product.id}]]</span>
         </div>
 
         <form id="editProductForm" method="post"
@@ -59,14 +66,9 @@
                     </select>
                 </div>
                 <div style="float:right;">
-                    <a href="/product/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
-                    <button id="btnSubmit" type="submit" class="btn btn-outline-success">Save Product</button>
-                </div>
-            </fieldset>
-                        <a href="/eregistrar/secured/admin/list" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
-                        <button id="btnSubmit" type="submit" class="btn btn-outline-success">Update Student</button>
+                        <a href="/product/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
+                        <button id="btnSubmit" type="submit" class="btn btn-outline-success">Update Product</button>
                     </div>
-                </div>
 
             </fieldset>
 

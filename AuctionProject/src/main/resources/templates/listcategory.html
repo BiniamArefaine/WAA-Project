@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="description" content="">
-        <meta name="author" content="Essey T.">
         <link rel="icon" href="favicon.ico">
         <link
         href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
@@ -45,10 +44,12 @@
                 <td>
                     <a  data-target="#confirmDeleteProductModal"
                         th:href="@{'delete/' + ${category.id}}">Delete</a>
+<!--                    <span th:if="${IthasProducts}" th:value="${IthasProducts}" th:text="It has Products" class="alert alert-danger"></span>-->
+
                 </td>
             </tr>
             <tr th:if="${categorysCount < 1}">
-                <td colspan="8" th:align="center">No student found</td>
+                <td colspan="8" th:align="center">No product found</td>
             </tr>
             </tbody>
         </table>
@@ -56,7 +57,7 @@
         <!--            <ul class="nav nav-pills">-->
         <!--                <li class="nav-item"-->
         <!--                    th:each="i:${#numbers.sequence(0,proucts.totalPages-1)}">-->
-        <!--                    <a th:href="@{/eregistrar/student/list(pageNo=${i})}" th:text="${i}" class="nav-link"-->
+        <!--                    <a th:href="@{/eauction/product/list(pageNo=${i})}" th:text="${i}" class="nav-link"-->
         <!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
         <!--                </li>-->
         <!--            </ul>-->

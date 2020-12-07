@@ -1,5 +1,6 @@
 package edu.miu.cs.auctionproject.service;
 
+import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.domain.Product;
 
 import java.util.List;
@@ -11,4 +12,7 @@ public interface ProductService {
     Optional<Product> findProductById(Long id);
     List<Product> findAllProducts();
     List<Product> searchProduct(String searchString);
+//    List<Product> findProductByCategoriesContains(Long categoryId);
+
+
 }

@@ -3,6 +3,7 @@ package edu.miu.cs.auctionproject.controller;
 import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.service.CategoryService;
+import edu.miu.cs.auctionproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ import java.util.Optional;
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    ProductService productService;
 
 //
 //    @GetMapping("/getall")
@@ -101,6 +105,10 @@ public class CategoryController {
         if (bindingResult.hasErrors()) {
             return "addcategory";
         }
+//        if(categoryService.findAllByName(category.getName())!=null){
+//            model.addAttribute("categoryExists","categoryExists");
+//            return "addcategory";
+//        }
 
         // save category here
         categoryService.save(category);
@@ -109,7 +117,11 @@ public class CategoryController {
         return "redirect:/categories/getall";
     }
     @GetMapping(value = {"/delete/{categoryId}"})
-    public String deleteStudent(@PathVariable Long categoryId, Model model) {
+    public String deleteCategory(@PathVariable Long categoryId, ModelAndView model) {
+//        if(productService.findProductByCategoriesContains(categoryId)!=null){
+//            model.addObject("IthasProducts","It has products");
+//            return "forward:/categories/getall";
+//        }
         categoryService.deleteCategoryById(categoryId);
         return "redirect:/categories/getall";
     }

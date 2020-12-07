@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
     @Autowired
     private ProductRepository productRepository;
 
@@ -41,22 +40,5 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> searchProduct(String searchString) {
         return productRepository.findAllById(Collections.singleton(Long.parseLong(searchString)));
-
     }
-
-    //biniamdave
-//    public List<Product> findAllByAscPrice(){
-//        return productRepository.findAllByStartingPriceOrderByStartingPriceAsc();
-//    }
-//
-//    //
-//    public List<Product> findAllByDescPrice(){
-//        return productRepository.findAllByStartingPriceOrderByStartingPriceDesc();
-//    }
-//
-//    //
-//    public List<Product> uploadedDateDesc(){
-//        return productRepository.findAllByStartingPriceOrderByUpLoadedDateDesc();
-//    }
-
 }
