@@ -1,8 +1,6 @@
 package edu.miu.cs.auctionproject.controller;
 
-import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.domain.DepositPayment;
-import edu.miu.cs.auctionproject.service.CategoryService;
 import edu.miu.cs.auctionproject.service.DepositPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

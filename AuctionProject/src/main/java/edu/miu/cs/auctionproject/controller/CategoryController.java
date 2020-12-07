@@ -1,9 +1,7 @@
 package edu.miu.cs.auctionproject.controller;
 
-import edu.miu.cs.auctionproject.domain.Bid;
 import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.domain.Category;
-import edu.miu.cs.auctionproject.service.BidService;
 import edu.miu.cs.auctionproject.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

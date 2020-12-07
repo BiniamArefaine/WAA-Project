@@ -1,5 +1,7 @@
 package edu.miu.cs.auctionproject.controller;
 
+import edu.miu.cs.auctionproject.domain.Category;
+import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +22,18 @@ public class UserController {
     UserService userService;
 
     @PostMapping(value = {"/add"})
-    public void addNewUser(@RequestBody User user){
-        System.out.println(user.toString());
+    public String addNewUser(@RequestBody @Valid @ModelAttribute User user, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()) {
+            return "adduser";
+        }
+
+        // save product here
         userService.saveUser(user);
+        model.addAttribute("user", user);
+
+        return "redirect:/user/getall";
     }
+
     @GetMapping(value = {"/get/{id}"})
     public Optional<User> getUserbyId(@PathVariable(value = "id") Long id){
         return userService.findUserById(id);
@@ -54,5 +65,12 @@ public class UserController {
         }
         userService.saveUser(user);
         return "redirect:/getall";
+    }
+//biniam
+    @RequestMapping(value = {"/adduser" })
+    public String inputProduct(@ModelAttribute("users") User user, Model model) {
+//        List<User> users = userService.findAllUsers();
+//        model.addAttribute("users", users);
+        return "adduser";
     }
 }

@@ -67,8 +67,17 @@ public class ProductController {
         return "redirect:product/getall";
     }
 
+    @GetMapping(value = {"/getDetails/{id}"})
+    public ModelAndView getProductDetailsId(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
+        Optional<Product> product = productService.findProductById(id);
+        modelAndView.addObject("product", product);
+        modelAndView.setViewName("bookingDetails");
+        return modelAndView;
+    }
+
+    //biniam-dave
     @RequestMapping(value={"/getall"})
-    public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo, ModelAndView modelAndView) {
+    public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
         List<Product> products = productService.findAllProducts();
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
