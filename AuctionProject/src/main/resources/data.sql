@@ -32,6 +32,7 @@ SET foreign_key_checks = 0;
 insert into bid_user values(1,300,1);
 insert into bid_user values(2,10000,2);
 
+
 SET foreign_key_checks = 0;
 insert into deposit_payment values(1,90,2,4);
 insert into deposit_payment values(2,200,3,5);
