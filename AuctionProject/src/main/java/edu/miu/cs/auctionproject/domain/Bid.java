@@ -1,5 +1,8 @@
 package edu.miu.cs.auctionproject.domain;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Map;
@@ -7,6 +10,8 @@ import java.util.Map;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +21,7 @@ public class Bid {
     private LocalDate dueDate;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn
     private Product product;
 
     @ElementCollection

@@ -1,12 +1,16 @@
 package edu.miu.cs.auctionproject.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +24,6 @@ public class Product {
     private List<String> imageLink;
 
     @OneToMany
-    @JoinColumn
     private List<Category>categories;
 
 }

@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RestController
 @RequestMapping(value = {"/user"})
 public class UserController {
     @Autowired

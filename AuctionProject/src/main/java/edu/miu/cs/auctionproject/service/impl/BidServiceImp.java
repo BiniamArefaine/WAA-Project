@@ -21,17 +21,21 @@ public class BidServiceImp implements BidService {
     }
 
     @Override
-    public Optional<Bid> getBidById(Long id) {
-        return bidRepository.findById(id);
+    public Bid getBidById(Long id) {
+         if(bidRepository.findById(id).isPresent()){
+            return bidRepository.findById(id).get();
+        }else {
+             return null;
+         }
     }
 
     @Override
-    public void saveBid(Bid bid) {
+    public void save(Bid bid) {
          bidRepository.save(bid);
     }
 
     @Override
-    public void deleteBid(Long id) {
+    public void deleteById(Long id) {
           bidRepository.deleteById(id);
     }
 }
