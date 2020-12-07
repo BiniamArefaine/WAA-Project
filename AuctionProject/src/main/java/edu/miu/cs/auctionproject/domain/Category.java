@@ -3,10 +3,12 @@ package edu.miu.cs.auctionproject.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Data
@@ -17,8 +19,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(unique = true)
-    private String name;
+
+    @NotBlank(message = "name is required")
+    @Column(unique = true,nullable = false)
+    private  String name;
 
 //    added unidirectional
 //    @ManyToMany(mappedBy = "categories")

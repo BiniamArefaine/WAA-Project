@@ -1,6 +1,5 @@
 package edu.miu.cs.auctionproject.service;
 
-import edu.miu.cs.auctionproject.domain.Bid;
 import edu.miu.cs.auctionproject.domain.Category;
 
 import java.util.List;
@@ -11,5 +10,5 @@ public interface CategoryService {
     void save(Category category);
     Optional<Category> getCategoryById(Long id);
     void deleteCategoryById(Long id);
-//    Category findAllByName(String name);
+    Category findAllByName(String name);
 }

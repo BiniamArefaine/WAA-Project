@@ -1,17 +1,17 @@
 package edu.miu.cs.auctionproject.service.impl;
 
-import edu.miu.cs.auctionproject.domain.Bid;
 import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.repository.CategoryRepository;
 import edu.miu.cs.auctionproject.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl implements CategoryService{
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -36,8 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
-//    @Override
-//    public Category findAllByName(String name) {
-//        return categoryRepository.findAllByName(name);
-//    }
+    @Override
+    public Category findAllByName(String name) {
+        return categoryRepository.findAllByName(name);
+    }
+
+
 }

@@ -110,6 +110,7 @@ public class ProductController {
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
                               Model model) {
         if (bindingResult.hasErrors()) {
+            System.out.println("==========================");
             return "addproduct";
         }
 
