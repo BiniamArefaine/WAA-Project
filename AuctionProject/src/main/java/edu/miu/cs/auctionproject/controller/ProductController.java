@@ -6,6 +6,7 @@ import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.service.CategoryService;
 import edu.miu.cs.auctionproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -38,15 +39,15 @@ public class ProductController {
 //        productService.saveProduct(product);
 //    }
 
-    @GetMapping(value = {"/get/{id}"})
-    public Optional<Product> getProductbyId(@PathVariable(value = "id") Long id) {
-        return productService.findProductById(id);
-    }
-
-    @DeleteMapping(value = {"/delete/{id}"})
-    public void deleteProductById(@PathVariable(value = "id") Long id) {
-        productService.deleteProduct(id);
-    }
+//    @GetMapping(value = {"/get/{id}"})
+//    public Optional<Product> getProductbyId(@PathVariable(value = "id") Long id) {
+//        return productService.findProductById(id);
+//    }
+//
+//    @DeleteMapping(value = {"/delete/{id}"})
+//    public void deleteProductById(@PathVariable(value = "id") Long id) {
+//        productService.deleteProduct(id);
+//    }
 
 //    @GetMapping(value = {"/getall"})
 //    public List<Product> getAllProducts() {
@@ -85,21 +86,22 @@ public class ProductController {
     //biniam-dave
     @RequestMapping(value={"/getall"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
-        List<Product> products = productService.findAllProducts();
+        Page<Product>products=productService.findAllProducts(pageNo);
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
-        modelAndView.addObject("productsCount", products.size());
+        modelAndView.addObject("productsCount", products.getTotalElements());
+        modelAndView.addObject("currentPageNo",pageNo);
         modelAndView.setViewName("listproduct");
         return modelAndView;
     }
 
     @GetMapping(value = {"/search"})
-    public ModelAndView searchStudents(@RequestParam String searchString) {
+    public ModelAndView searchStudents(@RequestParam(defaultValue = "0")int pageNo,@RequestParam String searchString) {
         ModelAndView modelAndView = new ModelAndView();
-        List<Product> products = productService.searchProduct(searchString);
+        Page<Product> products = productService.searchProduct(pageNo,searchString);
         modelAndView.addObject("products", products);
         modelAndView.addObject("searchString", searchString);
-        modelAndView.addObject("ProductsCount", products.size());
+        modelAndView.addObject("ProductsCount", products.getTotalElements());
         modelAndView.setViewName("Products");
         return modelAndView;
     }
@@ -111,9 +113,10 @@ public class ProductController {
         return "addproduct";
     }
 
-    @RequestMapping(value = "/add")
+    @PostMapping(value = "/add")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,@RequestParam("image") MultipartFile multipartFile,
                               Model model) throws IOException {
+        System.out.println("kffkdsfjkdsafjkdsaf");
         if (bindingResult.hasErrors()) {
             return "addproduct";
         }
