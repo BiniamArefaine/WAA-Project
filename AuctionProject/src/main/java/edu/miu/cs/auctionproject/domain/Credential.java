@@ -28,7 +28,7 @@ import javax.validation.constraints.NotBlank;
         @NotBlank(message = "Please provide password")
         private String password;
 
-        @OneToOne(mappedBy = "credential", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+        @OneToOne(mappedBy = "credential", cascade = CascadeType.ALL)
         private User user;
 
 
