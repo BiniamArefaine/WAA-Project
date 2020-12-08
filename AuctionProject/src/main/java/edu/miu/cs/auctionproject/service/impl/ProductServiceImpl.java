@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> findAllProducts(int pageNo) {
-        return  productRepository.findAll(PageRequest.of(pageNo,6, Sort.by("productName")));
+        return  productRepository.findAllReleased(PageRequest.of(pageNo,6, Sort.by("startingPrice")));
     }
 
 
@@ -44,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> searchProduct(int pageNo,String searchString) {
-        return productRepository.findAll(PageRequest.of(pageNo,6,Sort.by(searchString)));
+       // System.out.println(pageNo+" "+searchString);
+        return productRepository.findByProductName(PageRequest.of(pageNo,6,Sort.by("productName")),searchString);
     }
 }

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class  Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
