@@ -37,4 +37,9 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
+
+    @Override
+    public List<User> findAllNonVerifiedUsers() {
+        return userRepository.findAllByVerificationFalse();
+    }
 }

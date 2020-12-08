@@ -10,4 +10,7 @@ public interface UserService {
     void deleteUser(Long id);
     Optional<User> findUserById(Long id);
     List<User> findAllUsers();
+    List<User> findAllNonVerifiedUsers();
+
+
 }

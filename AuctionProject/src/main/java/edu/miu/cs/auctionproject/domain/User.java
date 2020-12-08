@@ -19,10 +19,10 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
-    @Column(unique = true)
     private String email;
     private String licenceNumber;
-    private String password;
+
+
     @OneToMany
     @JoinColumn(name = "user_id",nullable = true)
     private List<Product> product;
@@ -32,13 +32,12 @@ public class User {
     private Role role;
     //added
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn
     @Valid
     private Credential credential;
-    @Valid
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
+
+
 
 
 
