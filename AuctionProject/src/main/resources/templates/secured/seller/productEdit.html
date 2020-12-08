@@ -23,7 +23,7 @@
         </div>
 
         <form id="editProductForm" method="post"
-              action="/product/edit" th:object="${product}">
+              action="user/product/edit" th:object="${product}">
             <fieldset>
                 <input type="hidden" name="id" th:value="${product.id}"/>
                 <div class="row">

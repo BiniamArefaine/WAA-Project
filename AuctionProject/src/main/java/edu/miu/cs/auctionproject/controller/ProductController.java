@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -54,26 +51,26 @@ public class ProductController {
 //        return productService.findAllProducts();
 //    }
 
-    @GetMapping(value = {"edit/{productId}"})
-    public String editProduct(@PathVariable long productId, Model model) {
-        Optional<Product> product = productService.findProductById(productId);
-        if (product.isPresent()) {
-            model.addAttribute("product", product.get());
-            model.addAttribute("categories",categoryService.getAllCategories());
-            return "/productEdit";
-        }
-        return "listproduct";
-    }
-
-    @PostMapping(value = {"/edit"})
-    public String updateProduct(@Validated @ModelAttribute("product") Product product,
-                                BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "/productEdit";
-        }
-        productService.saveProduct(product);
-        return "redirect:/product/getall";
-    }
+//    @GetMapping(value = {"edit/{productId}"})
+//    public String editProduct(@PathVariable long productId, Model model) {
+//        Optional<Product> product = productService.findProductById(productId);
+//        if (product.isPresent()) {
+//            model.addAttribute("product", product.get());
+//            model.addAttribute("categories",categoryService.getAllCategories());
+//            return "/productEdit";
+//        }
+//        return "listproduct";
+//    }
+//
+//    @PostMapping(value = {"/edit"})
+//    public String updateProduct(@Validated @ModelAttribute("product") Product product,
+//                                BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            return "/productEdit";
+//        }
+//        productService.saveProduct(product);
+//        return "redirect:/product/getall";
+//    }
 
     @GetMapping(value = {"/getDetails/{id}"})
     public ModelAndView getProductDetailsId(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
@@ -107,30 +104,30 @@ public class ProductController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/new" })
-    public String inputProduct(@ModelAttribute("product") Product product,Model model) {
-        List<Category>categories = categoryService.getAllCategories();
-        model.addAttribute("categories", categories);
-        return "addproduct";
-    }
+//    @RequestMapping(value = {"/new" })
+//    public String inputProduct(@ModelAttribute("product") Product product,Model model) {
+//        List<Category>categories = categoryService.getAllCategories();
+//        model.addAttribute("categories", categories);
+//        return "addproduct";
+//    }
 
-    @PostMapping(value = "/add")
-    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,@RequestParam("image") MultipartFile multipartFile,
-                              Model model) throws IOException {
-        System.out.println("kffkdsfjkdsafjkdsaf");
-        if (bindingResult.hasErrors()) {
-            return "addproduct";
-        }
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        product.setPhotos(fileName);
-        System.out.println(product.getPhotos());
-        String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        productService.saveProduct(product);
-        model.addAttribute("product", product);
-
-        return "redirect:/product/getall";
-    }
+//    @PostMapping(value = "/add")
+//    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,@RequestParam("image") MultipartFile multipartFile,
+//                              Model model) throws IOException {
+//        System.out.println("kffkdsfjkdsafjkdsaf");
+//        if (bindingResult.hasErrors()) {
+//            return "addproduct";
+//        }
+//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//        product.setPhotos(fileName);
+//        System.out.println(product.getPhotos());
+//        String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
+//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+//        productService.saveProduct(product);
+//        model.addAttribute("product", product);
+//
+//        return "redirect:/product/getall";
+//    }
 
     @GetMapping(value = {"/delete/{productId}"})
     public String deleteStudent(@PathVariable Long productId, Model model) {

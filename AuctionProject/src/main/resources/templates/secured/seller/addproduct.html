@@ -20,7 +20,7 @@
         <span style="font-size: 2em; color: #32a5e7;">New Product Form</span>
     </div>
 
-    <form id="newProductForm" method="post" action="/product/add" th:object="${product}" enctype="multipart/form-data">
+    <form id="newProductForm" method="post" action="/user/product/add" th:object="${product}" enctype="multipart/form-data">
         <fieldset>
             <input type="hidden" name="productId" th:value="${product.id}"/>
             <div class="row">

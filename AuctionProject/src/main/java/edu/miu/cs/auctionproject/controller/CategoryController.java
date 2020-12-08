@@ -1,7 +1,6 @@
 package edu.miu.cs.auctionproject.controller;
 
 import edu.miu.cs.auctionproject.domain.Category;
-import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.service.CategoryService;
 import edu.miu.cs.auctionproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,14 +57,14 @@ public class CategoryController {
             model.addAttribute("category", category.get());
             return "/editcategoryform";
         }
-        return "listcategory";
+        return "secured/admin/listcategory";
     }
 
     @PostMapping(value = {"/edit"})
     public String updateCategory(@Validated @ModelAttribute("category") Category category,
                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "/editcategoryform";
+            return "secured/admin/editcategoryform";
         }
         category=categoryService.save(category);
         return "redirect:/categories/getall";
@@ -77,7 +76,7 @@ public class CategoryController {
         modelAndView.addObject("categories",categorys);
         modelAndView.addObject("searchString", "");
         modelAndView.addObject("categorysCount", categorys.size());
-        modelAndView.setViewName("listcategory");
+        modelAndView.setViewName("secured/admin/listcategory");
         return modelAndView;
     }
 
@@ -94,7 +93,7 @@ public class CategoryController {
 
     @RequestMapping(value = {"/new" })
     public String inputCategory(@ModelAttribute("category") Category category) {
-        return "addcategory";
+        return "secured/admin/addcategory";
     }
 
 
@@ -102,7 +101,7 @@ public class CategoryController {
     public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult,
                               Model model) {
         if (bindingResult.hasErrors()) {
-            return "addcategory";
+            return "secured/admin/addcategory";
         }
 //        if(categoryService.findAllByName(category.getName())!=null){
 //            model.addAttribute("categoryExists","categoryExists");

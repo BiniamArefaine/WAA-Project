@@ -39,7 +39,12 @@ public class User {
     @Valid
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-
+    public void addProduct(Product p){
+        product.add(p);
+    }
+    public void removeProduct(Product p){
+        product.remove(p);
+    }
 
 
 }
