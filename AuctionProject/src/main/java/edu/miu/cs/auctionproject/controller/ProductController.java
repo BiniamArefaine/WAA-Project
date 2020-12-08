@@ -111,7 +111,6 @@ public class ProductController {
         return "addproduct";
     }
 
-
     @RequestMapping(value = "/add")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,@RequestParam("image") MultipartFile multipartFile,
                               Model model) throws IOException {
@@ -121,17 +120,14 @@ public class ProductController {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         product.setPhotos(fileName);
         System.out.println(product.getPhotos());
-
         String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        System.out.println(uploadDir);
-        System.out.println(product.getPhotosImagePath());
-        // save product here
         productService.saveProduct(product);
         model.addAttribute("product", product);
 
         return "redirect:/product/getall";
     }
+
     @GetMapping(value = {"/delete/{productId}"})
     public String deleteStudent(@PathVariable Long productId, Model model) {
         productService.deleteProduct(productId);
