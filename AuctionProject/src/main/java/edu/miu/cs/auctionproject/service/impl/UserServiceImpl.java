@@ -1,6 +1,5 @@
 package edu.miu.cs.auctionproject.service.impl;
 
-import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
 //import edu.miu.cs.auctionproject.javaMailApi.SendEmailClass;
 import edu.miu.cs.auctionproject.repository.UserRepository;
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Product> findAllProducts(long userId) {
-        return userRepository.findAllById(userId);
+    public List<User> findAllNonVerifiedUsers() {
+        return userRepository.findAllByVerificationFalse();
     }
 }
