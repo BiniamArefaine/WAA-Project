@@ -22,7 +22,6 @@ public class User {
     @Column(unique = true)
     private String email;
     private String licenceNumber;
-
     private String password;
     @OneToMany
     @JoinColumn(name = "user_id",nullable = true)
@@ -37,8 +36,9 @@ public class User {
     @JoinColumn
     @Valid
     private Credential credential;
-
-
+    @Valid
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
 
 

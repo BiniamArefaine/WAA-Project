@@ -29,7 +29,7 @@ public class Product {
     private String description;
 
     @NotBlank(message = "starting price required!")
-    private String startingPrice;
+    private Double startingPrice;
 
     private boolean sold;
     private boolean release;
@@ -42,7 +42,7 @@ public class Product {
 //    private byte[] images;
     @Column(nullable = true, length = 64)
     private String photos;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Category>categories;
     @Transient
     public String getPhotosImagePath() {
