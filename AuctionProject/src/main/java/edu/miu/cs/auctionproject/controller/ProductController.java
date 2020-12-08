@@ -84,6 +84,9 @@ public class ProductController {
     @RequestMapping(value={"/getall"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
         Page<Product>products=productService.findAllProducts(pageNo);
+//        for (Product p:products) {
+//            System.out.println(p.getProductName());
+//        }
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
         modelAndView.addObject("productsCount", products.getTotalElements());
@@ -94,13 +97,17 @@ public class ProductController {
 
     @GetMapping(value = {"/search"})
     public ModelAndView searchStudents(@RequestParam(defaultValue = "0")int pageNo,@RequestParam String searchString) {
+        System.out.println(searchString);
         ModelAndView modelAndView = new ModelAndView();
         Page<Product> products = productService.searchProduct(pageNo,searchString);
+//        for (Product p:products) {
+//            System.out.println(p.getProductName());
+//        }
         modelAndView.addObject("products", products);
         modelAndView.addObject("searchString", searchString);
         modelAndView.addObject("ProductsCount", products.getTotalElements());
         modelAndView.addObject("currentPageNo",pageNo);
-        modelAndView.setViewName("Products");
+        modelAndView.setViewName("listproduct");
         return modelAndView;
     }
 
