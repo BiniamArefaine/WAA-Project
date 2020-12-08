@@ -83,7 +83,7 @@ public class ProductController {
         return modelAndView;
     }
 
-    //biniam-dave
+
     @RequestMapping(value={"/getall"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
         Page<Product>products=productService.findAllProducts(pageNo);
@@ -102,6 +102,7 @@ public class ProductController {
         modelAndView.addObject("products", products);
         modelAndView.addObject("searchString", searchString);
         modelAndView.addObject("ProductsCount", products.getTotalElements());
+        modelAndView.addObject("currentPageNo",pageNo);
         modelAndView.setViewName("Products");
         return modelAndView;
     }
