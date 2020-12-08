@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div style="padding-top:1em;" class="container">
+
+
+    <form method="get" action="/user/get_verified">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <input  name="pin" type="number">
+                </div>
+            </div>
+        <a href="/user/resend_email" class="btn btn-outline-warning">Resend</a>&nbsp;&nbsp;&nbsp;
+        <button id="btnSubmit" type="submit" class="btn btn-outline-success">Submit</button>
+
+<!--    <form method="GET" action="/user/get_verified">-->
+<!--    Pin Code: <input type="text" name="pin"/> <br/>-->
+<!--        <a href="/user/resend_email" class="btn btn-outline-warning">Resend</a>-->
+<!--            <input type="submit" name="pin" value="Send" />-->
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
