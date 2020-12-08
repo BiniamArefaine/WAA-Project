@@ -20,7 +20,7 @@
         <span style="font-size: 2em; color: #32a5e7;">New Product Form</span>
     </div>
 
-    <form id="newProductForm" method="post" action="/product/add" th:object="${product}">
+    <form id="newProductForm" method="post" action="/product/add" th:object="${product}" enctype="multipart/form-data">
         <fieldset>
             <input type="hidden" name="procutId" th:value="${product.id}"/>
             <div class="row">
@@ -61,6 +61,12 @@
                         th:text="${category.getName()}">
                 </option>
             </select>
+            </div>
+            <div>
+
+                <label>Photos: </label>
+                <input type="file" name="image" accept="image/png, image/jpeg" />
+
             </div>
             <div style="float:right;">
                 <a href="/product/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
