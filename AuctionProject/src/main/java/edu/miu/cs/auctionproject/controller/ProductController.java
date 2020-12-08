@@ -119,13 +119,12 @@ public class ProductController {
             return "addproduct";
         }
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        product.addPhoto(fileName);
-
-
+        product.setPhotos(fileName);
+        System.out.println(product.getPhotos());
 
         String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
-        System.out.println(uploadDir);
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        System.out.println(uploadDir);
         System.out.println(product.getPhotosImagePath());
         // save product here
         productService.saveProduct(product);

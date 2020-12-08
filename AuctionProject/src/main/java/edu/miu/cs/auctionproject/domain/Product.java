@@ -35,22 +35,20 @@ public class Product {
     private boolean release;
     //biniam-dave
     private LocalDate upLoadedDate;
-
+//    @ElementCollection
+//    private List<MultipartFile> imageLink;
+//    @Lob
+//    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+//    private byte[] images;
     @Column(nullable = true, length = 64)
-    @ElementCollection
-    private List<String> photos;
-
+    private String photos;
     @OneToMany
     private List<Category>categories;
-
-    public void addPhoto(String photo){
-        photos.add(photo);
-    }
     @Transient
-    public String getPhotosImagePath(String photo) {
-        if (photo == null || id == null) return null;
+    public String getPhotosImagePath() {
+        if (photos == null || id == null) return null;
 
-        return "/images/product-photos/" + id + "/" + photo;
+        return "/images/product-photos/" + id + "/" + photos;
     }
 
 }
