@@ -14,19 +14,15 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String street;
+    private String city;
+    private String state;
+    private String zipcode;
 
-    @NotBlank(message = "name is required")
-    @Column(unique = true,nullable = false)
-    private  String name;
-
-//    added unidirectional
-//    @ManyToMany(mappedBy = "categories")
-//    @Column(Cascade=)
-//    private List<Product> products;
 
 }

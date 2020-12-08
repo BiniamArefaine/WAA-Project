@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull
     @NotBlank(message = "product name required!")
@@ -28,8 +29,8 @@ public class Product {
     @NotBlank(message="description required!")
     private String description;
 
-    @NotBlank(message = "starting price required!")
-    private String startingPrice;
+    @Min(value = 0,message = "starting price required!")
+    private Double startingPrice;
 
     private boolean sold;
     private boolean release;
@@ -47,7 +48,6 @@ public class Product {
     @Transient
     public String getPhotosImagePath() {
         if (photos == null || id == null) return null;
-
         return "/images/product-photos/" + id + "/" + photos;
     }
 

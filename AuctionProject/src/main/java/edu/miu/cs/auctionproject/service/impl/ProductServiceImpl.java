@@ -4,6 +4,9 @@ import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.repository.ProductRepository;
 import edu.miu.cs.auctionproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -31,14 +34,16 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id);
     }
 
-
     @Override
-    public List<Product> findAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> findAllProducts(int pageNo) {
+        return  productRepository.findAll(PageRequest.of(pageNo,6, Sort.by("productName")));
     }
 
+
+
+
     @Override
-    public List<Product> searchProduct(String searchString) {
-        return productRepository.findAllById(Collections.singleton(Long.parseLong(searchString)));
+    public Page<Product> searchProduct(int pageNo,String searchString) {
+        return productRepository.findAll(PageRequest.of(pageNo,6,Sort.by(searchString)));
     }
 }
