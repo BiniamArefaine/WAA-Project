@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -17,8 +19,11 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String licenceNumber;
+
+    private String password;
     @OneToMany
     @JoinColumn(name = "user_id",nullable = true)
     private List<Product> product;
@@ -26,6 +31,12 @@ public class User {
     @OneToOne
     @JoinColumn(nullable = true)
     private Role role;
+    //added
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn
+    @Valid
+    private Credential credential;
 
 
 

@@ -1,6 +1,7 @@
 package edu.miu.cs.auctionproject.service.impl;
 
 import edu.miu.cs.auctionproject.domain.User;
+//import edu.miu.cs.auctionproject.javaMailApi.SendEmailClass;
 import edu.miu.cs.auctionproject.repository.UserRepository;
 import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         userRepository.save(user);
-
     }
 
     @Override

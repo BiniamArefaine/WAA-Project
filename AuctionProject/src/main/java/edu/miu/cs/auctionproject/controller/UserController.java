@@ -1,8 +1,7 @@
 package edu.miu.cs.auctionproject.controller;
 
-import edu.miu.cs.auctionproject.domain.Category;
-import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
+import edu.miu.cs.auctionproject.javaMailApi.SendEmailClass;
 import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,26 +11,51 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping(value = {"/user"})
+@SessionAttributes("email, userObject")
+
 public class UserController {
     @Autowired
     UserService userService;
 
     @PostMapping(value = {"/add"})
-    public String addNewUser(@RequestBody @Valid @ModelAttribute User user, BindingResult bindingResult, Model model){
+    public String addNewUser(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
+            System.out.println("-----------");
             return "adduser";
         }
-
         // save product here
+        System.out.println("----------5-");
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("userObject", user);
+        sendEmailTo(user.getEmail(),model);
         userService.saveUser(user);
-        model.addAttribute("user", user);
+        return "Verification";
+    }
 
-        return "redirect:/user/getall";
+    @GetMapping(value = "/resend_email")
+    public String reSendEmailTo(String email, Model model) throws Exception {
+        Object userEmail = model.getAttribute("email");
+        System.out.println("inside ------------ email" + email);
+        if (userEmail != null) {
+            SendEmailClass.sendMailTo(userEmail.toString());
+        }
+        return "Verification";
+    }
+
+    @GetMapping(value = "/send_email")
+    public String sendEmailTo(String email, Model model) throws Exception {
+        Object userEmail = model.getAttribute("email");
+        System.out.println("inside ------------ email" + email);
+        if (userEmail != null) {
+            SendEmailClass.sendMailTo(userEmail.toString());
+//            model.addAttribute("user", new User());
+            System.out.println("-------sendemail");
+        }
+        return "Verification";
     }
 
     @GetMapping(value = {"/get/{id}"})
@@ -42,9 +66,12 @@ public class UserController {
     public void deleteUserById(@PathVariable(value="id")Long id){
         userService.deleteUser(id);
     }
+
     @GetMapping(value = {"/getall"})
-    public List<User> getAllUsers(){
-       return userService.findAllUsers();
+    public String getAllUsers(Model model){
+        System.out.println("----get all------");
+        model.addAttribute("listUsers",userService.findAllUsers());
+       return "listusers";
     }
     @GetMapping(value = {"edit/{userId}"})
     public String editUser(@PathVariable long userId, Model model) {
@@ -66,11 +93,28 @@ public class UserController {
         userService.saveUser(user);
         return "redirect:/getall";
     }
-//biniam
+    //biniam
     @RequestMapping(value = {"/adduser" })
     public String inputProduct(@ModelAttribute("users") User user, Model model) {
-//        List<User> users = userService.findAllUsers();
-//        model.addAttribute("users", users);
         return "adduser";
+    }
+    //new Verification
+    @RequestMapping(value = {"/get_verified"})
+    public String verify(@ModelAttribute String str, @RequestParam(value = "pin", required = false)  String pin, BindingResult bindingResult, Model model){
+        System.out.println("pin-------" + Integer.parseInt(pin));
+        int pinEntered = Integer.parseInt(pin);
+        Object emailPin = model.getAttribute("pinCode");
+        if(pinEntered == Integer.parseInt(emailPin.toString())){
+            System.out.println("yes-----------");
+            return "Home";
+        };
+         return "Verification";
+    }
+
+    //
+    @GetMapping(value = "/check_verification")
+    public boolean checkVerification(String string){
+
+        return true;
     }
 }
