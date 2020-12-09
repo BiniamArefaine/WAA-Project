@@ -44,6 +44,11 @@ public class HomeController {
         return "secured/admin/listusers";
     }
 
+    @RequestMapping(value = {"/auction/admin/manage_categories"})
+    public String getManageCategories(){
+        return "redirect:/categories/getall";
+    }
+
 
 }
 

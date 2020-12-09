@@ -13,6 +13,8 @@ public interface ProductService {
     Optional<Product> findProductById(Long id);
     Page<Product> findAllProducts(int pageNo);
     Page<Product> searchProduct(int pageNo,String searchString);
+
+    List<Product> findAllProductsList();
 //    List<Product> findProductByCategoriesContains(Long categoryId);
 
 

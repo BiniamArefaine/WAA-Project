@@ -55,7 +55,7 @@ public class CategoryController {
         Optional<Category> category = categoryService.getCategoryById(categoryId);
         if (category.isPresent()) {
             model.addAttribute("category", category.get());
-            return "/editcategoryform";
+            return "secured/admin/editcategoryform";
         }
         return "secured/admin/listcategory";
     }
@@ -71,12 +71,12 @@ public class CategoryController {
     }
 
     @RequestMapping(value={"/getall"})
-    public ModelAndView listCategorys(@RequestParam(defaultValue = "0") int pageNo, ModelAndView modelAndView) {
-        List<Category> categorys = categoryService.getAllCategories();
-        modelAndView.addObject("categories",categorys);
+    public ModelAndView listCategories(@RequestParam(defaultValue = "0") int pageNo, ModelAndView modelAndView) {
+        List<Category> categories = categoryService.getAllCategories();
+        modelAndView.addObject("categories",categories);
         modelAndView.addObject("searchString", "");
-        modelAndView.addObject("categorysCount", categorys.size());
-        modelAndView.setViewName("secured/admin/listcategory");
+        modelAndView.addObject("categorysCount", categories.size());
+        modelAndView.setViewName("/secured/admin/listcategory");
         return modelAndView;
     }
 
@@ -93,7 +93,7 @@ public class CategoryController {
 
     @RequestMapping(value = {"/new" })
     public String inputCategory(@ModelAttribute("category") Category category) {
-        return "secured/admin/addcategory";
+        return "/secured/admin/addcategory";
     }
 
 
@@ -101,7 +101,7 @@ public class CategoryController {
     public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult,
                               Model model) {
         if (bindingResult.hasErrors()) {
-            return "secured/admin/addcategory";
+            return "addcategory";
         }
 //        if(categoryService.findAllByName(category.getName())!=null){
 //            model.addAttribute("categoryExists","categoryExists");

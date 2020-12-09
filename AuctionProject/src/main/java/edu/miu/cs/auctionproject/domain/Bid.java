@@ -17,7 +17,6 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     private LocalDate dueDate;
 
     @OneToOne

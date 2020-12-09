@@ -44,6 +44,7 @@ public class Product {
     @Column(nullable = true, length = 64)
     private String photos;
     @OneToMany
+    @JoinColumn(nullable = true)
     private List<Category>categories;
     @Transient
     public String getPhotosImagePath() {
