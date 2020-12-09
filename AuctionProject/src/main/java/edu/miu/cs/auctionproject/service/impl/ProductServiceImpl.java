@@ -47,4 +47,9 @@ public class ProductServiceImpl implements ProductService {
        // System.out.println(pageNo+" "+searchString);
         return productRepository.findByProductName(PageRequest.of(pageNo,6,Sort.by("productName")),searchString);
     }
+
+    @Override
+    public List<Product> findAllProductsList() {
+        return productRepository.findAll();
+    }
 }
