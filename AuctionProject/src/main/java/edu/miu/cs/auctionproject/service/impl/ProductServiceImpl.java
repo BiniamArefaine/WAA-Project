@@ -52,4 +52,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllProductsList() {
         return productRepository.findAll();
     }
+
+    @Override
+    public List<Product> findAllProductsByCategory(long categoryId) {
+        return productRepository.findAllByCategoryId(categoryId);
+    }
 }

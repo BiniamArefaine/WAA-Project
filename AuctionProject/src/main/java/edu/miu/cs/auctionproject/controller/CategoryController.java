@@ -91,6 +91,15 @@ public class CategoryController {
 //        return modelAndView;
 //    }
 
+    @RequestMapping(value={"/getallforcustomer"})
+    public ModelAndView listCategoriescustomer(@RequestParam(defaultValue = "0") int pageNo, ModelAndView modelAndView) {
+        List<Category> categories = categoryService.getAllCategories();
+        modelAndView.addObject("categories",categories);
+        modelAndView.addObject("searchString", "");
+        modelAndView.addObject("categorysCount", categories.size());
+        modelAndView.setViewName("listcategory");
+        return modelAndView;
+    }
     @RequestMapping(value = {"/new" })
     public String inputCategory(@ModelAttribute("category") Category category) {
         return "/secured/admin/addcategory";

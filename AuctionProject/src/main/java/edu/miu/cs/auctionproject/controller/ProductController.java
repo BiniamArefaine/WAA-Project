@@ -66,6 +66,16 @@ public class ProductController {
         return modelAndView;
     }
 
+    @RequestMapping(value={"/getallByCategoryId/{categoryId}"})
+    public ModelAndView listProductByCategoryId(@PathVariable long categoryId,ModelAndView modelAndView) {
+        List<Product> products=productService.findAllProductsByCategory(categoryId);
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("searchString", "");
+        modelAndView.addObject("productsCount", products.size());
+        modelAndView.setViewName("listproduct");
+        return modelAndView;
+    }
+
     @GetMapping(value = {"/search"})
     public ModelAndView searchAuctionProducts(@RequestParam(defaultValue = "0")int pageNo,@RequestParam String searchString) {
         ModelAndView modelAndView = new ModelAndView();

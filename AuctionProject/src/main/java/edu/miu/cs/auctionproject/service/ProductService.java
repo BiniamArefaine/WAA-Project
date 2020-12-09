@@ -15,6 +15,8 @@ public interface ProductService {
     Page<Product> searchProduct(int pageNo,String searchString);
 
     List<Product> findAllProductsList();
+
+    List<Product> findAllProductsByCategory(long categoryId);
 //    List<Product> findProductByCategoriesContains(Long categoryId);
 
 
