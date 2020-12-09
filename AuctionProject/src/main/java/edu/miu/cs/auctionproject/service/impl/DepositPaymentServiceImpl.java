@@ -35,4 +35,9 @@ public class DepositPaymentServiceImpl implements DepositPaymentService {
     public List<DepositPayment> getAllDeposits() {
         return depositPaymentRepository.findAll();
     }
+
+    @Override
+    public DepositPayment checkBid(long productId, Long userId) {
+        return depositPaymentRepository.getDepositPaymentByProductAndUser(productId,userId);
+    }
 }

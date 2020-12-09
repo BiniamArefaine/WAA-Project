@@ -64,7 +64,7 @@
                 <td th:text="${product.description}"></td>
                 <td th:text="${product.dueDate}"></td>
                 <td th:text="${product.bidcount}"></td>
-                <td><a th:href="@{'/bid/add/{id}'(id=${product.id})}">Bid</a></td>
+                <td><a th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
 
             </tr>
             <tr th:if="${productsCount < 1}">

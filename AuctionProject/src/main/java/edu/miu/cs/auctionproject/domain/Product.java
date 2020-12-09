@@ -34,7 +34,6 @@ public class Product {
 
     private String release;
     private int bidcount;
-    //biniam-dave
 //    private LocalDate upLoadedDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future

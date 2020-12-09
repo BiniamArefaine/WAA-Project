@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions().sameOrigin()
                 .and()
                 .authorizeRequests()
+//                .antMatchers("/", "/h2-console/**").permitAll()
                 .antMatchers("/resources/static/**", "/images/**", "/css/**", "/auction/public/**").permitAll()
 //                .antMatchers("/", "/auction/public/search/results").permitAll()
                 .antMatchers("/auction/secured/admin/**", "/resources/secured/admin/**", "/auction/admin/**", "/templates/secured/admin/**").hasRole("ADMIN")

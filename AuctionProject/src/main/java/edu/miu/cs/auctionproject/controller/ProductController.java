@@ -135,6 +135,7 @@ public class ProductController {
     @PostMapping(value = {"/seller/edit"})
     public String updateProduct(@Validated @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,Model model) {
+
         if (bindingResult.hasErrors()) {
             return "secured/seller/productEdit";
         }
@@ -157,7 +158,7 @@ public class ProductController {
             model.addAttribute("categories",categoryService.getAllCategories());
             return "secured/seller/productEdit";
         }
-        return "secured/seller/listproduct";
+        return "secured/seller/userproducts";
     }
     @GetMapping(value = {"/seller/delete/{productId}"})
     public String deleteStudent(@PathVariable Long productId, Model model) {

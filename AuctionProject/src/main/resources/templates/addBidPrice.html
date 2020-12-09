@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div style="padding-top:1em;" class="container">
+    <div style="margin-bottom: 1em;">
+        <span style="font-size: 2em; color: #32a5e7;">Put Your Bid Price</span>
+    </div>
+
+    <form id="newDepositPayment" method="post" action="/bids/addDeposit" th:object="${bidPrice}" enctype="multipart/form-data">
+        <fieldset>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="bidPrice">Bid Price</label>
+                    <input id="bidPrice" name="bidPrice" type="number" readonly class="form-control" th:value="${bidPrice}">
+                </div>
+            </div>
+            <div style="float:right;">
+                <a href="/product/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
+                <button id="btnSubmit" type="submit" class="btn btn-outline-success">Save BidPrice</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
