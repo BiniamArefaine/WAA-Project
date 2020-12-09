@@ -1,8 +1,6 @@
 package edu.miu.cs.auctionproject.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,12 +11,13 @@ import java.util.List;
 
 
 @Entity
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+//@AllArgsConstructor
 @NoArgsConstructor
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @NotBlank(message = "product name required!")

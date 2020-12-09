@@ -1,8 +1,6 @@
 package edu.miu.cs.auctionproject.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -10,8 +8,9 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+//@AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @Id
@@ -23,7 +22,7 @@ public class User {
     private String licenceNumber;
 
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",nullable = true)
     private List< @Valid Product>product;
 

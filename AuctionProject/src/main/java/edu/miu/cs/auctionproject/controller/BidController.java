@@ -70,13 +70,13 @@ public class BidController {
     //---------------------------making bid---------------------------------------
     @PostMapping(value = {"/addDeposit"})
     public String addDepositPayment(@Validated @ModelAttribute("depositPayment") DepositPayment depositPayment,
-                                    BindingResult bindingResult,@ModelAttribute("product") Product product,
+                                    BindingResult bindingResult,
                                Model model) {
 
         if (bindingResult.hasErrors()) {
             return "depositpayment";
         }
-        System.out.println("wegahta"+product);
+        System.out.println("wegahta"+depositPayment.getProduct());
         depositPaymentService.savePayments(depositPayment);
         return "redirect:/bids/addBid";
     }

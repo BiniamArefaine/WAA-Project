@@ -47,7 +47,8 @@
 
         <fieldset>
             <input type="hidden" name="id" th:value="${depositPayment.id}"/>
-            <input type="hidden" name="id" th:value="${depositPayment.getProduct().getId()}"/>
+            <input type="hidden" name="productid" th:value="${product.id}"/>
+
             <div class="row">
                 <div class="col-md-6">
                     <label for="deposit">Deposit Payment</label>

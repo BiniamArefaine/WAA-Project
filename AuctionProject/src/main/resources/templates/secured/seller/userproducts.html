@@ -25,24 +25,24 @@
 			</span>
     </div>
     <!-- Search panel -->
-    <form id="searchProduct" method="get"
-          action="user/product/search">
-        <div style="margin-top: 1em;" class="row">
-            <div class="col-md-12">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="searchString"
-                           name="searchString"
-                           placeholder="Enter a string to search for products"
-                           th:value="${searchString}" autofocus/>
-                    <div class="input-group-append">
-                        <button id="btnSubmit" type="submit"
-                                class="btn btn-outline-success">Search
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+<!--    <form id="searchProduct" method="get"-->
+<!--          action="/product/seller/search">-->
+<!--        <div style="margin-top: 1em;" class="row">-->
+<!--            <div class="col-md-12">-->
+<!--                <div class="input-group">-->
+<!--                    <input type="text" class="form-control" id="searchString"-->
+<!--                           name="searchString"-->
+<!--                           placeholder="Enter a string to search for products"-->
+<!--                           th:value="${searchString}" autofocus/>-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button id="btnSubmit" type="submit"-->
+<!--                                class="btn btn-outline-success">Search-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </form>-->
 
     <div style="font-size: 1em">
         <table class="table table-striped">
@@ -68,7 +68,6 @@
                 <td th:text="${product.description}"></td>
                 <td th:text="${product.dueDate}"></td>
                 <td th:text="${product.release}"></td>
-                <td><a th:href="@{'/product/release/{id}'(id=${product.id})}">Release</a></td>
                 <td><a
                         th:href="@{'edit/{id}'(id=${product.id})}">Edit</a>
                 </td>
@@ -84,15 +83,15 @@
             </tbody>
         </table>
 
-        <!--        <div>-->
-        <!--            <ul class="nav nav-pills">-->
-        <!--                <li class="nav-item"-->
-        <!--                    th:each="i:${#numbers.sequence(0,products.totalPages)}">-->
-        <!--                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"-->
-        <!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
-        <!--                </li>-->
-        <!--            </ul>-->
-        <!--        </div>-->
+<!--        <div>-->
+<!--            <ul class="nav nav-pills">-->
+<!--                <li class="nav-item"-->
+<!--                    th:each="i:${#numbers.sequence(0,products.totalPages)}">-->
+<!--                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"-->
+<!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
     </div>
 
 </div>

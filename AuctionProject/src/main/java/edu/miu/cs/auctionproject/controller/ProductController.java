@@ -67,8 +67,7 @@ public class ProductController {
     }
 
     @GetMapping(value = {"/search"})
-    public ModelAndView searchStudents(@RequestParam(defaultValue = "0")int pageNo,@RequestParam String searchString) {
-        System.out.println(searchString);
+    public ModelAndView searchAuctionProducts(@RequestParam(defaultValue = "0")int pageNo,@RequestParam String searchString) {
         ModelAndView modelAndView = new ModelAndView();
         Page<Product> products = productService.searchProduct(pageNo,searchString);
         modelAndView.addObject("products", products);
@@ -105,19 +104,20 @@ public class ProductController {
     }
 
     @PostMapping(value = "/seller/add")
-    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,@RequestParam("image") MultipartFile multipartFile,
+    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
+                              @RequestParam("image") MultipartFile multipartFile,
                               Model model) throws IOException {
         System.out.println("kffkdsfjkdsafjkdsaf");
         if (bindingResult.hasErrors()) {
             return "/secured/seller/addproduct";
         }
         User user=null;
-        Optional<User> users=userService.findUserById(2L);
+        Optional<User> users=userService.findUserById((Long.parseLong(
+                servletContext.getAttribute("userId").toString())));
         if(users.isPresent()){
             user=users.get();
-            System.out.println(user);
         }
-        System.out.println(user.toString()+"essey");
+        System.out.println(user.getId()+"essey");
         List<Product> products=user.getProduct();
         products.add(product);
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -127,7 +127,6 @@ public class ProductController {
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         userService.saveUser(user);
-        productService.saveProduct(product);
         model.addAttribute("product", product);
 
         return "redirect:/product/seller/getall";
@@ -147,12 +146,11 @@ public class ProductController {
     @GetMapping(value = {"/seller/edit/{productId}"})
     public String editProduct(@PathVariable long productId, Model model) {
         Optional<Product> product = productService.findProductById(productId);
-//        if(product.isPresent()){
-//            if(product.get().getBitcount()>0){
-//                model.addAttribute("BidHasStarted","BidHasStarted");
-//                return "redirect:/product/seller/getall";
-//            }
-//        }
+        if(product.isPresent()){
+            if(product.get().getBidcount()>0){
+                return "redirect:/product/seller/getall";
+            }
+        }
         if (product.isPresent()) {
             model.addAttribute("product", product.get());
             model.addAttribute("categories",categoryService.getAllCategories());
