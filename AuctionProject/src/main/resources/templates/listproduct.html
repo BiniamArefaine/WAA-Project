@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,17 +13,13 @@
             crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <title>
-        List Products</title>
+        Auction Product</title>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div style="margin-top: 1em; margin-bottom: 1em;" class="container">
     <div>
-			<span style="font-size: 2em; color: #32a5e7;">Product in our data</span> <span style="float: right;">
-        <a sec:authorize="hasRole('ROLE_SELLER')"
-            class="btn btn-outline-success btn-lg"
-            href="/product/new">Add a new Product</a>
-			</span>
+			<span style="font-size: 2em; color: #32a5e7;">Auction Product in our data</span>
     </div>
     <!-- Search panel -->
     <form id="searchProduct" method="get"
@@ -55,23 +50,20 @@
                 <th scope="col">Product Name</th>
                 <th scope="col">Starting Price</th>
                 <th scope="col">Description</th>
-                <th scope="col"> </th>
+                <th scope="col">Bid count </th>
                 <th scope="col"> </th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="product,iterStat : ${products}">
-                <th scope="row" th:text="${iterStat.count}+${'.'}"></th>
+                <td scope="row" th:text="${iterStat.count}+${'.'}"></td>
          <td> <img  th:src="@{${product.getPhotosImagePath()}}" style="width:213px; height:119px"></td>
                 <td th:text="${product.productName}"></td>
                 <td th:text="${product.startingPrice}"></td>
                 <td th:text="${product.description}"></td>
-                <td><a sec:authorize="hasRole('ROLE_SELLER')" th:href="@{'edit/{id}'(id=${product.id})}">Edit</a></td>
-                <td><a sec:authorize="hasRole('ROLE_SELLER')" data-target="#confirmDeleteProductModal"
-                        th:href="@{'delete/' + ${product.id}}">Delete</a>
-                </td>
-                <td><a sec:authorize="hasRole('ROLE_CUSTOMER')" th:href="@{'#'}">BID</a></td>
-                <td>
+                <td th:text="${product.bitcount}"></td>
+                <td><a th:href="@{'/bid/add/{id}'(id=${product.id})}">Bid</a></td>
+
             </tr>
             <tr th:if="${productsCount < 1}">
                 <td colspan="8" th:align="center">No product found</td>
@@ -81,11 +73,11 @@
 
         <div>
             <ul class="nav nav-pills">
-<!--                <li class="nav-item"-->
-<!--                    th:each="i:${#numbers.sequence(0,products.totalPages)}">-->
-<!--                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"-->
-<!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
-<!--                </li>-->
+                <li class="nav-item"
+                    th:each="i:${#numbers.sequence(0,products.totalPages)}">
+                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"
+                       th:classappend="${currentPageNo}==${i}?'active'"></a>
+                </li>
             </ul>
         </div>
     </div>

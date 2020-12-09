@@ -21,7 +21,7 @@
     <div>
         <span style="font-size: 2em; color: #32a5e7;">Product in our data</span> <span style="float: right;"> <a
             class="btn btn-outline-success btn-lg"
-            href="product/new">Add a new Product</a>
+            href="/product/seller/new">Add a new Product</a>
 			</span>
     </div>
     <!-- Search panel -->
@@ -53,7 +53,7 @@
                 <th scope="col">Product Name</th>
                 <th scope="col">Starting Price</th>
                 <th scope="col">Description</th>
-                <th scope="col">Release</th>
+                <th scope="col">Released</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -66,11 +66,15 @@
                 <td th:text="${product.startingPrice}"></td>
                 <td th:text="${product.description}"></td>
                 <td th:text="${product.release}"></td>
-                <td><a th:href="@{'product/edit/{id}'(id=${product.id})}">Edit</a></td>
+                <td><a th:href="@{'/product/release/{id}'(id=${product.id})}">Release</a></td>
+                <td><a
+                        th:href="@{'edit/{id}'(id=${product.id})}">Edit</a>
+                </td>
                 <td>
                     <a data-target="#confirmDeleteProductModal"
-                       th:href="@{'product/delete/' + ${product.id}}">Delete</a>
+                       th:href="@{'delete/' + ${product.id}}">Delete</a>
                 </td>
+                <td th:text="${BidHasStarted}"></td>
             </tr>
             <tr th:if="${productsCount < 1}">
                 <td colspan="8" th:align="center">No product found</td>

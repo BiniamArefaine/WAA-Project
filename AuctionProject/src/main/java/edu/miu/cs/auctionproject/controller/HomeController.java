@@ -18,7 +18,7 @@ public class HomeController {
 
     @RequestMapping(value = {"/","/home"})
     public String welcome(){
-        return "Home";
+        return "/login/login";
     }
 
     @RequestMapping(value = {"/auction/secured/service"})

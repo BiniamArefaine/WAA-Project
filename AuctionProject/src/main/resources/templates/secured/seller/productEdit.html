@@ -23,7 +23,7 @@
         </div>
 
         <form id="editProductForm" method="post"
-              action="user/product/edit" th:object="${product}">
+              action="/product/seller/edit" th:object="${product}">
             <fieldset>
                 <input type="hidden" name="id" th:value="${product.id}"/>
                 <div class="row">
@@ -65,8 +65,21 @@
                         </option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="release"> Release</label>
+                    <div class="col-md-6">
+                        <select name="release"
+                                id="release" type="text"
+                                class="form-control" th:value="${product.release}">
+                            <option value="">Release Yes/No?
+                            </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
                 <div style="float:right;">
-                        <a href="/product/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
+                        <a href="/product/seller/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
                         <button id="btnSubmit" type="submit" class="btn btn-outline-success">Update Product</button>
                     </div>
 

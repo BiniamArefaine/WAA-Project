@@ -1,79 +1,79 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="">
-    <link rel="icon" href="favicon.ico">
-    <style>
-        body {
-            background-image: url('image/online-graduate-course-offerings.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-        }
-    </style>
-    <link
-            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
-            crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <title>LogIn</title>
-</head>
-<body>
-<div th:replace="fragments/header :: header"></div>
-<h1 style="text-align: center; color: black">Welcome To Auction System</h1>
-<div class="container center_div">
-    <section id="cover">
-        <div id="cover-caption">
-            <div id="container" class="container">
-                <div class="row">
-                    <div class="col-md-4 offset-md-4 text-center">
-                        <div class="card text-center"
-                             style="width: 25rem; height: 25rem; padding: 80px">
-                            <div class="card-text">
-                                <div class="info-form">
-                                    <form action="/home/log_in" class="form-group justify-content-center">
-                                        <div class="form-group">
-                                            <label class="sr-only">Email</label>Email <input type="text"
-                                                                                        class="form-control" placeholder="email.@miu.edu">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="sr-only">Password</label>Password <input
-                                                type="password" class="form-control" placeholder="password">
-                                        </div>
-                                        <button style="color: white;" type="submit"
-                                                class="btn btn-primary">LogIn</button>
-<!--                                        added-->
-                                        <a href="/user/adduser" class="btn btn-primary">Register</a>
-                                    </form>
-                                </div>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <meta name="description" content="">-->
+<!--    <link rel="icon" href="favicon.ico">-->
+<!--    <style>-->
+<!--        body {-->
+<!--            background-image: url('image/online-graduate-course-offerings.jpg');-->
+<!--            background-repeat: no-repeat;-->
+<!--            background-attachment: fixed;-->
+<!--            background-size: cover;-->
+<!--        }-->
+<!--    </style>-->
+<!--    <link-->
+<!--            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"-->
+<!--            rel="stylesheet"-->
+<!--            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"-->
+<!--            crossorigin="anonymous">-->
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">-->
+<!--    <title>LogIn</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:replace="fragments/header :: header"></div>-->
+<!--<h1 style="text-align: center; color: black">Welcome To Auction System</h1>-->
+<!--<div class="container center_div">-->
+<!--    <section id="cover">-->
+<!--        <div id="cover-caption">-->
+<!--            <div id="container" class="container">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-4 offset-md-4 text-center">-->
+<!--                        <div class="card text-center"-->
+<!--                             style="width: 25rem; height: 25rem; padding: 80px">-->
+<!--                            <div class="card-text">-->
+<!--                                <div class="info-form">-->
+<!--                                    <form action="/home/log_in" class="form-group justify-content-center">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label class="sr-only">Email</label>Email <input type="text"-->
+<!--                                                                                        class="form-control" placeholder="email.@miu.edu">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label class="sr-only">Password</label>Password <input-->
+<!--                                                type="password" class="form-control" placeholder="password">-->
+<!--                                        </div>-->
+<!--                                        <button style="color: white;" type="submit"-->
+<!--                                                class="btn btn-primary">LogIn</button>-->
+<!--&lt;!&ndash;                                        added&ndash;&gt;-->
+<!--                                        <a href="/user/adduser" class="btn btn-primary">Register</a>-->
+<!--                                    </form>-->
+<!--                                </div>-->
 
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-<div th:replace="fragments/footer :: footer"></div>
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <br>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+<!--</div>-->
+<!--<div th:replace="fragments/footer :: footer"></div>-->
+<!--&lt;!&ndash; Bootstrap core JavaScript-->
+<!--================================================== &ndash;&gt;-->
+<!--&lt;!&ndash; Placed at the end of the document so the pages load faster &ndash;&gt;-->
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+<!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--<script-->
+<!--        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"-->
+<!--        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--<script-->
+<!--        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"-->
+<!--        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--</body>-->
+<!--</html>-->

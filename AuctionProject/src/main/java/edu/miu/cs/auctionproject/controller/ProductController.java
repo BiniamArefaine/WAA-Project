@@ -3,8 +3,11 @@ package edu.miu.cs.auctionproject.controller;
 import edu.miu.cs.auctionproject.FileUploadUtil;
 import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.domain.User;
+import edu.miu.cs.auctionproject.service.BidService;
 import edu.miu.cs.auctionproject.service.CategoryService;
 import edu.miu.cs.auctionproject.service.ProductService;
+import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -35,75 +38,30 @@ public class ProductController {
     @Autowired
     ServletContext servletContext;
 
+    @Autowired
+    UserService userService;
 
-    @PostMapping(value = {"/add"})
-    public void addNewProduct(Product product) {
-        System.out.println(product.toString());
-        productService.saveProduct(product);
-    }
+    @Autowired
+    BidService bidservice;
 
-//    @GetMapping(value = {"/get/{id}"})
-//    public Optional<Product> getProductbyId(@PathVariable(value = "id") Long id) {
-//        return productService.findProductById(id);
-//    }
-//
-//    @DeleteMapping(value = {"/delete/{id}"})
-//    public void deleteProductById(@PathVariable(value = "id") Long id) {
-//        productService.deleteProduct(id);
-//    }
 
-//    @GetMapping(value = {"/getall"})
-//    public List<Product> getAllProducts() {
-//        return productService.findAllProducts();
+//--------------------------------customer-----------------------------
+//    @GetMapping(value = {"/getDetails/{id}"})
+//    public ModelAndView getProductDetailsId(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
+//        Optional<Product> product = productService.findProductById(id);
+//        modelAndView.addObject("product", product);
+//        modelAndView.setViewName("bookingDetails");
+//        return modelAndView;
 //    }
-
-//    @GetMapping(value = {"edit/{productId}"})
-//    public String editProduct(@PathVariable long productId, Model model) {
-//        Optional<Product> product = productService.findProductById(productId);
-//        if (product.isPresent()) {
-//            model.addAttribute("product", product.get());
-//            model.addAttribute("categories",categoryService.getAllCategories());
-//            return "/productEdit";
-//        }
-//        return "listproduct";
-//    }
-//
-//    @PostMapping(value = {"/edit"})
-//    public String updateProduct(@Validated @ModelAttribute("product") Product product,
-//                                BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return "/productEdit";
-//        }
-//        productService.saveProduct(product);
-//        return "redirect:/product/getall";
-//    }
-
-    @GetMapping(value = {"/getDetails/{id}"})
-    public ModelAndView getProductDetailsId(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
-        Optional<Product> product = productService.findProductById(id);
-        modelAndView.addObject("product", product);
-        modelAndView.setViewName("bookingDetails");
-        return modelAndView;
-    }
 
 
     @RequestMapping(value={"/getall"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
-//        Page<Product> products=productService.findAllProducts(pageNo);
-        List<Product> products = productService.findAllProductsList();
-        System.out.println("--------");
-        System.out.println("--------" + servletContext.getAttribute("userId"));
-
-        for (Product p:products) {
-            System.out.println("--------"+p.getProductName());
-            System.out.println("--------inside");
-        }
-        System.out.println("--------out");
+        Page<Product> products=productService.findAllProducts(pageNo);
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
-//        modelAndView.addObject("productsCount", products.getTotalElements());
+        modelAndView.addObject("productsCount", products.getTotalElements());
         modelAndView.addObject("currentPageNo",pageNo);
-        System.out.println("--------final");
         modelAndView.setViewName("listproduct");
         return modelAndView;
     }
@@ -113,9 +71,6 @@ public class ProductController {
         System.out.println(searchString);
         ModelAndView modelAndView = new ModelAndView();
         Page<Product> products = productService.searchProduct(pageNo,searchString);
-//        for (Product p:products) {
-//            System.out.println(p.getProductName());
-//        }
         modelAndView.addObject("products", products);
         modelAndView.addObject("searchString", searchString);
         modelAndView.addObject("ProductsCount", products.getTotalElements());
@@ -123,58 +78,98 @@ public class ProductController {
         modelAndView.setViewName("listproduct");
         return modelAndView;
     }
+//----------------------------------------seller--------------------------------------------
 
-    @RequestMapping(value = {"/new" })
+    @RequestMapping(value={"/seller/getall"})
+    public ModelAndView listProducts(ModelAndView modelAndView,Model model) {
+        User user=null;
+        Optional<User> users=userService.findUserById((Long.parseLong(servletContext.getAttribute("userId").toString())));
+
+        if(users.isPresent()){
+            user=users.get();
+        }
+        List<Product> products=user.getProduct();
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("searchString", "");
+        modelAndView.addObject("productsCount", products.size());
+        modelAndView.addObject("BidHasStarted","");
+        modelAndView.setViewName("secured/seller/userproducts");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/seller/new" })
     public String inputProduct(@ModelAttribute("product") Product product,Model model) {
         List<Category>categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         return "/secured/seller/addproduct";
     }
 
-//    @PostMapping(value = "/add")
-//    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,@RequestParam("image") MultipartFile multipartFile,
-//                              Model model) throws IOException {
-//        System.out.println("kffkdsfjkdsafjkdsaf");
-//        if (bindingResult.hasErrors()) {
-//            return "addproduct";
-//        }
-//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-//        product.setPhotos(fileName);
-//        System.out.println(product.getPhotos());
-//        String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
-//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-//        productService.saveProduct(product);
-//        model.addAttribute("product", product);
-//
-//        return "redirect:/product/getall";
-//    }
+    @PostMapping(value = "/seller/add")
+    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,@RequestParam("image") MultipartFile multipartFile,
+                              Model model) throws IOException {
+        System.out.println("kffkdsfjkdsafjkdsaf");
+        if (bindingResult.hasErrors()) {
+            return "/secured/seller/addproduct";
+        }
+        User user=null;
+        Optional<User> users=userService.findUserById(2L);
+        if(users.isPresent()){
+            user=users.get();
+            System.out.println(user);
+        }
+        System.out.println(user.toString()+"essey");
+        List<Product> products=user.getProduct();
+        products.add(product);
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        product.setPhotos(fileName);
+        System.out.println(product.getPhotos());
+        String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
-    @GetMapping(value = {"/delete/{productId}"})
-    public String deleteStudent(@PathVariable Long productId, Model model) {
-        productService.deleteProduct(productId);
-        return "redirect:/product/getall";
+        userService.saveUser(user);
+        productService.saveProduct(product);
+        model.addAttribute("product", product);
+
+        return "redirect:/product/seller/getall";
     }
-//    @RequestMapping(value="/employee_save", method = RequestMethod.POST)
-//    public String saveEmployee(@Valid @ModelAttribute("employee")  Employee employee, BindingResult bindingResult,
-//                               Model model, HttpServletRequest request) throws FileNotFoundException {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "EmployeeForm";
-//        }
-//
-//        MultipartFile image = employee.getImage();
-//        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-//
-//        if (image!=null && !image.isEmpty()) {
-//            try {
-//                image.transferTo(new File(rootDirectory+"//images//"+ employee.getId() + ".png"));
-//            } catch (Exception e) {
-//                System.out.println(e);
-//                throw new FileNotFoundException("Unable to save image: " + image.getOriginalFilename() );
+    @PostMapping(value = {"/seller/edit"})
+    public String updateProduct(@Validated @ModelAttribute("product") Product product,
+                                BindingResult bindingResult,Model model) {
+        if (bindingResult.hasErrors()) {
+            return "secured/seller/productEdit";
+        }
+
+        productService.saveProduct(product);
+        return "redirect:/product/seller/getall";
+    }
+
+    @GetMapping(value = {"/seller/edit/{productId}"})
+    public String editProduct(@PathVariable long productId, Model model) {
+        Optional<Product> product = productService.findProductById(productId);
+//        if(product.isPresent()){
+//            if(product.get().getBitcount()>0){
+//                model.addAttribute("BidHasStarted","BidHasStarted");
+//                return "redirect:/product/seller/getall";
 //            }
 //        }
-//        model.addAttribute("employee", employee);
-//
-//        return "EmployeeDetails";
-//    }
+        if (product.isPresent()) {
+            model.addAttribute("product", product.get());
+            model.addAttribute("categories",categoryService.getAllCategories());
+            return "secured/seller/productEdit";
+        }
+        return "secured/seller/listproduct";
+    }
+    @GetMapping(value = {"/seller/delete/{productId}"})
+    public String deleteStudent(@PathVariable Long productId, Model model) {
+        Optional<Product> products=productService.findProductById(productId);
+        if(products.isPresent()){
+            if(products.get().getBitcount()>0){
+                model.addAttribute("BidHasStarted","BidHasStarted");
+              return "redirect:/product/seller/getall";
+            }
+        }
+        productService.deleteProduct(productId);
+        return "redirect:/product/seller/getall";
+    }
+
 }

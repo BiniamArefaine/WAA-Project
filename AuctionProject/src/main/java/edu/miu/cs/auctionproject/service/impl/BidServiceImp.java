@@ -38,4 +38,6 @@ public class BidServiceImp implements BidService {
     public void deleteById(Long id) {
           bidRepository.deleteById(id);
     }
+
+
 }

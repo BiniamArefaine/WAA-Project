@@ -1,5 +1,6 @@
 package edu.miu.cs.auctionproject.service;
 
+import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public interface UserService {
     Optional<User> findUserById(Long id);
     List<User> findAllUsers();
     List<User> findAllNonVerifiedUsers();
-
+//
+//    User findByCredential_UserNameOrRole(Credential credential1);
 
 }

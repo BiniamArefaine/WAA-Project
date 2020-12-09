@@ -20,7 +20,7 @@
         <span style="font-size: 2em; color: #32a5e7;">New Product Form</span>
     </div>
 
-    <form id="newProductForm" method="post" th:action="@{product/add}" th:object="${product}" enctype="multipart/form-data">
+    <form id="newProductForm" method="post" action="/product/seller/add" th:object="${product}" enctype="multipart/form-data">
         <fieldset>
             <input type="hidden" name="productId" th:value="${product.id}"/>
             <div class="row">
@@ -54,7 +54,7 @@
 
             </div>
             <div class="form-group">
-                <label for="category">Categories</label>
+                <label for="category">Catogories</label>
             <select id="category" class="form-control" th:field="*{categories}" size="1" multiple="multiple">
                 <option th:each="category : ${categories}"
                         th:value="${{category}}"
@@ -68,8 +68,20 @@
                 <input type="file" name="image" accept="image/png, image/jpeg" />
 
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <select name="release"
+                            id="release" type="text"
+                            class="form-control" th:value="${product.release}">
+                        <option value="">Release Yes/No?
+                        </option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            </div>
             <div style="float:right;">
-                <a href="/product/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
+                <a href="/product/seller/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
                 <button id="btnSubmit" type="submit" class="btn btn-outline-success">Save Product</button>
             </div>
         </fieldset>

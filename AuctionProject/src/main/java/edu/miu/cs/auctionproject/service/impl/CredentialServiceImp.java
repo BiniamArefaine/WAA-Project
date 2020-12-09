@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("credentialService")
 public class CredentialServiceImp implements CredentialService {
@@ -42,6 +43,11 @@ public class CredentialServiceImp implements CredentialService {
 	public void delete(Long cId) {
 		credentialRepository.deleteById(cId);
 
+	}
+
+	@Override
+	public Optional<Credential> findByUserName(String name) {
+		return credentialRepository.findByUserName(name);
 	}
 
 }

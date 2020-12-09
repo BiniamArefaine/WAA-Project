@@ -1,10 +1,16 @@
 package edu.miu.cs.auctionproject.controller;
 
+import edu.miu.cs.auctionproject.IAuthenticationFacade;
+import edu.miu.cs.auctionproject.domain.Credential;
 import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.javaMailApi.SendEmailClass;
+import edu.miu.cs.auctionproject.service.CredentialService;
 import edu.miu.cs.auctionproject.service.UserService;
-import edu.miu.cs.auctionproject.verificationAPI.Verification;
+//import edu.miu.cs.auctionproject.verificationAPI.Verification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -20,6 +27,9 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    CredentialService credentialService;
 
     @PostMapping(value = {"/add"})
     public String addNewUser(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) throws Exception {
@@ -88,22 +98,22 @@ public class UserController {
 
     @GetMapping(value = {"/verify/{userId}"})
     public String verifyUser(@PathVariable long userId, Model model) {
-        if(userService.findUserById(userId).isPresent()){
-            User user = userService.findUserById(userId).get();
-            if(Verification.verify(user.getFirstName(), user.getLicenceNumber())) {
-                user.setVerification(true);
-                model.addAttribute("user", user);
-                return "forward:/auction/admin/listUsers";
-            }
-            else
-                return "redirect:/user/delete/";
-            }
-
-        else
-
-    {
-        System.out.println("The user is not availbale");
-    }
+//        if(userService.findUserById(userId).isPresent()){
+//            User user = userService.findUserById(userId).get();
+//            if(Verification.verify(user.getFirstName(), user.getLicenceNumber())) {
+//                user.setVerification(true);
+//                model.addAttribute("user", user);
+//                return "forward:/auction/admin/listUsers";
+//            }
+//            else
+//                return "redirect:/user/delete/";
+//            }
+//
+//        else
+//
+//    {
+//        System.out.println("The user is not availbale");
+//    }
         return "forward:/auction/admin/listUsers";
         };
 
@@ -146,4 +156,32 @@ public class UserController {
 
         return true;
     }
+//    @RequestMapping("/dashboardUser")
+//    public String dashboardPageList(Model model, @AuthenticationPrincipal UserDetails currentUser ) {
+//        User user = (User) userService.getUser(currentUser.getUsername());
+//        model.addAttribute("currentStudent", user);
+//
+//        return "dashboardUser";
+//    }
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
+
+        @RequestMapping(value = "/username", method = RequestMethod.GET)
+        @ResponseBody
+        public String currentUserNameSimple() {
+            Credential credential1 = null;
+            Authentication authentication = authenticationFacade.getAuthentication();
+            System.out.println(authentication);
+            String username=authentication.getName();
+            System.out.println(authentication.getName());
+            Optional<Credential> credential=credentialService.findByUserName(username);
+            if(credential.isPresent()) {
+                 credential1 = credential.get();
+            }
+            System.out.println(credential1.toString()+"==============-------------------");
+//            User user=userService.findByCredential_UserNameOrRole(credential1);
+//            System.out.println(user.toString());
+            return authentication.getName();
+        }
+
 }

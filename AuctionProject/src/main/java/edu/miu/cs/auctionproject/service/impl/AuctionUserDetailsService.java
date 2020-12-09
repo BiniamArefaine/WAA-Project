@@ -21,7 +21,6 @@ import java.util.Collection;
 
 @Service
 @Transactional
-//@SessionAttributes("userId")
 public class AuctionUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -34,11 +33,11 @@ public class AuctionUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Credential user = credentialRepository.findByUserName(username)
-                     .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
 //        getId(user.getUser().getId());
         servletContext.setAttribute("userId", user.getUser().getId());
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
-               getAuthorities(user));
+                getAuthorities(user));
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(Credential user) {
@@ -49,6 +48,7 @@ public class AuctionUserDetailsService implements UserDetailsService {
         Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
         return authorities;
     }
+}
 
 
 
@@ -57,7 +57,3 @@ public class AuctionUserDetailsService implements UserDetailsService {
 //        yes.servletContext.setAttribute("userId", id);
 //        System.out.println("----" + id);
 //    }
-
-
-
-}

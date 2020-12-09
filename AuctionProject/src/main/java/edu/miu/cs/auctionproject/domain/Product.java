@@ -33,7 +33,8 @@ public class Product {
     private Double startingPrice;
 
     private boolean sold;
-    private boolean release;
+    private String release;
+    private int bitcount;
     //biniam-dave
     private LocalDate upLoadedDate;
 //    @ElementCollection

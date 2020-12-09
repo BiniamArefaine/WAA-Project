@@ -1,5 +1,6 @@
 package edu.miu.cs.auctionproject.service.impl;
 
+import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
 //import edu.miu.cs.auctionproject.javaMailApi.SendEmailClass;
 import edu.miu.cs.auctionproject.repository.UserRepository;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
@@ -42,4 +43,21 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllNonVerifiedUsers() {
         return userRepository.findAllByVerificationFalse();
     }
+
+
+
+//    @Override
+//    public User findByCredential_UserNameOrRole(Credential credential1) {
+//        return userRepository.getUserByCredential(credential1);
+//    }
+//
+//    @Override
+//    public UserDetails getUser(String username) {
+//        return loadUserByUsername(username);
+//    }
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) {
+//        return (UserDetails) userRepository.findUserByFirstName(username);
+//    }
 }
