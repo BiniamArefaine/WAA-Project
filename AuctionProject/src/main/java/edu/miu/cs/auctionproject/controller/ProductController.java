@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -30,11 +32,15 @@ public class ProductController {
     @Autowired
     CategoryService categoryService;
 
-//    @PostMapping(value = {"/add"})
-//    public void addNewProduct(@RequestBody Product product) {
-//        System.out.println(product.toString());
-//        productService.saveProduct(product);
-//    }
+    @Autowired
+    ServletContext servletContext;
+
+
+    @PostMapping(value = {"/add"})
+    public void addNewProduct(Product product) {
+        System.out.println(product.toString());
+        productService.saveProduct(product);
+    }
 
 //    @GetMapping(value = {"/get/{id}"})
 //    public Optional<Product> getProductbyId(@PathVariable(value = "id") Long id) {
@@ -83,14 +89,21 @@ public class ProductController {
 
     @RequestMapping(value={"/getall"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
-        Page<Product>products=productService.findAllProducts(pageNo);
-//        for (Product p:products) {
-//            System.out.println(p.getProductName());
-//        }
+//        Page<Product> products=productService.findAllProducts(pageNo);
+        List<Product> products = productService.findAllProductsList();
+        System.out.println("--------");
+        System.out.println("--------" + servletContext.getAttribute("userId"));
+
+        for (Product p:products) {
+            System.out.println("--------"+p.getProductName());
+            System.out.println("--------inside");
+        }
+        System.out.println("--------out");
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
-        modelAndView.addObject("productsCount", products.getTotalElements());
+//        modelAndView.addObject("productsCount", products.getTotalElements());
         modelAndView.addObject("currentPageNo",pageNo);
+        System.out.println("--------final");
         modelAndView.setViewName("listproduct");
         return modelAndView;
     }
@@ -111,12 +124,12 @@ public class ProductController {
         return modelAndView;
     }
 
-//    @RequestMapping(value = {"/new" })
-//    public String inputProduct(@ModelAttribute("product") Product product,Model model) {
-//        List<Category>categories = categoryService.getAllCategories();
-//        model.addAttribute("categories", categories);
-//        return "addproduct";
-//    }
+    @RequestMapping(value = {"/new" })
+    public String inputProduct(@ModelAttribute("product") Product product,Model model) {
+        List<Category>categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "/secured/seller/addproduct";
+    }
 
 //    @PostMapping(value = "/add")
 //    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,@RequestParam("image") MultipartFile multipartFile,
