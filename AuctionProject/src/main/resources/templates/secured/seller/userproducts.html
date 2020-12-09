@@ -53,6 +53,7 @@
                 <th scope="col">Product Name</th>
                 <th scope="col">Starting Price</th>
                 <th scope="col">Description</th>
+                <th scope="col">Due Date</th>
                 <th scope="col">Released</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -65,6 +66,7 @@
                 <td th:text="${product.productName}"></td>
                 <td th:text="${product.startingPrice}"></td>
                 <td th:text="${product.description}"></td>
+                <td th:text="${product.dueDate}"></td>
                 <td th:text="${product.release}"></td>
                 <td><a th:href="@{'/product/release/{id}'(id=${product.id})}">Release</a></td>
                 <td><a

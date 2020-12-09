@@ -3,13 +3,11 @@ package edu.miu.cs.auctionproject.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,10 +31,14 @@ public class Product {
     private Double startingPrice;
 
     private boolean sold;
+
     private String release;
-    private int bitcount;
+    private int bidcount;
     //biniam-dave
-    private LocalDate upLoadedDate;
+//    private LocalDate upLoadedDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Future
+    private LocalDate dueDate;
 //    @ElementCollection
 //    private List<MultipartFile> imageLink;
 //    @Lob
@@ -45,7 +47,6 @@ public class Product {
     @Column(nullable = true, length = 64)
     private String photos;
     @OneToMany
-    @JoinColumn(nullable = true)
     private List<Category>categories;
     @Transient
     public String getPhotosImagePath() {

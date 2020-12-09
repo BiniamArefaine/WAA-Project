@@ -163,7 +163,7 @@ public class ProductController {
     public String deleteStudent(@PathVariable Long productId, Model model) {
         Optional<Product> products=productService.findProductById(productId);
         if(products.isPresent()){
-            if(products.get().getBitcount()>0){
+            if(products.get().getBidcount()>0){
                 model.addAttribute("BidHasStarted","BidHasStarted");
               return "redirect:/product/seller/getall";
             }
