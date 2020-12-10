@@ -63,7 +63,9 @@ public class ProductController {
     @RequestMapping(value={"/getallByCategoryId/{categoryId}"})
     public ModelAndView listProductByCategoryId(@PathVariable long categoryId,ModelAndView modelAndView) {
         List<Product> products=productService.findAllProductsByCategory(categoryId);
+        List<Category>categories=categoryService.getAllCategories();
         modelAndView.addObject("products",products);
+        modelAndView.addObject("categories",categories);
         modelAndView.setViewName("productListByCategory");
         return modelAndView;
     }
