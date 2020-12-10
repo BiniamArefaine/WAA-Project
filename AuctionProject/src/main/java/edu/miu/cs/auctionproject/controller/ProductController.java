@@ -23,6 +23,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -47,14 +48,6 @@ public class ProductController {
 
 
 //--------------------------------customer-----------------------------
-//    @GetMapping(value = {"/getDetails/{id}"})
-//    public ModelAndView getProductDetailsId(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
-//        Optional<Product> product = productService.findProductById(id);
-//        modelAndView.addObject("product", product);
-//        modelAndView.setViewName("bookingDetails");
-//        return modelAndView;
-//    }
-
 
     @RequestMapping(value={"/getall"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
@@ -144,6 +137,7 @@ public class ProductController {
         }
 
         List<Product> products=user.getProduct();
+        product.setMaxBidPrice(product.getStartingPrice());
         products.add(product);
         System.out.println(product.getPhotos().toString());
 
@@ -160,7 +154,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             return "secured/seller/productEdit";
         }
-
+        product.setMaxBidPrice(product.getStartingPrice());
         productService.saveProduct(product);
         return "redirect:/product/seller/getall";
     }

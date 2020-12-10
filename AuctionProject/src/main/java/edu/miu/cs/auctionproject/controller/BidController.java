@@ -39,30 +39,30 @@ public class BidController {
     @Autowired
     private DepositPaymentService depositPaymentService;
 
+//
+//    @GetMapping("/getall_bids")
+//    private String getAllBids(){
+//        List<Bid> allBids = bidService.getAllBids();
+//        System.out.println(allBids + "---------------");
+//        return "Home";
+//    }
 
-    @GetMapping("/getall_bids")
-    private String getAllBids(){
-        List<Bid> allBids = bidService.getAllBids();
-        System.out.println(allBids + "---------------");
-        return "Home";
-    }
+//    @PostMapping("/save_bid")
+//    private void saveBid(Bid bid){
+//        bidService.save(bid);
+//    }
 
-    @PostMapping("/save_bid")
-    private void saveBid(Bid bid){
-        bidService.save(bid);
-    }
-
-    @GetMapping("/get_bidbyid/{id}")
-    private Bid getBidsById(@PathVariable("id") Long id){
-        System.out.println("------dava----");
-        Bid bid = bidService.getBidById(id);
-        System.out.println(bid + "---------------");
-        return bid;
-    }
-    @DeleteMapping("/delete_bid")
-    private void deleteBid(Long id){
-        bidService.deleteById(id);
-    }
+//    @GetMapping("/get_bidbyid/{id}")
+//    private Bid getBidsById(@PathVariable("id") Long id){
+//        System.out.println("------dava----");
+//        Bid bid = bidService.getBidById(id);
+//        System.out.println(bid + "---------------");
+//        return bid;
+//    }
+//    @DeleteMapping("/delete_bid")
+//    private void deleteBid(Long id){
+//        bidService.deleteById(id);
+//    }
 
 
     //---------------------------making bid---------------------------------------
@@ -123,6 +123,7 @@ public class BidController {
         }
         bid.setProduct((Product) model.getAttribute("product"));
         product.setBidcount(product.getBidcount()+1);
+        product.setMaxBidPrice(bidPrice);
         productService.saveProduct(product);
         bidService.save(bid);
         return "forward:/product/getall";

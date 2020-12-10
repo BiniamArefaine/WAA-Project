@@ -40,7 +40,7 @@
                 <th scope="col">Description</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Bid count </th>
-                <th scope="col"> </th>
+                <th scope="col">Highest BidPrice</th>
                 <th scope="col"> </th>
                 <th scope="col"> </th>
             </tr>
@@ -52,6 +52,7 @@
                 <td th:text="${product.startingPrice}"></td>
                 <td th:text="${product.description}"></td>
                 <td th:text="${product.dueDate}"></td>
+                <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.bidcount}"></td>
                 <td><a th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
 

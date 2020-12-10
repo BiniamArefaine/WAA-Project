@@ -43,8 +43,12 @@ public class Product {
     @OneToMany
     private List<Category>categories;
 
+    private Double maxBidPrice=startingPrice;
+
     @Transient
     public void addPhoto(String file) {
         photos.add(file);
     }
+
+
 }
