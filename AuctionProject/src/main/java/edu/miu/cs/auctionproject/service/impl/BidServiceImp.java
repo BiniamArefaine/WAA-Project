@@ -52,7 +52,8 @@ public class BidServiceImp implements BidService {
                     max = d;
                 }
             }
-        }else{
+        }
+        if(max==0){
             return product.getStartingPrice();
         }
 

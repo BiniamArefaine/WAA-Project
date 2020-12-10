@@ -95,32 +95,37 @@ public class BidController {
             System.out.println(depositPayment1);
             return "depositpayment";
         }
-        return "null";
+        return "redirect:/bids/addBid";
     }
     @RequestMapping(value = {"/addBid" })
     public String inputBid(Model model) {
         Product product= (Product) model.getAttribute("product");
         Bid bid=bidService.getBidByProductId(product.getId());
         Double bidPrice=bidService.getHighestPrice(bid,product);
+        System.out.println(bidPrice);
         model.addAttribute("bidPrice", bidPrice);
         return "addBidPrice";
     }
     @PostMapping(value = {"/saveBid"})
-    public String addBid(@Validated @ModelAttribute("bidPrice") Double bidPrice,
+    public String addBid(@ModelAttribute("bidPrice") Double bidPrice,
                                     BindingResult bindingResult,
                                     Model model) {
-        if (bindingResult.hasErrors()) {
-            return "addBidPrice";
-        }
         Product product= (Product) model.getAttribute("product");
         User user=(User) model.getAttribute("user");
         Bid bid=bidService.getBidByProductId(product.getId());
-        bid.getUsers().put(user, bidPrice);
+        if(bid==null){
+            bid=new Bid();
+        }
+        if(bid.getUsers().containsKey(user)){
+            bid.getUsers().replace(user,bidPrice);
+        }else {
+            bid.getUsers().put(user, bidPrice);
+        }
         bid.setProduct((Product) model.getAttribute("product"));
         product.setBidcount(product.getBidcount()+1);
         productService.saveProduct(product);
         bidService.save(bid);
-        return "redirect:/product/details/{"+product.getId()+"}";
+        return "forward:/product/getall";
     }
 
 
