@@ -83,17 +83,25 @@ public class BidController {
     @GetMapping(value = {"add/{productId}"})
     public String addBid(@PathVariable long productId, Model model) {
         Long userId=(Long.parseLong(servletContext.getAttribute("userId").toString()));
+        User user=userService.findUserById(userId).get();
+        Optional<Product> product = productService.findProductById(productId);
         DepositPayment depositPayment=depositPaymentService.checkBid(productId,userId);
+        if(user.isVerification()) {
+            if(user.getProduct().contains(product.get())){
+            return "redirect:/product/getall";
+            }
+            if (depositPayment == null) {
+                DepositPayment depositPayment1 = new DepositPayment();
+                depositPayment1.setDeposit(product.get().getStartingPrice() * 0.01);
+                model.addAttribute("product", product.get());
+                model.addAttribute("user", userService.findUserById(userId).get());
+                model.addAttribute("depositPayment", depositPayment1);
+                return "depositpayment";
+            }
 
-        if(depositPayment==null){
-            DepositPayment depositPayment1=new DepositPayment();
-            Optional<Product> product=productService.findProductById(productId);
-            depositPayment1.setDeposit(product.get().getStartingPrice()*0.01);
-            model.addAttribute("product",product.get());
-            model.addAttribute("user",userService.findUserById(userId).get());
-            model.addAttribute("depositPayment",depositPayment1);
-            System.out.println(depositPayment1);
-            return "depositpayment";
+        }
+        if(!user.isVerification()){
+            return "redirect:/product/getall";
         }
         return "redirect:/bids/addBid";
     }

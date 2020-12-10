@@ -20,6 +20,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     @NotBlank(message = "product name required!")
     private String productName;
@@ -34,14 +35,16 @@ public class Product {
 
     private String release;
     private int bidcount;
-//    private LocalDate upLoadedDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate upLoadedDate=LocalDate.now();
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future
     private LocalDate dueDate;
     @ElementCollection
     private List<String> photos=new ArrayList<>();
-    @OneToMany
-    private List<Category>categories;
+    @ManyToMany
+    private List<Category> categories;
 
     private Double maxBidPrice=startingPrice;
 

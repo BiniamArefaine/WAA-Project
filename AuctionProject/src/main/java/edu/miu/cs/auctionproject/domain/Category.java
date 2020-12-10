@@ -23,9 +23,5 @@ public class  Category {
     @Column(unique = true,nullable = false)
     private  String name;
 
-//    added unidirectional
-//    @ManyToMany(mappedBy = "categories")
-//    @Column(Cascade=)
-//    private List<Product> products;
 
 }

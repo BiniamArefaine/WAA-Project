@@ -49,7 +49,7 @@ public class ProductController {
 
 //--------------------------------customer-----------------------------
 
-    @RequestMapping(value={"/getall"})
+    @GetMapping(value={"/getall","/getall/pageNo"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
         Page<Product> products=productService.findAllProducts(pageNo);
         modelAndView.addObject("products",products);
@@ -108,12 +108,16 @@ public class ProductController {
         return modelAndView;
     }
 
+
+
     @RequestMapping(value = {"/seller/new" })
     public String inputProduct(@ModelAttribute("product") Product product,Model model) {
         List<Category>categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         return "/secured/seller/addproduct";
     }
+
+
 
     @PostMapping(value = "/seller/add")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
@@ -135,22 +139,19 @@ public class ProductController {
             String uploadDir = "src/main/resources/static/images/product-photos/" +user.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, file);
         }
-
         List<Product> products=user.getProduct();
         product.setMaxBidPrice(product.getStartingPrice());
         products.add(product);
-        System.out.println(product.getPhotos().toString());
-
-
         userService.saveUser(user);
         model.addAttribute("product", product);
-
         return "redirect:/product/seller/getall";
     }
+
+
+
     @PostMapping(value = {"/seller/edit"})
     public String updateProduct(@Validated @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,Model model) {
-
         if (bindingResult.hasErrors()) {
             return "secured/seller/productEdit";
         }
@@ -158,6 +159,8 @@ public class ProductController {
         productService.saveProduct(product);
         return "redirect:/product/seller/getall";
     }
+
+
 
     @GetMapping(value = {"/seller/edit/{productId}"})
     public String editProduct(@PathVariable long productId, Model model) {
@@ -174,6 +177,9 @@ public class ProductController {
         }
         return "secured/seller/userproducts";
     }
+
+
+
     @GetMapping(value = {"/seller/delete/{productId}"})
     public String deleteStudent(@PathVariable Long productId, Model model) {
         Optional<Product> products=productService.findProductById(productId);
