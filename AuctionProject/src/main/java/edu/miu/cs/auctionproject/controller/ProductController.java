@@ -23,6 +23,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +86,16 @@ public class ProductController {
         modelAndView.setViewName("listproduct");
         return modelAndView;
     }
+    @GetMapping(value = {"/details/{productId}"})
+    public String productDetails(@PathVariable long productId, Model model) {
+        Optional<Product> product = productService.findProductById(productId);
+        if (product.isPresent()) {
+            model.addAttribute("product", product.get());
+            return "/productdetails";
+        }
+        return "listproduct";
+    }
+
 //----------------------------------------seller--------------------------------------------
 
     @RequestMapping(value={"/seller/getall"})
@@ -113,9 +124,8 @@ public class ProductController {
 
     @PostMapping(value = "/seller/add")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
-                              @RequestParam("image") MultipartFile multipartFile,
+                              @RequestParam("files") MultipartFile[] files,
                               Model model) throws IOException {
-        System.out.println("kffkdsfjkdsafjkdsaf");
         if (bindingResult.hasErrors()) {
             return "/secured/seller/addproduct";
         }
@@ -125,14 +135,18 @@ public class ProductController {
         if(users.isPresent()){
             user=users.get();
         }
-        System.out.println(user.getId()+"essey");
+        String fileName="";
+        for(MultipartFile file:files){
+            fileName=StringUtils.cleanPath(file.getOriginalFilename());
+            product.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
+            String uploadDir = "src/main/resources/static/images/product-photos/" +user.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, file);
+        }
+
         List<Product> products=user.getProduct();
         products.add(product);
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        product.setPhotos(fileName);
-        System.out.println(product.getPhotos());
-        String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        System.out.println(product.getPhotos().toString());
+
 
         userService.saveUser(user);
         model.addAttribute("product", product);

@@ -19,72 +19,45 @@
 <div th:replace="fragments/header :: header"></div>
 <div style="margin-top: 1em; margin-bottom: 1em;" class="container">
     <div>
-			<span style="font-size: 2em; color: #32a5e7;">Auction Product in our data</span>
+        <span style="font-size: 2em; color: #32a5e7;">Auction Product in our data</span>
     </div>
-    <!-- Search panel -->
-    <form id="searchProduct" method="get"
-          action="/product/search">
-        <div style="margin-top: 1em;" class="row">
-            <div class="col-md-12">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="searchString"
-                           name="searchString"
-                           placeholder="Enter a string to search for products"
-                           th:value="${searchString}" autofocus/>
-                    <div class="input-group-append">
-                        <button id="btnSubmit" type="submit"
-                                class="btn btn-outline-success">Search
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-
+    <div style="font-size: 1em">
+        <table class="table table-striped">
+            <tbody>
+            <tr th:each="photo,iterStat : ${product.getPhotos()}" th:remove="tag">
+                <td scope="row" th:text="${iterStat.count}+${'.'}"></td>
+                <td> <img th:src="@{${photo}}" style="width:213px; height:119px"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <div style="font-size: 1em">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Images</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Starting Price</th>
                 <th scope="col">Description</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Bid count </th>
-                <th scope="col"> <a href="/categories/getallforcustomer"><button>Switch Category</button></a></th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="product,iterStat : ${products}">
-                <td scope="row" th:text="${iterStat.count}+${'.'}"></td>
-                <td> <img th:src="@{${product.getPhotos().get(0)}}" style="width:213px; height:119px"></td>
-<!--         <td> <img  th:src="@{${product.getPhotosImagePath()}}" style="width:213px; height:119px"></td>-->
+            <tr th:remove="tag">
+                <!--         <td> <img  th:src="@{${product.getPhotosImagePath()}}" style="width:213px; height:119px"></td>-->
                 <td th:text="${product.productName}"></td>
                 <td th:text="${product.startingPrice}"></td>
                 <td th:text="${product.description}"></td>
                 <td th:text="${product.dueDate}"></td>
                 <td th:text="${product.bidcount}"></td>
                 <td><a th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
-                <td><a th:href="@{'/product/details/{id}'(id=${product.id})}">Product Details</a></td>
 
-            </tr>
-            <tr th:if="${productsCount < 1}">
-                <td colspan="8" th:align="center">No product found</td>
             </tr>
             </tbody>
         </table>
-
-        <div>
-            <ul class="nav nav-pills">
-                <li class="nav-item"
-                    th:each="i:${#numbers.sequence(0,products.totalPages)}">
-                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"
-                       th:classappend="${currentPageNo}==${i}?'active'"></a>
-                </li>
-            </ul>
-        </div>
-    </div>
 
 </div>
 <div th:replace="fragments/footer :: footer"></div>

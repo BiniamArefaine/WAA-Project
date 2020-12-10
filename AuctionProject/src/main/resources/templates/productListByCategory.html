@@ -58,18 +58,19 @@
             <tbody>
             <tr th:each="product,iterStat : ${products}">
                 <td scope="row" th:text="${iterStat.count}+${'.'}"></td>
-                <td> <img  th:src="@{${product.getPhotosImagePath()}}" style="width:213px; height:119px"></td>
+                <td> <img  th:src="@{${product.getPhotos().get(0)}}" style="width:213px; height:119px"></td>
                 <td th:text="${product.productName}"></td>
                 <td th:text="${product.startingPrice}"></td>
                 <td th:text="${product.description}"></td>
                 <td th:text="${product.dueDate}"></td>
                 <td th:text="${product.bidcount}"></td>
                 <td><a th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
+                <td><a th:href="@{'/product/details/{id}'(id=${product.id})}">Product Details</a></td>
 
             </tr>
-            <tr th:if="${productsCount < 1}">
-                <td colspan="8" th:align="center">No product found</td>
-            </tr>
+<!--            <tr th:if="${productsCount < 1}">-->
+<!--                <td colspan="8" th:align="center">No product found</td>-->
+<!--            </tr>-->
             </tbody>
         </table>
 

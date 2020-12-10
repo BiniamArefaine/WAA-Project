@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,19 +38,13 @@ public class Product {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future
     private LocalDate dueDate;
-//    @ElementCollection
-//    private List<MultipartFile> imageLink;
-//    @Lob
-//    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
-//    private byte[] images;
-    @Column(nullable = true, length = 64)
-    private String photos;
+    @ElementCollection
+    private List<String> photos=new ArrayList<>();
     @OneToMany
     private List<Category>categories;
-    @Transient
-    public String getPhotosImagePath() {
-        if (photos == null || id == null) return null;
-        return "/images/product-photos/" + id + "/" + photos;
-    }
 
+    @Transient
+    public void addPhoto(String file) {
+        photos.add(file);
+    }
 }
