@@ -1,9 +1,9 @@
 package edu.miu.cs.auctionproject.service;
 
 import edu.miu.cs.auctionproject.domain.Bid;
+import edu.miu.cs.auctionproject.domain.Product;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BidService {
 
@@ -12,4 +12,8 @@ public interface BidService {
     void save(Bid bid);
     void deleteById(Long id);
 
+    Bid getBidByProductId(Long id);
+
+
+    Double getHighestPrice(Bid bid, Product product);
 }

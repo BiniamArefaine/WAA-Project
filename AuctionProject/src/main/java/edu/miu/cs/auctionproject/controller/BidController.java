@@ -1,10 +1,7 @@
 package edu.miu.cs.auctionproject.controller;
 
 
-import edu.miu.cs.auctionproject.domain.Bid;
-import edu.miu.cs.auctionproject.domain.Category;
-import edu.miu.cs.auctionproject.domain.DepositPayment;
-import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.domain.*;
 import edu.miu.cs.auctionproject.service.BidService;
 
 import edu.miu.cs.auctionproject.service.DepositPaymentService;
@@ -21,6 +18,7 @@ import javax.servlet.ServletContext;
 import java.util.List;
 import java.util.Optional;
 @Controller
+@SessionAttributes({"product","user"})
 @RequestMapping("/bids")
 public class BidController {
 
@@ -72,11 +70,12 @@ public class BidController {
     public String addDepositPayment(@Validated @ModelAttribute("depositPayment") DepositPayment depositPayment,
                                     BindingResult bindingResult,
                                Model model) {
-
+        System.out.println(model.getAttribute("product"));
         if (bindingResult.hasErrors()) {
             return "depositpayment";
         }
-        System.out.println("wegahta"+depositPayment.getProduct());
+        depositPayment.setUser((User) model.getAttribute("user"));
+        depositPayment.setProduct((Product) model.getAttribute("product"));
         depositPaymentService.savePayments(depositPayment);
         return "redirect:/bids/addBid";
     }
@@ -84,30 +83,45 @@ public class BidController {
     @GetMapping(value = {"add/{productId}"})
     public String addBid(@PathVariable long productId, Model model) {
         Long userId=(Long.parseLong(servletContext.getAttribute("userId").toString()));
-        System.out.println("========================="+productId);
         DepositPayment depositPayment=depositPaymentService.checkBid(productId,userId);
 
         if(depositPayment==null){
             DepositPayment depositPayment1=new DepositPayment();
             Optional<Product> product=productService.findProductById(productId);
             depositPayment1.setDeposit(product.get().getStartingPrice()*0.01);
-            depositPayment1.setProduct(product.get());
-            depositPayment1.setUser(userService.findUserById(userId).get());
             model.addAttribute("product",product.get());
+            model.addAttribute("user",userService.findUserById(userId).get());
             model.addAttribute("depositPayment",depositPayment1);
+            System.out.println(depositPayment1);
             return "depositpayment";
         }
         return "null";
     }
     @RequestMapping(value = {"/addBid" })
     public String inputBid(Model model) {
-        Long product= (Long) model.getAttribute("productId");
-        System.out.println(product);
-//        Double deposit=product.getStartingPrice()*0.01;
-//        depositPayment.setDeposit(deposit);
-        int bidPrice=0;
+        Product product= (Product) model.getAttribute("product");
+        Bid bid=bidService.getBidByProductId(product.getId());
+        Double bidPrice=bidService.getHighestPrice(bid,product);
         model.addAttribute("bidPrice", bidPrice);
         return "addBidPrice";
     }
+    @PostMapping(value = {"/saveBid"})
+    public String addBid(@Validated @ModelAttribute("bidPrice") Double bidPrice,
+                                    BindingResult bindingResult,
+                                    Model model) {
+        if (bindingResult.hasErrors()) {
+            return "addBidPrice";
+        }
+        Product product= (Product) model.getAttribute("product");
+        User user=(User) model.getAttribute("user");
+        Bid bid=bidService.getBidByProductId(product.getId());
+        bid.getUsers().put(user, bidPrice);
+        bid.setProduct((Product) model.getAttribute("product"));
+        product.setBidcount(product.getBidcount()+1);
+        productService.saveProduct(product);
+        bidService.save(bid);
+        return "redirect:/product/details/{"+product.getId()+"}";
+    }
+
 
 }

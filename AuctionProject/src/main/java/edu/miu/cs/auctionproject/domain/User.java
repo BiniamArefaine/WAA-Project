@@ -24,7 +24,7 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",nullable = true)
-    private List< @Valid Product>product;
+    private List<Product>product;
 
     private boolean verification;
     @OneToOne

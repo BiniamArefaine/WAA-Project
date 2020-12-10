@@ -14,10 +14,10 @@ public class DepositPayment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private double deposit;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn
     private User user;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(nullable = true)
     private Product product;
 

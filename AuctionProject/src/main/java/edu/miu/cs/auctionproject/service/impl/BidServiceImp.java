@@ -1,13 +1,13 @@
 package edu.miu.cs.auctionproject.service.impl;
 
 import edu.miu.cs.auctionproject.domain.Bid;
+import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.repository.BidRepository;
 import edu.miu.cs.auctionproject.service.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BidServiceImp implements BidService {
@@ -37,6 +37,26 @@ public class BidServiceImp implements BidService {
     @Override
     public void deleteById(Long id) {
           bidRepository.deleteById(id);
+    }
+
+    @Override
+    public Bid getBidByProductId(Long id) {
+        return bidRepository.findByProductId(id);
+    }
+    @Override
+    public Double getHighestPrice(Bid bid, Product product) {
+        double max = 0;
+        if(bid!=null) {
+            for (Double d : bid.getUsers().values()) {
+                if (d > max) {
+                    max = d;
+                }
+            }
+        }else{
+            return product.getStartingPrice();
+        }
+
+        return max;
     }
 
 

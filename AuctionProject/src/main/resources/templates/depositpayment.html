@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="">
-    <link rel="icon" href="favicon.ico">
+<!--    <link rel="icon" href="favicon.ico">-->
     <link
             href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
             rel="stylesheet"
@@ -34,7 +34,7 @@
             </tr>
             </thead>
     <tr th:object=" ${product}">
-        <td> <img  th:src="@{${product.getPhotosImagePath()}}" style="width:213px; height:119px"></td>
+        <td> <img  th:src="@{${product.photos.get(0)}}" style="width:213px; height:119px"></td>
         <td th:text="${product.productName}"></td>
         <td th:text="${product.startingPrice}"></td>
         <td th:text="${product.description}"></td>
@@ -47,8 +47,6 @@
 
         <fieldset>
             <input type="hidden" name="id" th:value="${depositPayment.id}"/>
-            <input type="hidden" name="productid" th:value="${product.id}"/>
-
             <div class="row">
                 <div class="col-md-6">
                     <label for="deposit">Deposit Payment</label>

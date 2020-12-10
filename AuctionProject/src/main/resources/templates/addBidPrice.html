@@ -20,12 +20,12 @@
         <span style="font-size: 2em; color: #32a5e7;">Put Your Bid Price</span>
     </div>
 
-    <form id="newDepositPayment" method="post" action="/bids/addDeposit" th:object="${bidPrice}" enctype="multipart/form-data">
+    <form id="newDepositPayment" method="post" action="/bids/save_bid" th:object="${bidPrice}" enctype="multipart/form-data">
         <fieldset>
             <div class="row">
                 <div class="col-md-6">
                     <label for="bidPrice">Bid Price</label>
-                    <input id="bidPrice" name="bidPrice" type="number" readonly class="form-control" th:value="${bidPrice}">
+                    <input id="bidPrice" name="bidPrice" type="text" class="form-control" th:value="${bidPrice}">
                 </div>
             </div>
             <div style="float:right;">
