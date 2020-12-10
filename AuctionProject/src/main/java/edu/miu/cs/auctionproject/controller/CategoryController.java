@@ -96,6 +96,7 @@ public class CategoryController {
         List<Category> categories = categoryService.getAllCategories();
         modelAndView.addObject("categories",categories);
         modelAndView.addObject("searchString", "");
+        modelAndView.addObject("categories",categories);
         modelAndView.addObject("categorysCount", categories.size());
         modelAndView.setViewName("listcategory");
         return modelAndView;

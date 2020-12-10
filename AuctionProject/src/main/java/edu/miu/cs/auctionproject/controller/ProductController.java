@@ -20,11 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,14 +44,17 @@ public class ProductController {
     BidService bidservice;
 
 
+
 //--------------------------------customer-----------------------------
 
     @GetMapping(value={"/getall","/getall/pageNo"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
         Page<Product> products=productService.findAllProducts(pageNo);
+        List<Category>categories=categoryService.getAllCategories();
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
         modelAndView.addObject("productsCount", products.getTotalElements());
+        modelAndView.addObject("categories",categories);
         modelAndView.addObject("currentPageNo",pageNo);
         modelAndView.setViewName("listproduct");
         return modelAndView;
@@ -71,9 +71,11 @@ public class ProductController {
     @GetMapping(value = {"/search"})
     public ModelAndView searchAuctionProducts(@RequestParam(defaultValue = "0")int pageNo,@RequestParam String searchString) {
         ModelAndView modelAndView = new ModelAndView();
+        List<Category>categories=categoryService.getAllCategories();
         Page<Product> products = productService.searchProduct(pageNo,searchString);
         modelAndView.addObject("products", products);
         modelAndView.addObject("searchString", searchString);
+        modelAndView.addObject("categories",categories);
         modelAndView.addObject("ProductsCount", products.getTotalElements());
         modelAndView.addObject("currentPageNo",pageNo);
         modelAndView.setViewName("listproduct");

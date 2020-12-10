@@ -21,7 +21,7 @@
     <div>
         <span style="font-size: 2em; color: #32a5e7;">Auction Product in our data</span>
     </div>
-    <!-- Search panel -->
+
     <form id="searchProduct" method="get"
           action="/product/search">
         <div style="margin-top: 1em;" class="row">
@@ -35,12 +35,22 @@
                         <button id="btnSubmit" type="submit"
                                 class="btn btn-outline-success">Search
                         </button>
-                                 </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </form>
-    <a href="/categories/getallforcustomer"><button class="btn btn-outline-success">Switch Category</button></a>
+    <select class="btn btn-outline-success"
+            th:onchange="'window.location.href = \'' + @{/product/getallByCategoryId/} + '\' + this.value ' ">
+        <option value="">filter category</option>
+        <option th:each="category : ${categories}"
+                th:value="${category.id} "
+                th:text="${category.name}"></option>
+    </select>
+    <a href="/categories/getallforcustomer">
+        <button class="btn btn-outline-success">List Categories</button>
+    </a>
     <div style="font-size: 1em">
         <table class="table table-striped">
             <thead>
@@ -52,14 +62,14 @@
                 <th scope="col">Description</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Highest BidPrice</th>
-                <th scope="col">Bid count </th>
-                <th scope="col"> </th>
+                <th scope="col">Bid count</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="product,iterStat : ${products}">
                 <td scope="row" th:text="${iterStat.count}+${'.'}"></td>
-                <td> <img  th:src="@{${product.getPhotos().get(0)}}" style="width:213px; height:119px"></td>
+                <td><img th:src="@{${product.getPhotos().get(0)}}" style="width:213px; height:119px"></td>
                 <td th:text="${product.productName}"></td>
                 <td th:text="${product.startingPrice}"></td>
                 <td th:text="${product.description}"></td>
@@ -70,21 +80,21 @@
                 <td><a th:href="@{'/product/details/{id}'(id=${product.id})}">Product Details</a></td>
 
             </tr>
-<!--            <tr th:if="${productsCount < 1}">-->
-<!--                <td colspan="8" th:align="center">No product found</td>-->
-<!--            </tr>-->
+            <!--            <tr th:if="${productsCount < 1}">-->
+            <!--                <td colspan="8" th:align="center">No product found</td>-->
+            <!--            </tr>-->
             </tbody>
         </table>
 
-<!--        <div>-->
-<!--            <ul class="nav nav-pills">-->
-<!--                <li class="nav-item"-->
-<!--                    th:each="i:${#numbers.sequence(0,products.totalPages)}">-->
-<!--                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"-->
-<!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
+        <!--        <div>-->
+        <!--            <ul class="nav nav-pills">-->
+        <!--                <li class="nav-item"-->
+        <!--                    th:each="i:${#numbers.sequence(0,products.totalPages)}">-->
+        <!--                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"-->
+        <!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
+        <!--                </li>-->
+        <!--            </ul>-->
+        <!--        </div>-->
     </div>
 
 </div>

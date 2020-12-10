@@ -21,7 +21,7 @@
     <div>
 			<span style="font-size: 2em; color: #32a5e7;">Auction Product in our data</span>
     </div>
-    <!-- Search panel -->
+
     <form id="searchProduct" method="get"
           action="/product/search">
         <div style="margin-top: 1em;" class="row">
@@ -41,7 +41,13 @@
             </div>
         </div>
     </form>
-    <a href="/categories/getallforcustomer"><button class="btn btn-outline-success">Switch Category</button></a>
+    <select class="btn btn-outline-success" th:onchange="'window.location.href = \'' + @{/product/getallByCategoryId/} + '\' + this.value ' ">
+        <option value="">filter category</option>
+        <option th:each="category : ${categories}"
+                th:value="${category.id} "
+                th:text="${category.name}"></option>
+    </select>
+    <a href="/categories/getallforcustomer"><button class="btn btn-outline-success">List Categories</button></a>
     <div style="font-size: 1em">
         <table class="table table-striped">
             <thead>
