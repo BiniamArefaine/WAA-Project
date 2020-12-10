@@ -70,9 +70,7 @@ public class ProductController {
     public ModelAndView listProductByCategoryId(@PathVariable long categoryId,ModelAndView modelAndView) {
         List<Product> products=productService.findAllProductsByCategory(categoryId);
         modelAndView.addObject("products",products);
-        modelAndView.addObject("searchString", "");
-        modelAndView.addObject("productsCount", products.size());
-        modelAndView.setViewName("listproduct");
+        modelAndView.setViewName("productListByCategory");
         return modelAndView;
     }
 

@@ -39,7 +39,7 @@
             <tbody>
             <tr th:each="category,iterStat : ${categories}">
                 <th scope="row" th:text="${iterStat.count}+${'.'}"></th>
-                <td><a th:text="${category.name}"></a></td>
+                <td><a th:href="@{'/product/getallByCategoryId/{id}'(id=${category.id})}" th:text="${category.name}"></a></td>
 <!--                <td><a th:href="@{'edit/{id}'(id=${category.id})}">Edit</a></td>-->
 
             </tr>
