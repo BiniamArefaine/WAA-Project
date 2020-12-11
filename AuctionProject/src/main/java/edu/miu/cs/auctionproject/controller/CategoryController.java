@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,9 @@ public class CategoryController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    HttpSession session;
 
 //
 //    @GetMapping("/getall")
@@ -120,6 +124,8 @@ public class CategoryController {
 
         // save category here
         categoryService.save(category);
+        System.out.println("----in category");
+        System.out.println(session.getAttribute("userId").toString());
         model.addAttribute("category", category);
 
         return "redirect:/categories/getall";

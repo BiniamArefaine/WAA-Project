@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Optional<User> findUserById(Long id) {
+        System.out.println("inside finduserie---");
         return userRepository.findById(id);
     }
 
@@ -44,6 +45,21 @@ public class UserServiceImpl implements UserService{
         return userRepository.findAllByVerificationFalse();
     }
 
+    @Override
+    public User getUserByPasswordAndUserName(String password, String userName) {
+        System.out.println("------------");
+        return userRepository.getUserByCredential_PasswordAndCredential_UserName(password, userName);
+    }
+
+    @Override
+    public User getUserByEmailAndFirstName(String email, String firstName) {
+        return userRepository.findAllByEmailAndFirstName(email, firstName);
+    }
+
+//    @Override
+//    public String logInAttempt() {
+//        return null;
+//    }
 
 
 //    @Override

@@ -21,4 +21,9 @@ public class LogInLogOutController {
     public String logOutPage(){
         return "login/login";
     }
+
+    @GetMapping(value = "/home/forgot_password")
+    public String forgotPassword(){
+        return "redirect:/user/resetPassword";
+    }
 }

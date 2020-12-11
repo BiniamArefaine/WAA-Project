@@ -12,4 +12,5 @@ public interface DepositPaymentService {
     List<DepositPayment> getAllDeposits();
 
     DepositPayment checkBid(long productId, Long userId);
+    List<DepositPayment> getAllExceptWinner(Long userId);
 }

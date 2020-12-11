@@ -12,6 +12,11 @@ public interface UserService {
     Optional<User> findUserById(Long id);
     List<User> findAllUsers();
     List<User> findAllNonVerifiedUsers();
+
+    User getUserByPasswordAndUserName(String password, String userName);
+
+    User getUserByEmailAndFirstName(String email, String firstName);
+
 //
 //    User findByCredential_UserNameOrRole(Credential credential1);
 

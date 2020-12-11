@@ -5,6 +5,7 @@ import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,6 +16,12 @@ public class HomeController {
 
     @Autowired
     UserService userService;
+
+    @GetMapping
+    public String logInAttempt() {
+        System.out.println("----loginfailed");
+        return "redirect:/auction/admin/listUsers";
+    }
 
     @RequestMapping(value = {"/","/home"})
     public String welcome(){
@@ -42,6 +49,13 @@ public class HomeController {
         model.addAttribute("listUsers", nonVerifiedUsers);
         System.out.println(nonVerifiedUsers);
         return "secured/admin/listusers";
+    }
+
+    @RequestMapping(value = {"/auction/admin/verify_user/{id}"})
+    public String getVerification(@PathVariable Long id, Model model){
+        System.out.println("homecontroller" + id);
+        model.addAttribute("id", id);
+        return "redirect:/user/verify/{id}";
     }
 
     @RequestMapping(value = {"/auction/admin/manage_categories"})

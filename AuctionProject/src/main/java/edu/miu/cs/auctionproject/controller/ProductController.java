@@ -1,15 +1,16 @@
 package edu.miu.cs.auctionproject.controller;
 
 import edu.miu.cs.auctionproject.FileUploadUtil;
-import edu.miu.cs.auctionproject.domain.Category;
-import edu.miu.cs.auctionproject.domain.Product;
-import edu.miu.cs.auctionproject.domain.User;
+import edu.miu.cs.auctionproject.domain.*;
+import edu.miu.cs.auctionproject.dynamicscheduling.MyJob;
 import edu.miu.cs.auctionproject.service.BidService;
 import edu.miu.cs.auctionproject.service.CategoryService;
 import edu.miu.cs.auctionproject.service.ProductService;
 import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -20,8 +21,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,15 +54,23 @@ public class ProductController {
 
 
 //--------------------------------customer-----------------------------
+//    @GetMapping(value = {"/getDetails/{id}"})
+//    public ModelAndView getProductDetailsId(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
+//        Optional<Product> product = productService.findProductById(id);
+//        modelAndView.addObject("product", product);
+//        modelAndView.setViewName("bookingDetails");
+//        return modelAndView;
+//    }
 
-    @GetMapping(value={"/getall","/getall/pageNo"})
+
+    @RequestMapping(value={"/getall"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
         Page<Product> products=productService.findAllProducts(pageNo);
-        List<Category>categories=categoryService.getAllCategories();
+
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
         modelAndView.addObject("productsCount", products.getTotalElements());
-        modelAndView.addObject("categories",categories);
+//        modelAndView.addObject("categories",categories);
         modelAndView.addObject("currentPageNo",pageNo);
         modelAndView.setViewName("listproduct");
         return modelAndView;
@@ -97,17 +113,22 @@ public class ProductController {
 
     @RequestMapping(value={"/seller/getall"})
     public ModelAndView listProducts(ModelAndView modelAndView,Model model) {
+        System.out.println("----before");
         User user=null;
-        Optional<User> users=userService.findUserById((Long.parseLong(servletContext.getAttribute("userId").toString())));
-
+        //fake id
+        //(Long.parseLong(servletContext.getAttribute("userId")
+        Optional<User> users=userService.findUserById(1L);
+        System.out.println("----befor" + users);
         if(users.isPresent()){
             user=users.get();
         }
+
         List<Product> products=user.getProduct();
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
         modelAndView.addObject("productsCount", products.size());
         modelAndView.addObject("BidHasStarted","");
+
         modelAndView.setViewName("secured/seller/userproducts");
         return modelAndView;
     }
@@ -116,17 +137,28 @@ public class ProductController {
 
     @RequestMapping(value = {"/seller/new" })
     public String inputProduct(@ModelAttribute("product") Product product,Model model) {
+        System.out.println("----before");
         List<Category>categories = categoryService.getAllCategories();
+        System.out.println("----after");
+
         model.addAttribute("categories", categories);
-        return "/secured/seller/addproduct";
+//        return "/secured/seller/addproduct";
+        return "redirect:/bids/duedate_done";
     }
 
 
 
     @PostMapping(value = "/seller/add")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
-                              @RequestParam("files") MultipartFile[] files,
+                              @RequestParam("image") MultipartFile multipartFile,
                               Model model) throws IOException {
+//        String localDateTime = product.getDueDate().toString() + " 00:00:00";
+//        System.out.println(localDateTime);
+//        System.out.println("---------------------------------------");
+//        System.out.println("-----date time--" + product.getDueDate());
+//        MyJob.timeHashMap(product, product.getDueDate().atStartOfDay());
+
+//        System.out.println(" ----- duedate ---" + product.getDueDate());
         if (bindingResult.hasErrors()) {
             return "/secured/seller/addproduct";
         }
@@ -136,30 +168,29 @@ public class ProductController {
         if(users.isPresent()){
             user=users.get();
         }
-        String fileName="";
-        for(MultipartFile file:files){
-            fileName=StringUtils.cleanPath(file.getOriginalFilename());
-            product.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
-            String uploadDir = "src/main/resources/static/images/product-photos/" +user.getId();
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
-        }
+        System.out.println(user.getId()+"essey");
         List<Product> products=user.getProduct();
-        product.setMaxBidPrice(product.getStartingPrice());
         products.add(product);
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        product.setPhotos(fileName);
+        System.out.println(product.getPhotos());
+        String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
         userService.saveUser(user);
         model.addAttribute("product", product);
+
         return "redirect:/product/seller/getall";
     }
-
-
 
     @PostMapping(value = {"/seller/edit"})
     public String updateProduct(@Validated @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,Model model) {
+
         if (bindingResult.hasErrors()) {
             return "secured/seller/productEdit";
         }
-        product.setMaxBidPrice(product.getStartingPrice());
+
         productService.saveProduct(product);
         return "redirect:/product/seller/getall";
     }
@@ -196,5 +227,39 @@ public class ProductController {
         productService.deleteProduct(productId);
         return "redirect:/product/seller/getall";
     }
+
+
+    @GetMapping("/ispaid")
+    public String isPaidBeforePaymentDay(Long productId){
+        //fake id
+        long productIds = 1L;
+        if(productService.findProductById(productId).isPresent()){
+           Product productToBeShipped = productService.findProductById(productIds).get();
+           if(!productToBeShipped.isPaidInFull()
+                   && !LocalDate.now().isAfter(productToBeShipped.getPaymentDate())){
+               return "redirect:/product/shipped";
+           }
+        };
+
+        System.out.println("Payment is not done on due date or is not paid in full!!");
+        //to be completed
+           return "";
+    }
+
+    //shipment
+    @GetMapping("/shipped")
+    public String shipmentProduct(){
+      //fake Id
+        Long userId = 1L;
+        if(userService.findUserById(1L).isPresent()){
+            Address userAddress = userService.findUserById(1L).get().getAddress();
+            System.out.println("The product has been shipped to" + userAddress.toString());
+        }
+
+        return "congratulationsShipped";
+    }
+
+
+
 
 }

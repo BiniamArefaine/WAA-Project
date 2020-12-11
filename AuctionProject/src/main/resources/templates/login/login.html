@@ -12,18 +12,18 @@
         <hr/>
         <div class="container">
             <div class="row">
-<!--                <div class="col-md-6">-->
-<!--                    <div class="card border-secondary mb-3" style="max-width: 23rem;">-->
-<!--                        <div class="card-header">Use your Google Account via OAuth</div>-->
-<!--                        <div class="card-body">-->
-<!--                            <h4 class="card-title">Sign In with Google</h4>-->
-<!--                            <p class="card-text">-->
-<!--                                Simply click on the Google logo below and sign in using your Google Account.-->
-<!--                            </p>-->
-<!--                            <a href="#"><img alt="Sign in with Google" th:src="@{/images/login-with-google.png}"></a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="col-md-6">
+                    <div class="card border-secondary mb-3" style="max-width: 23rem;">
+                        <div class="card-header">Use your Google Account via OAuth</div>
+                        <div class="card-body">
+                            <h4 class="card-title">Sign In with Google</h4>
+                            <p class="card-text">
+                                Simply click on the Google logo below and sign in using your Google Account.
+                            </p>
+                            <a href="#"><img alt="Sign in with Google" th:src="@{/images/login-with-google.png}"></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="card border-secondary mb-4" style="max-width: 60rem;">
                         <div class="card-header">Use your Account</div>
@@ -51,6 +51,7 @@
                                         <input id="password" name="password" type="password" class="form-control"/>
                                     </div>
                                     <div style="float:right;">
+                                        <a href="/home/forgot_password" >Forgot password?</a>
                                         <a href="/user/adduser" class="btn btn-primary">Register</a>
                                         <a href="/home" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
                                         <button id="btnSubmit" type="submit" class="btn btn-outline-success">Sign In</button>

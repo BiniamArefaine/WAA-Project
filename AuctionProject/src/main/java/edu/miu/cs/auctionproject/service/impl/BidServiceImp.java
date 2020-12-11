@@ -1,13 +1,15 @@
 package edu.miu.cs.auctionproject.service.impl;
 
 import edu.miu.cs.auctionproject.domain.Bid;
-import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.repository.BidRepository;
 import edu.miu.cs.auctionproject.service.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BidServiceImp implements BidService {
@@ -40,25 +42,37 @@ public class BidServiceImp implements BidService {
     }
 
     @Override
-    public Bid getBidByProductId(Long id) {
-        return bidRepository.findByProductId(id);
-    }
-    @Override
-    public Double getHighestPrice(Bid bid, Product product) {
+    public User getUserBidById(Long bidId) {
         double max = 0;
-        if(bid!=null) {
-            for (Double d : bid.getUsers().values()) {
-                if (d > max) {
-                    max = d;
-                }
-            }
-        }
-        if(max==0){
-            return product.getStartingPrice();
-        }
+        User user = null;
+       if(bidRepository.findById(bidId).isPresent()){
+           System.out.println("-----inside hashmap-----");
+           Bid bid = bidRepository.findById(bidId).get();
+           System.out.println("-----inside hashmap 2-----");
+           for (Double d : bid.getUsers().values()){
+                  if(d > max){
+                      max = d;
+                  }
+           }
+          for(User u : bid.getUsers().keySet()){
+              if(bid.getUsers().get(u).equals(max)){
+                  user = u;
+              };
+          }
 
-        return max;
+       };
+
+        return user;
     }
+
+
+
+    @Override
+    public Bid getBidByProductId(Long id){
+        return bidRepository.getBidByProductId(id);
+    }
+
+
 
 
 }

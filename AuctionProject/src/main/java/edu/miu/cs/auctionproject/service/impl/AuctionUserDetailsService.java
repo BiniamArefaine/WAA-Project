@@ -1,8 +1,10 @@
 package edu.miu.cs.auctionproject.service.impl;
 
+import edu.miu.cs.auctionproject.controller.HomeController;
 import edu.miu.cs.auctionproject.domain.Credential;
 import edu.miu.cs.auctionproject.repository.ICredentialRepository;
 
+import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -10,11 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.Collection;
@@ -25,35 +23,43 @@ public class AuctionUserDetailsService implements UserDetailsService {
 
     @Autowired
     private ICredentialRepository credentialRepository;
+//
+    @Autowired
+    private HttpSession session;
 
     @Autowired
-    ServletContext servletContext;
+    private UserService userService;
+
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        limitedLogIns(session.getId());
         Credential user = credentialRepository.findByUserName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
-//        getId(user.getUser().getId());
-        servletContext.setAttribute("userId", user.getUser().getId());
+        session.setAttribute("userId", user.getUser().getId());
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
                 getAuthorities(user));
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(Credential user) {
-        //to be modified
-
         String userRoles = user.getUser().getRole().getName();
-
         Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
         return authorities;
     }
+
+    int counts = 0;
+    static String sessionIdent="temp";
+    private void limitedLogIns(String sessId){
+        counts++;
+        if(sessionIdent.equals(sessId) && counts==3){
+            System.out.println("-------session-----");
+            HomeController homeController = new HomeController();
+            homeController.logInAttempt();
+            counts = 0;
+        }
+        sessionIdent = sessId;
+    }
+
 }
 
-
-
-//    private static void getId(Long id){
-//        AuctionUserDetailsService yes = new AuctionUserDetailsService();
-//        yes.servletContext.setAttribute("userId", id);
-//        System.out.println("----" + id);
-//    }

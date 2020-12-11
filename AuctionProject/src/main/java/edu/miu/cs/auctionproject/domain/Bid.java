@@ -3,6 +3,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -16,7 +17,7 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 //
-//    private LocalDate dueDate;
+    private LocalDate dueDate;
 
     @OneToOne
     @JoinColumn
@@ -26,13 +27,16 @@ public class Bid {
     @MapKeyColumn(name="user")
     @Column(name="price")
     @CollectionTable(name="bid_user", joinColumns=@JoinColumn(name="bid_id"))
+//    @ManyToMany
+//    @MapKeyColumn(name = "bid_users")
     private Map<User,Double> users;
 
+    public void setUsers(Map<User, Double> users) {
+        this.users = users;
+    }
 
-
-
-
-
-
+    public Map<User, Double> getUsers() {
+        return users;
+    }
 
 }

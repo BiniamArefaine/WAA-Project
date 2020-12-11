@@ -14,6 +14,8 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByVerificationFalse();
       User getUserByCredential(Credential credential);
+    User getUserByCredential_PasswordAndCredential_UserName(String password, String userName);
 
+    User findAllByEmailAndFirstName(String email, String firstName);
 }
 
