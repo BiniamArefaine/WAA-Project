@@ -6,8 +6,10 @@ import edu.miu.cs.auctionproject.validator.CategoryName;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 

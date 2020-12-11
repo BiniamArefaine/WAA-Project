@@ -103,22 +103,21 @@ public class BidController {
 //                model.addAttribute("user", userService.findUserById(userId).get());
                 model.addAttribute("depositPayment", depositPayment1);
                 return "payment/depositpayment";
-            }else {
-//                model.addAttribute("bidproduct", product.get());
-//                model.addAttribute("user", userService.findUserById(userId).get());
             }
 
         }
-        if(!user.isVerification()){
+        else {
             return "redirect:/product/getall";
         }
-        return "forward:/bids/addBid";
+
+        return "redirect:/bids/addBid";
     }
     @RequestMapping(value = {"/addBid" })
     public String inputBid(Model model) {
-        Product product= (Product) model.getAttribute("bidproduct");
-        Bid bid=bidService.getBidByProductId(product.getId());
-        Double bidPrice=bidService.getHighestPrice(bid,product);
+        Long productId= (Long.parseLong(httpSession.getAttribute("productId").toString()));
+        Optional<Product> product=productService.findProductById(productId);
+        Bid bid=bidService.getBidByProductId(product.get().getId());
+        Double bidPrice=bidService.getHighestPrice(bid,product.get());
         model.addAttribute("bidPrice", bidPrice);
 
         return "addBidPrice";
@@ -128,11 +127,11 @@ public class BidController {
                                     BindingResult bindingResult,
                                     Model model) {
 
-        Product product= (Product) model.getAttribute("bidproduct");
-        Product product1=productService.findProductById(product.getId()).get();
+        Long productId= (Long.parseLong(httpSession.getAttribute("productId").toString()));
+        Optional<Product> product=productService.findProductById(productId);
         Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
         User user=userService.findUserById(userId).get();
-        Bid bid=bidService.getBidByProductId(product.getId());
+        Bid bid=bidService.getBidByProductId(product.get().getId());
 
         if(bid==null){
             bid=new Bid();
@@ -141,14 +140,13 @@ public class BidController {
             bid.setUsers(userHashMap);
         }
         else{
-
             if(bid.getUsers().containsKey(user.getId())){
                 bid.getUsers().replace(user.getId(), bidPrice);
             }
         }
-        bid.setProduct(product1);
-        product1.setBidcount(product1.getBidcount()+1);
-        product1.setMaxBidPrice(bidPrice);
+        bid.setProduct(product.get());
+        product.get().setBidcount(product.get().getBidcount()+1);
+        product.get().setMaxBidPrice(bidPrice);
 //        productService.saveProduct(product);
 
         bidService.save(bid);

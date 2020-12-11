@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.List;
 
 public class ProductIdValidator implements ConstraintValidator<CategoryName, String> {
 	
@@ -16,12 +17,12 @@ public class ProductIdValidator implements ConstraintValidator<CategoryName, Str
 	public boolean isValid(String name, ConstraintValidatorContext context) {
 		Category category;
 		try {
-			category = categoryService.findAllByName(name);
+			category = categoryService.findAllByName(name.toUpperCase());
 			
 		} catch (Exception e) {
 			return true;
 		}
-		if(category!= null) {
+		if(category!= null ) {
 			return false;
 		}
 		return true;

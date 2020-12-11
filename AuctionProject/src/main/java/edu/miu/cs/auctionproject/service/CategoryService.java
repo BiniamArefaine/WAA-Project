@@ -11,4 +11,5 @@ public interface CategoryService {
     Optional<Category> getCategoryById(Long id);
     void deleteCategoryById(Long id);
     Category findAllByName(String name);
+
 }
