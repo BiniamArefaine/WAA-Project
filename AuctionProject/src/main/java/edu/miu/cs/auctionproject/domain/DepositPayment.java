@@ -15,14 +15,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class DepositPayment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nameInCard;
     private Double deposit;
     @OneToOne
     private User user;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Product product;
 
     private String cardNumber;

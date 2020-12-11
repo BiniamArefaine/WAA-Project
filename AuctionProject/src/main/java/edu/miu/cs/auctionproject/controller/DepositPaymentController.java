@@ -2,24 +2,29 @@ package edu.miu.cs.auctionproject.controller;
 
 import edu.miu.cs.auctionproject.domain.Address;
 import edu.miu.cs.auctionproject.domain.DepositPayment;
+import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.service.DepositPaymentService;
+import edu.miu.cs.auctionproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/payments")
+@SessionAttributes({"prod","user1"})
 public class DepositPaymentController {
 
     @Autowired
     DepositPaymentService depositPaymentService;
-
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/getall_payments")
     private String getAllDeposits(){
@@ -63,5 +68,20 @@ public class DepositPaymentController {
         System.out.println("----------inside END scheludetime in paymentController");
 
         return "winner";
+    }
+    @PostMapping(value = {"/addpayment"})
+    public String addDepositPayment(@Validated @ModelAttribute("depositPayment") DepositPayment depositPayment,
+                                    BindingResult bindingResult,
+                                    Model model) {
+        if (bindingResult.hasErrors()) {
+            return "payment/depositpayment";
+        }
+        Product product=(Product) model.getAttribute("prod");
+        product.setPaidInFull(true);
+        depositPayment.setUser((User) model.getAttribute("user1"));
+        depositPayment.setProduct(product);
+        productService.saveProduct(product);
+        depositPaymentService.savePayments(depositPayment);
+        return "redirect:/product/getallWonProduct";
     }
 }

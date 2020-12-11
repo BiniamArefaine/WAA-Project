@@ -30,49 +30,39 @@ public class Product {
     private String description;
 
     @Min(value = 0,message = "starting price required!")
-    private Double startingPrice;
+    private double startingPrice;
 
     private boolean sold;
     //added
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate paymentDate;
     //added
     private boolean paidInFull;
 
-    private double maxBidPrice;
 
     private String release;
     private int bidcount;
 //    private LocalDate upLoadedDate;
-    private Integer bidcount;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate upLoadedDate=LocalDate.now();
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Future
-    private LocalDateTime dueDate;
-//    @ElementCollection
-//    private List<MultipartFile> imageLink;
-//    @Lob
-//    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
-//    private byte[] images;
-    @Column(nullable = true, length = 64)
-    private String photos;
-    @OneToMany
-    private List<Category>categories;
     private LocalDate dueDate;
+    @ManyToMany
+    private List<Category>categories;
     @ElementCollection
     private List<String> photos=new ArrayList<>();
-    @ManyToMany
-    private List<Category> categories;
+
 
     private Double maxBidPrice=startingPrice;
     private Boolean shipped;
 
-    private Boolean paidInFull;
     @Transient
     public void addPhoto(String file) {
         photos.add(file);
     }
+
 
 
 

@@ -15,10 +15,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 @Controller
-@SessionAttributes({"product","user"})
+@SessionAttributes({"bidproduct"})
 @RequestMapping("/bids")
 public class BidController {
 
@@ -27,7 +29,7 @@ public class BidController {
 
 
     @Autowired
-    ServletContext servletContext;
+    HttpSession httpSession;
 
 
     @Autowired
@@ -47,29 +49,22 @@ public class BidController {
 //        return "Home";
 //    }
 
-    @GetMapping("/getall_bids")
-    private String getAllBids(){
-        List<Bid> allBids = bidService.getAllBids();
-        System.out.println(allBids + "---------------");
-        return "Home";
-    }
+//    @PostMapping("/save_bid")
+//    private void saveBid(Bid bid){
+//        bidService.save(bid);
+//    }
 
-    @PostMapping("/save_bid")
-    private void saveBid(Bid bid){
-        bidService.save(bid);
-    }
-
-    @GetMapping("/get_bidbyid/{id}")
-    private Bid getBidsById(@PathVariable("id") Long id){
-        System.out.println("------dava----");
-        Bid bid = bidService.getBidById(id);
-        System.out.println(bid + "---------------");
-        return bid;
-    }
-    @DeleteMapping("/delete_bid")
-    private void deleteBid(Long id){
-        bidService.deleteById(id);
-    }
+//    @GetMapping("/get_bidbyid/{id}")
+//    private Bid getBidsById(@PathVariable("id") Long id){
+//        System.out.println("------dava----");
+//        Bid bid = bidService.getBidById(id);
+//        System.out.println(bid + "---------------");
+//        return bid;
+//    }
+//    @DeleteMapping("/delete_bid")
+//    private void deleteBid(Long id){
+//        bidService.deleteById(id);
+//    }
 
 
     //---------------------------making bid---------------------------------------
@@ -77,70 +72,87 @@ public class BidController {
     public String addDepositPayment(@Validated @ModelAttribute("depositPayment") DepositPayment depositPayment,
                                     BindingResult bindingResult,
                                Model model) {
-
         if (bindingResult.hasErrors()) {
             return "depositpayment";
         }
-        System.out.println("wegahta"+depositPayment.getProduct());
+        Long productId= (Long.parseLong(httpSession.getAttribute("productId").toString()));
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user=userService.findUserById(userId).get();
+        Optional<Product> product1=productService.findProductById(productId);
+        depositPayment.setUser(user);
+        depositPayment.setProduct(product1.get());
         depositPaymentService.savePayments(depositPayment);
         return "redirect:/bids/addBid";
     }
 
     @GetMapping(value = {"add/{productId}"})
     public String addBid(@PathVariable long productId, Model model) {
-        Long userId=(Long.parseLong(servletContext.getAttribute("userId").toString()));
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
         User user=userService.findUserById(userId).get();
+        httpSession.setAttribute("productId",productId);
         Optional<Product> product = productService.findProductById(productId);
-        DepositPayment depositPayment=depositPaymentService.checkBid(productId,userId);
+        DepositPayment depositPayment=depositPaymentService.checkDeposit(productId,userId);
         if(user.isVerification()) {
-            if(user.getProduct().contains(product.get())){
-            return "redirect:/product/getall";
-            }
+//            if(user.getProduct().contains(product.get())){
+//            return "redirect:/product/getall";
+//            }
             if (depositPayment == null) {
                 DepositPayment depositPayment1 = new DepositPayment();
                 depositPayment1.setDeposit(product.get().getStartingPrice() * 0.01);
-                model.addAttribute("product", product.get());
-                model.addAttribute("user", userService.findUserById(userId).get());
+                model.addAttribute("bidproduct", product.get());
+//                model.addAttribute("user", userService.findUserById(userId).get());
                 model.addAttribute("depositPayment", depositPayment1);
-                return "depositpayment";
+                return "payment/depositpayment";
+            }else {
+//                model.addAttribute("bidproduct", product.get());
+//                model.addAttribute("user", userService.findUserById(userId).get());
             }
 
         }
         if(!user.isVerification()){
             return "redirect:/product/getall";
         }
-        return "redirect:/bids/addBid";
+        return "forward:/bids/addBid";
     }
     @RequestMapping(value = {"/addBid" })
     public String inputBid(Model model) {
-        Product product= (Product) model.getAttribute("product");
+        Product product= (Product) model.getAttribute("bidproduct");
         Bid bid=bidService.getBidByProductId(product.getId());
         Double bidPrice=bidService.getHighestPrice(bid,product);
-        System.out.println(bidPrice);
         model.addAttribute("bidPrice", bidPrice);
+
         return "addBidPrice";
     }
-    @PostMapping(value = {"/saveBid"})
+    @RequestMapping(value = {"/saveBid"})
     public String addBid(@ModelAttribute("bidPrice") Double bidPrice,
                                     BindingResult bindingResult,
                                     Model model) {
-        Product product= (Product) model.getAttribute("product");
-        User user=(User) model.getAttribute("user");
+
+        Product product= (Product) model.getAttribute("bidproduct");
+        Product product1=productService.findProductById(product.getId()).get();
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user=userService.findUserById(userId).get();
         Bid bid=bidService.getBidByProductId(product.getId());
+
         if(bid==null){
             bid=new Bid();
+            HashMap<Long,Double> userHashMap=new HashMap<Long, Double>();
+            userHashMap.put(user.getId(),bidPrice);
+            bid.setUsers(userHashMap);
         }
-        if(bid.getUsers().containsKey(user)){
-            bid.getUsers().replace(user,bidPrice);
-        }else {
-            bid.getUsers().put(user, bidPrice);
+        else{
+
+            if(bid.getUsers().containsKey(user.getId())){
+                bid.getUsers().replace(user.getId(), bidPrice);
+            }
         }
-        bid.setProduct((Product) model.getAttribute("product"));
-        product.setBidcount(product.getBidcount()+1);
-        product.setMaxBidPrice(bidPrice);
-        productService.saveProduct(product);
+        bid.setProduct(product1);
+        product1.setBidcount(product1.getBidcount()+1);
+        product1.setMaxBidPrice(bidPrice);
+//        productService.saveProduct(product);
+
         bidService.save(bid);
-        return "forward:/product/getall";
+        return "redirect:/product/getall";
     }
 
     //for scheduling and bidding
@@ -164,7 +176,6 @@ public class BidController {
         System.out.println("-----after winner");
 
         //fake bidId
-        deleteBid(1L);
         System.out.println("----------inside END scheludetime in BidController");
         return "forward:/payments/return_all_payments";
     }

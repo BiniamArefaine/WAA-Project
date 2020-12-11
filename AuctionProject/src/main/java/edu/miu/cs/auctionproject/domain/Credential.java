@@ -16,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 
         @Id
         @Column(name = "credential_id",nullable=false)
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long credentialId;
 
         @Column(name = "user_name",nullable=true)

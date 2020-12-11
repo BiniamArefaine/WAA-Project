@@ -17,5 +17,5 @@ public interface BidService {
     Bid getBidByProductId(Long id);
 
 
-
+    Double getHighestPrice(Bid bid, Product product);
 }

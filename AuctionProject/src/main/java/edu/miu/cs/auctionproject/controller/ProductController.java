@@ -1,13 +1,8 @@
 package edu.miu.cs.auctionproject.controller;
 
 import edu.miu.cs.auctionproject.FileUploadUtil;
-import edu.miu.cs.auctionproject.domain.Category;
-import edu.miu.cs.auctionproject.domain.Product;
-import edu.miu.cs.auctionproject.domain.User;
-import edu.miu.cs.auctionproject.service.BidService;
-import edu.miu.cs.auctionproject.service.CategoryService;
-import edu.miu.cs.auctionproject.service.ProductService;
-import edu.miu.cs.auctionproject.service.UserService;
+import edu.miu.cs.auctionproject.domain.*;
+import edu.miu.cs.auctionproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -37,7 +32,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = {"/product"})
-@SessionAttributes({"prod","user1"})
+@SessionAttributes({"prod"})
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -45,8 +40,6 @@ public class ProductController {
     @Autowired
     CategoryService categoryService;
 
-    @Autowired
-    ServletContext servletContext;
 
     @Autowired
     UserService userService;
@@ -55,13 +48,16 @@ public class ProductController {
     BidService bidservice;
 
     @Autowired
+    HttpSession httpSession;
+
+    @Autowired
     DepositPaymentService depositPaymentService;
 
 //--------------------------------customer-----------------------------
 @RequestMapping(value={"/getallWonProduct"})
 public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     User user=null;
-    Optional<User> users=userService.findUserById((Long.parseLong(servletContext.getAttribute("userId").toString())));
+    Optional<User> users=userService.findUserById((Long.parseLong(httpSession.getAttribute("userId").toString())));
 
     if(users.isPresent()){
         user=users.get();
@@ -78,7 +74,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     @GetMapping(value = {"/payment/{productId}"})
     public String payProduct(@PathVariable long productId, Model model) {
         Optional<Product> product = productService.findProductById(productId);
-        Long userId=(Long.parseLong(servletContext.getAttribute("userId").toString()));
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
         User user1=userService.findUserById(userId).get();
         DepositPayment depositPayment=depositPaymentService.getPaymentByProductId(productId);
         depositPayment.setFinalPayment(product.get().getMaxBidPrice()-depositPayment.getDeposit());
@@ -115,10 +111,18 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         List<Category>categories=categoryService.getAllCategories();
         modelAndView.addObject("products",products);
         modelAndView.addObject("categories",categories);
-        modelAndView.setViewName("productListByCategory");
+        modelAndView.setViewName("productListByFilter");
         return modelAndView;
     }
-
+    @RequestMapping(value={"/getallbyuploadeddate/"})
+    public ModelAndView listProductByUploadedDate(ModelAndView modelAndView) {
+        List<Product>products=productService.findAllByUploadedDate();
+        List<Category>categories=categoryService.getAllCategories();
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("categories",categories);
+        modelAndView.setViewName("productListByFilter");
+        return modelAndView;
+    }
     @GetMapping(value = {"/search"})
     public ModelAndView searchAuctionProducts(@RequestParam(defaultValue = "0")int pageNo,@RequestParam String searchString) {
         ModelAndView modelAndView = new ModelAndView();
@@ -147,7 +151,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     @RequestMapping(value={"/seller/getall"})
     public ModelAndView listProducts(ModelAndView modelAndView,Model model) {
         User user=null;
-        Optional<User> users=userService.findUserById((Long.parseLong(servletContext.getAttribute("userId").toString())));
+        Optional<User> users=userService.findUserById((Long.parseLong(httpSession.getAttribute("userId").toString())));
 
         if(users.isPresent()){
             user=users.get();
@@ -167,29 +171,24 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public String inputProduct(@ModelAttribute("product") Product product,Model model) {
         List<Category>categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
-//        return "/secured/seller/addproduct";
-        return "redirect:/bids/duedate_done";
+        return "/secured/seller/addproduct";
+//        return "redirect:/bids/duedate_done";
     }
-
 
 
     @PostMapping(value = "/seller/add")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
                               @RequestParam("files") MultipartFile[] files,
                               Model model) throws IOException {
-//        String localDateTime = product.getDueDate().toString() + " 00:00:00";
-//        System.out.println(localDateTime);
-//        System.out.println("---------------------------------------");
-//        System.out.println("-----date time--" + product.getDueDate());
-//        MyJob.timeHashMap(product, product.getDueDate().atStartOfDay());
-
-//        System.out.println(" ----- duedate ---" + product.getDueDate());
+    System.out.println(product.getProductName());
         if (bindingResult.hasErrors()) {
+            System.out.println("jfklsjfklsjdfklsjfdslkjfdskl");
+            System.out.println(bindingResult);
             return "/secured/seller/addproduct";
         }
         User user=null;
         Optional<User> users=userService.findUserById((Long.parseLong(
-                servletContext.getAttribute("userId").toString())));
+                httpSession.getAttribute("userId").toString())));
         if(users.isPresent()){
             user=users.get();
         }

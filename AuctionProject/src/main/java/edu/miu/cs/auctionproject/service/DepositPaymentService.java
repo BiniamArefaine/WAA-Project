@@ -10,7 +10,7 @@ public interface DepositPaymentService {
     void deletePaymentById(Long id);
     Optional<DepositPayment> getPaymentById(Long id);
     List<DepositPayment> getAllDeposits();
-
-    DepositPayment checkBid(long productId, Long userId);
+    DepositPayment checkDeposit(long productId, Long userId);
+    DepositPayment getPaymentByProductId(long productId);
     List<DepositPayment> getAllExceptWinner(Long userId);
 }

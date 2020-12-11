@@ -14,4 +14,5 @@ public interface DepositPaymentRepository extends JpaRepository<DepositPayment, 
 
     @Query("select d from DepositPayment d where d.user.id <> :userId")
     List<DepositPayment> getAllExceptWinner(Long userId);
+    DepositPayment getDepositPaymentByProductId(Long id);
 }

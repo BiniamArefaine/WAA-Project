@@ -20,6 +20,8 @@ public interface ProductService {
     List<Product> findAllProductsByCategory(long categoryId);
 
     List<Product> findWonProducts(User user);
+
+    List<Product> findAllByUploadedDate();
 //    List<Product> findProductByCategoriesContains(Long categoryId);
 
 

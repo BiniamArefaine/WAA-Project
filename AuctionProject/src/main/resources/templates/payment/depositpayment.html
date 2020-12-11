@@ -34,14 +34,14 @@
                 <th scope="col"> </th>
             </tr>
             </thead>
-    <tr th:object=" ${product}">
-        <td> <img  th:src="@{${product.photos.get(0)}}" style="width:213px; height:119px"></td>
-        <td th:text="${product.productName}"></td>
-        <td th:text="${product.startingPrice}"></td>
-        <td th:text="${product.maxBidPrice}"></td>
-        <td th:text="${product.description}"></td>
-        <td th:text="${product.dueDate}"></td>
-        <td th:text="${product.bidcount}"></td>
+    <tr th:object=" ${bidproduct}">
+        <td> <img  th:src="@{${bidproduct.photos.get(0)}}" style="width:213px; height:119px"></td>
+        <td th:text="${bidproduct.productName}"></td>
+        <td th:text="${bidproduct.startingPrice}"></td>
+        <td th:text="${bidproduct.maxBidPrice}"></td>
+        <td th:text="${bidproduct.description}"></td>
+        <td th:text="${bidproduct.dueDate}"></td>
+        <td th:text="${bidproduct.bidcount}"></td>
     </tr>
             </tbody>
         </table>

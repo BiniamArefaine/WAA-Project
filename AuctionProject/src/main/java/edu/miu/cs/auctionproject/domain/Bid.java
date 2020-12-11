@@ -13,12 +13,12 @@ import java.util.Map;
 @NoArgsConstructor
 public class Bid {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 //
-    private LocalDate dueDate;
 
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Product product;
 
@@ -26,16 +26,8 @@ public class Bid {
     @MapKeyColumn(name="user")
     @Column(name="price")
     @CollectionTable(name="bid_user", joinColumns=@JoinColumn(name="bid_id"))
-//    @ManyToMany
-//    @MapKeyColumn(name = "bid_users")
-    private Map<User,Double> users;
+    private Map<Long,Double> users;
 
-    public void setUsers(Map<User, Double> users) {
-        this.users = users;
-    }
 
-    public Map<User, Double> getUsers() {
-        return users;
-    }
 
 }
