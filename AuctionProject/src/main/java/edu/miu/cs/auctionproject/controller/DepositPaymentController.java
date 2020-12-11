@@ -6,6 +6,7 @@ import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.service.DepositPaymentService;
 import edu.miu.cs.auctionproject.service.ProductService;
+import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,18 +14,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/payments")
-@SessionAttributes({"prod","user1"})
+@SessionAttributes({"prod"})
 public class DepositPaymentController {
 
     @Autowired
     DepositPaymentService depositPaymentService;
+
+    @Autowired
+    HttpSession httpSession;
+
     @Autowired
     ProductService productService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/getall_payments")
     private String getAllDeposits(){
@@ -78,8 +87,10 @@ public class DepositPaymentController {
         }
         Product product=(Product) model.getAttribute("prod");
         product.setPaidInFull(true);
-        depositPayment.setUser((User) model.getAttribute("user1"));
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user=userService.findUserById(userId).get();
         depositPayment.setProduct(product);
+        depositPayment.setUser(user);
         productService.saveProduct(product);
         depositPaymentService.savePayments(depositPayment);
         return "redirect:/product/getallWonProduct";
