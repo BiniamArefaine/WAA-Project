@@ -1,8 +1,12 @@
 package edu.miu.cs.auctionproject.domain;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -13,12 +17,22 @@ public class DepositPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private double deposit;
+
+    private String nameInCard;
+    private Double deposit;
     @OneToOne
-    @JoinColumn
     private User user;
     @OneToOne
-    @JoinColumn(nullable = true)
     private Product product;
+
+    private String cardNumber;
+    private String cvv;
+    private Double finalPayment;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate paymentDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate cardExpiration;
+    @ManyToOne
+    private Address address;
 
 }

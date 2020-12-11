@@ -24,6 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByProductName(Pageable var1,String searchString);
 
       @Query(value="select p from Product p where p.id=:categoryId")
-    List<Product> findAllByCategoryId(long categoryId);
+      List<Product> findAllByCategoryId(long categoryId);
+
 }
 

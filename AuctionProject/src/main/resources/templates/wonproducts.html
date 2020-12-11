@@ -13,37 +13,15 @@
             crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <title>
-        List Products</title>
+        List Products Won</title>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div style="margin-top: 1em; margin-bottom: 1em;" class="container">
     <div>
-        <span style="font-size: 2em; color: #32a5e7;">Your product list</span> <span style="float: right;"> <a
-            class="btn btn-outline-success btn-lg"
-            href="/product/seller/new">Add a new Product</a>
+        <span style="font-size: 2em; color: #32a5e7;">Product you won</span> <span style="float: right;"> <a
 			</span>
     </div>
-    <!-- Search panel -->
-<!--    <form id="searchProduct" method="get"-->
-<!--          action="/product/seller/search">-->
-<!--        <div style="margin-top: 1em;" class="row">-->
-<!--            <div class="col-md-12">-->
-<!--                <div class="input-group">-->
-<!--                    <input type="text" class="form-control" id="searchString"-->
-<!--                           name="searchString"-->
-<!--                           placeholder="Enter a string to search for products"-->
-<!--                           th:value="${searchString}" autofocus/>-->
-<!--                    <div class="input-group-append">-->
-<!--                        <button id="btnSubmit" type="submit"-->
-<!--                                class="btn btn-outline-success">Search-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </form>-->
-
     <div style="font-size: 1em">
         <table class="table table-striped">
             <thead>
@@ -73,13 +51,8 @@
                 <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.upLoadedDate}"></td>
                 <td><a
-                        th:href="@{'edit/{id}'(id=${product.id})}">Edit</a>
+                        th:href="@{'/product/payment/{id}'(id=${product.id})}">Make Payment</a>
                 </td>
-                <td>
-                    <a data-target="#confirmDeleteProductModal"
-                       th:href="@{'delete/' + ${product.id}}">Delete</a>
-                </td>
-                <td th:text="${BidHasStarted}"></td>
             </tr>
             <tr th:if="${productsCount < 1}">
                 <td colspan="8" th:align="center">No product found</td>
@@ -87,15 +60,6 @@
             </tbody>
         </table>
 
-<!--        <div>-->
-<!--            <ul class="nav nav-pills">-->
-<!--                <li class="nav-item"-->
-<!--                    th:each="i:${#numbers.sequence(0,products.totalPages)}">-->
-<!--                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"-->
-<!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
     </div>
 
 </div>

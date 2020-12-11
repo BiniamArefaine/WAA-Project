@@ -1,8 +1,9 @@
 package edu.miu.cs.auctionproject.controller;
 
 import edu.miu.cs.auctionproject.FileUploadUtil;
-import edu.miu.cs.auctionproject.domain.*;
-import edu.miu.cs.auctionproject.dynamicscheduling.MyJob;
+import edu.miu.cs.auctionproject.domain.Category;
+import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.service.BidService;
 import edu.miu.cs.auctionproject.service.CategoryService;
 import edu.miu.cs.auctionproject.service.ProductService;
@@ -32,9 +33,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = {"/product"})
+@SessionAttributes({"prod","user1"})
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -51,26 +54,56 @@ public class ProductController {
     @Autowired
     BidService bidservice;
 
-
+    @Autowired
+    DepositPaymentService depositPaymentService;
 
 //--------------------------------customer-----------------------------
-//    @GetMapping(value = {"/getDetails/{id}"})
-//    public ModelAndView getProductDetailsId(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
-//        Optional<Product> product = productService.findProductById(id);
-//        modelAndView.addObject("product", product);
-//        modelAndView.setViewName("bookingDetails");
-//        return modelAndView;
-//    }
+@RequestMapping(value={"/getallWonProduct"})
+public ModelAndView productWon(ModelAndView modelAndView,Model model) {
+    User user=null;
+    Optional<User> users=userService.findUserById((Long.parseLong(servletContext.getAttribute("userId").toString())));
+
+    if(users.isPresent()){
+        user=users.get();
+    }
+    List<Product> products= productService.findWonProducts(user);
+    modelAndView.addObject("products",products);
+    modelAndView.addObject("searchString", "");
+    modelAndView.addObject("productsCount", products.size());
+    modelAndView.setViewName("wonproducts");
+    return modelAndView;
+}
 
 
-    @RequestMapping(value={"/getall"})
+    @GetMapping(value = {"/payment/{productId}"})
+    public String payProduct(@PathVariable long productId, Model model) {
+        Optional<Product> product = productService.findProductById(productId);
+        Long userId=(Long.parseLong(servletContext.getAttribute("userId").toString()));
+        User user1=userService.findUserById(userId).get();
+        DepositPayment depositPayment=depositPaymentService.getPaymentByProductId(productId);
+        depositPayment.setFinalPayment(product.get().getMaxBidPrice()-depositPayment.getDeposit());
+        model.addAttribute("prod", product.get());
+        model.addAttribute("user1",user1);
+        model.addAttribute("depositPayment",depositPayment);
+        return "payment/paymentfinal";
+    }
+
+
+
+
+
+
+
+
+
+    @GetMapping(value={"/getall","/getall/pageNo"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
         Page<Product> products=productService.findAllProducts(pageNo);
-
+        List<Category>categories=categoryService.getAllCategories();
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
         modelAndView.addObject("productsCount", products.getTotalElements());
-//        modelAndView.addObject("categories",categories);
+        modelAndView.addObject("categories",categories);
         modelAndView.addObject("currentPageNo",pageNo);
         modelAndView.setViewName("listproduct");
         return modelAndView;
@@ -113,22 +146,17 @@ public class ProductController {
 
     @RequestMapping(value={"/seller/getall"})
     public ModelAndView listProducts(ModelAndView modelAndView,Model model) {
-        System.out.println("----before");
         User user=null;
-        //fake id
-        //(Long.parseLong(servletContext.getAttribute("userId")
-        Optional<User> users=userService.findUserById(1L);
-        System.out.println("----befor" + users);
+        Optional<User> users=userService.findUserById((Long.parseLong(servletContext.getAttribute("userId").toString())));
+
         if(users.isPresent()){
             user=users.get();
         }
-
         List<Product> products=user.getProduct();
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
         modelAndView.addObject("productsCount", products.size());
         modelAndView.addObject("BidHasStarted","");
-
         modelAndView.setViewName("secured/seller/userproducts");
         return modelAndView;
     }
@@ -137,10 +165,7 @@ public class ProductController {
 
     @RequestMapping(value = {"/seller/new" })
     public String inputProduct(@ModelAttribute("product") Product product,Model model) {
-        System.out.println("----before");
         List<Category>categories = categoryService.getAllCategories();
-        System.out.println("----after");
-
         model.addAttribute("categories", categories);
 //        return "/secured/seller/addproduct";
         return "redirect:/bids/duedate_done";
@@ -150,7 +175,7 @@ public class ProductController {
 
     @PostMapping(value = "/seller/add")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
-                              @RequestParam("image") MultipartFile multipartFile,
+                              @RequestParam("files") MultipartFile[] files,
                               Model model) throws IOException {
 //        String localDateTime = product.getDueDate().toString() + " 00:00:00";
 //        System.out.println(localDateTime);
@@ -168,29 +193,30 @@ public class ProductController {
         if(users.isPresent()){
             user=users.get();
         }
-        System.out.println(user.getId()+"essey");
+        String fileName="";
+        for(MultipartFile file:files){
+            fileName=StringUtils.cleanPath(file.getOriginalFilename());
+            product.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
+            String uploadDir = "src/main/resources/static/images/product-photos/" +user.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, file);
+        }
         List<Product> products=user.getProduct();
+        product.setMaxBidPrice(product.getStartingPrice());
         products.add(product);
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        product.setPhotos(fileName);
-        System.out.println(product.getPhotos());
-        String uploadDir = "src/main/resources/static/images/product-photos/" + product.getId();
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-
         userService.saveUser(user);
         model.addAttribute("product", product);
-
         return "redirect:/product/seller/getall";
     }
+
+
 
     @PostMapping(value = {"/seller/edit"})
     public String updateProduct(@Validated @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,Model model) {
-
         if (bindingResult.hasErrors()) {
             return "secured/seller/productEdit";
         }
-
+        product.setMaxBidPrice(product.getStartingPrice());
         productService.saveProduct(product);
         return "redirect:/product/seller/getall";
     }

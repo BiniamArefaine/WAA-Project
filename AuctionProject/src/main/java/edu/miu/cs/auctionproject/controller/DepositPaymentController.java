@@ -2,11 +2,9 @@ package edu.miu.cs.auctionproject.controller;
 
 import edu.miu.cs.auctionproject.domain.Address;
 import edu.miu.cs.auctionproject.domain.DepositPayment;
-import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.service.DepositPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

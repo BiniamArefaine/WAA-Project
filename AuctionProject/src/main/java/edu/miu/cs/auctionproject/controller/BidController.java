@@ -89,28 +89,34 @@ public class BidController {
     @GetMapping(value = {"add/{productId}"})
     public String addBid(@PathVariable long productId, Model model) {
         Long userId=(Long.parseLong(servletContext.getAttribute("userId").toString()));
-        System.out.println("========================="+productId);
+        User user=userService.findUserById(userId).get();
+        Optional<Product> product = productService.findProductById(productId);
         DepositPayment depositPayment=depositPaymentService.checkBid(productId,userId);
+        if(user.isVerification()) {
+            if(user.getProduct().contains(product.get())){
+            return "redirect:/product/getall";
+            }
+            if (depositPayment == null) {
+                DepositPayment depositPayment1 = new DepositPayment();
+                depositPayment1.setDeposit(product.get().getStartingPrice() * 0.01);
+                model.addAttribute("product", product.get());
+                model.addAttribute("user", userService.findUserById(userId).get());
+                model.addAttribute("depositPayment", depositPayment1);
+                return "depositpayment";
+            }
 
-        if(depositPayment==null){
-            DepositPayment depositPayment1=new DepositPayment();
-            Optional<Product> product=productService.findProductById(productId);
-            depositPayment1.setDeposit(product.get().getStartingPrice()*0.01);
-            depositPayment1.setProduct(product.get());
-            depositPayment1.setUser(userService.findUserById(userId).get());
-            model.addAttribute("product",product.get());
-            model.addAttribute("depositPayment",depositPayment1);
-            return "depositpayment";
         }
-        return "null";
+        if(!user.isVerification()){
+            return "redirect:/product/getall";
+        }
+        return "redirect:/bids/addBid";
     }
     @RequestMapping(value = {"/addBid" })
     public String inputBid(Model model) {
-        Long product= (Long) model.getAttribute("productId");
-        System.out.println(product);
-//        Double deposit=product.getStartingPrice()*0.01;
-//        depositPayment.setDeposit(deposit);
-        int bidPrice=0;
+        Product product= (Product) model.getAttribute("product");
+        Bid bid=bidService.getBidByProductId(product.getId());
+        Double bidPrice=bidService.getHighestPrice(bid,product);
+        System.out.println(bidPrice);
         model.addAttribute("bidPrice", bidPrice);
         return "addBidPrice";
     }

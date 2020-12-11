@@ -43,6 +43,10 @@ public class Product {
     private String release;
     private int bidcount;
 //    private LocalDate upLoadedDate;
+    private Integer bidcount;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate upLoadedDate=LocalDate.now();
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future
     private LocalDateTime dueDate;
@@ -55,10 +59,19 @@ public class Product {
     private String photos;
     @OneToMany
     private List<Category>categories;
+    private LocalDate dueDate;
+    @ElementCollection
+    private List<String> photos=new ArrayList<>();
+    @ManyToMany
+    private List<Category> categories;
+
+    private Double maxBidPrice=startingPrice;
+    private Boolean shipped;
+
+    private Boolean paidInFull;
     @Transient
-    public String getPhotosImagePath() {
-        if (photos == null || id == null) return null;
-        return "/images/product-photos/" + id + "/" + photos;
+    public void addPhoto(String file) {
+        photos.add(file);
     }
 
 
