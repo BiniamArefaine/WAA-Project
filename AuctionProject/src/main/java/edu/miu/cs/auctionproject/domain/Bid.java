@@ -18,7 +18,7 @@ public class Bid {
 //
 //    private LocalDate dueDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Product product;
 
@@ -26,7 +26,7 @@ public class Bid {
     @MapKeyColumn(name="user")
     @Column(name="price")
     @CollectionTable(name="bid_user", joinColumns=@JoinColumn(name="bid_id"))
-    private Map<User,Double> users;
+    private Map<Long,Double> users;
 
 
 

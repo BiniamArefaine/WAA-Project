@@ -12,4 +12,6 @@ public interface DepositPaymentService {
     List<DepositPayment> getAllDeposits();
 
     DepositPayment checkBid(long productId, Long userId);
+
+    DepositPayment getPaymentByProductId(long productId);
 }

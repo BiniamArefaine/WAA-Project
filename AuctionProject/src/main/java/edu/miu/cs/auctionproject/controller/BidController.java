@@ -15,8 +15,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
+
 @Controller
 @SessionAttributes({"product","user"})
 @RequestMapping("/bids")
@@ -70,9 +72,9 @@ public class BidController {
     public String addDepositPayment(@Validated @ModelAttribute("depositPayment") DepositPayment depositPayment,
                                     BindingResult bindingResult,
                                Model model) {
-        System.out.println(model.getAttribute("product"));
+
         if (bindingResult.hasErrors()) {
-            return "depositpayment";
+            return "payment/depositpayment";
         }
         depositPayment.setUser((User) model.getAttribute("user"));
         depositPayment.setProduct((Product) model.getAttribute("product"));
@@ -84,21 +86,23 @@ public class BidController {
     public String addBid(@PathVariable long productId, Model model) {
         Long userId=(Long.parseLong(servletContext.getAttribute("userId").toString()));
         User user=userService.findUserById(userId).get();
+
         Optional<Product> product = productService.findProductById(productId);
         DepositPayment depositPayment=depositPaymentService.checkBid(productId,userId);
         if(user.isVerification()) {
-            if(user.getProduct().contains(product.get())){
-            return "redirect:/product/getall";
-            }
+//            if(user.getProduct().contains(product.get())){
+//            return "redirect:/product/getall";
+//            }
             if (depositPayment == null) {
                 DepositPayment depositPayment1 = new DepositPayment();
                 depositPayment1.setDeposit(product.get().getStartingPrice() * 0.01);
                 model.addAttribute("product", product.get());
                 model.addAttribute("user", userService.findUserById(userId).get());
                 model.addAttribute("depositPayment", depositPayment1);
-                return "depositpayment";
+                return "payment/depositpayment";
             }
-
+            model.addAttribute("product", product.get());
+            model.addAttribute("user", userService.findUserById(userId).get());
         }
         if(!user.isVerification()){
             return "redirect:/product/getall";
@@ -110,31 +114,34 @@ public class BidController {
         Product product= (Product) model.getAttribute("product");
         Bid bid=bidService.getBidByProductId(product.getId());
         Double bidPrice=bidService.getHighestPrice(bid,product);
-        System.out.println(bidPrice);
         model.addAttribute("bidPrice", bidPrice);
+
         return "addBidPrice";
     }
-    @PostMapping(value = {"/saveBid"})
+    @RequestMapping(value = {"/saveBid"})
     public String addBid(@ModelAttribute("bidPrice") Double bidPrice,
                                     BindingResult bindingResult,
                                     Model model) {
+
         Product product= (Product) model.getAttribute("product");
         User user=(User) model.getAttribute("user");
         Bid bid=bidService.getBidByProductId(product.getId());
         if(bid==null){
             bid=new Bid();
         }
-        if(bid.getUsers().containsKey(user)){
-            bid.getUsers().replace(user,bidPrice);
+        if(bid.getUsers().containsKey(user.getId())){
+            bid.getUsers().replace(user.getId(),bidPrice);
         }else {
-            bid.getUsers().put(user, bidPrice);
+            bid.getUsers().put(user.getId(), bidPrice);
         }
+
         bid.setProduct((Product) model.getAttribute("product"));
         product.setBidcount(product.getBidcount()+1);
         product.setMaxBidPrice(bidPrice);
-        productService.saveProduct(product);
+//        productService.saveProduct(product);
+
         bidService.save(bid);
-        return "forward:/product/getall";
+        return "redirect:/product/getall";
     }
 
 

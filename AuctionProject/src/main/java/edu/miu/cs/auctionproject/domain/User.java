@@ -26,6 +26,8 @@ public class User {
     @JoinColumn(name = "user_id",nullable = true)
     private List<Product>product;
 
+    @OneToMany
+    private List<Product>wonProducts;
     private boolean verification;
     @OneToOne
     @JoinColumn(nullable = true)

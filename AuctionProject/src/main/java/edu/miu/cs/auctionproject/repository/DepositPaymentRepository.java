@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface DepositPaymentRepository extends JpaRepository<DepositPayment, Long> {
     @Query("select d from DepositPayment d where d.user.id=:userId and d.product.id=:productId")
     DepositPayment getDepositPaymentByProductAndUser(Long productId,Long userId );
+
+    DepositPayment getDepositPaymentByProductId(Long id);
 }

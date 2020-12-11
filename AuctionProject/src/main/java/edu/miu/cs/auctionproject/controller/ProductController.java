@@ -2,12 +2,10 @@ package edu.miu.cs.auctionproject.controller;
 
 import edu.miu.cs.auctionproject.FileUploadUtil;
 import edu.miu.cs.auctionproject.domain.Category;
+import edu.miu.cs.auctionproject.domain.DepositPayment;
 import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
-import edu.miu.cs.auctionproject.service.BidService;
-import edu.miu.cs.auctionproject.service.CategoryService;
-import edu.miu.cs.auctionproject.service.ProductService;
-import edu.miu.cs.auctionproject.service.UserService;
+import edu.miu.cs.auctionproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(value = {"/product"})
+@SessionAttributes({"prod","user1"})
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -43,9 +42,47 @@ public class ProductController {
     @Autowired
     BidService bidservice;
 
-
+    @Autowired
+    DepositPaymentService depositPaymentService;
 
 //--------------------------------customer-----------------------------
+@RequestMapping(value={"/getallWonProduct"})
+public ModelAndView productWon(ModelAndView modelAndView,Model model) {
+    User user=null;
+    Optional<User> users=userService.findUserById((Long.parseLong(servletContext.getAttribute("userId").toString())));
+
+    if(users.isPresent()){
+        user=users.get();
+    }
+    List<Product> products=user.getWonProducts();
+    modelAndView.addObject("products",products);
+    modelAndView.addObject("searchString", "");
+    modelAndView.addObject("productsCount", products.size());
+    modelAndView.setViewName("wonproducts");
+    return modelAndView;
+}
+
+
+    @GetMapping(value = {"/payment/{productId}"})
+    public String payProduct(@PathVariable long productId, Model model) {
+        Optional<Product> product = productService.findProductById(productId);
+        Long userId=(Long.parseLong(servletContext.getAttribute("userId").toString()));
+        User user1=userService.findUserById(userId).get();
+        DepositPayment depositPayment=depositPaymentService.getPaymentByProductId(productId);
+        depositPayment.setFinalPayment(product.get().getMaxBidPrice()-depositPayment.getDeposit());
+        model.addAttribute("prod", product.get());
+        model.addAttribute("user1",user1);
+        model.addAttribute("depositPayment",depositPayment);
+        return "payment/paymentfinal";
+    }
+
+
+
+
+
+
+
+
 
     @GetMapping(value={"/getall","/getall/pageNo"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {

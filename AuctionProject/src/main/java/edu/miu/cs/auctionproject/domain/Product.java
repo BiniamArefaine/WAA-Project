@@ -34,7 +34,7 @@ public class Product {
     private boolean sold;
 
     private String release;
-    private int bidcount;
+    private Integer bidcount;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate upLoadedDate=LocalDate.now();
@@ -47,7 +47,7 @@ public class Product {
     private List<Category> categories;
 
     private Double maxBidPrice=startingPrice;
-
+    private Boolean shipped;
     @Transient
     public void addPhoto(String file) {
         photos.add(file);
