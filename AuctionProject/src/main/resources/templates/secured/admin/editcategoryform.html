@@ -31,11 +31,12 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="name">Category Name</label>
-                        <span
-                                th:if="${#fields.hasErrors('name')}"
-                                th:errors="*{name}" class="alert alert-danger"></span>
+
                         <input id="name" name="name" type="text"
                                class="form-control" th:value="${category.name}">
+                        <span
+                            th:if="${#fields.hasErrors('name')}"
+                            th:errors="*{name}" class="alert alert-danger"></span>
                     </div>
                 </div>
 

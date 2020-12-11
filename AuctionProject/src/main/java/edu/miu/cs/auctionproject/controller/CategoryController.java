@@ -115,7 +115,7 @@ public class CategoryController {
     public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult,
                               Model model) {
         if (bindingResult.hasErrors()) {
-            return "addcategory";
+            return "secured/admin/addcategory";
         }
 //        if(categoryService.findAllByName(category.getName())!=null){
 //            model.addAttribute("categoryExists","categoryExists");

@@ -1,5 +1,8 @@
 package edu.miu.cs.auctionproject.domain;
 
+
+
+import edu.miu.cs.auctionproject.validator.CategoryName;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -20,7 +23,7 @@ public class  Category {
     private Long id;
 
     @NotBlank(message = "name is required")
-    @Column(unique = true,nullable = false)
+    @CategoryName
     private  String name;
 
 
