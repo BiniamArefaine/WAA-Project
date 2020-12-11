@@ -1,6 +1,7 @@
 package edu.miu.cs.auctionproject.service.impl;
 
 import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.repository.ProductRepository;
 import edu.miu.cs.auctionproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -59,6 +61,11 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllProductsByCategory(long categoryId) {
 
         return productRepository.findAllByCategoryId(categoryId);
+    }
+
+    @Override
+    public List<Product> findWonProducts(User user) {
+        return (user.getWonProducts().stream().filter(product -> product.getPaidInFull().booleanValue()==false)).collect(Collectors.toList());
     }
 
 }

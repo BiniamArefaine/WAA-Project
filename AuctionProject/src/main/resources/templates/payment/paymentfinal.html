@@ -45,7 +45,7 @@
             </table>
         </div>
 
-        <form id="DepositForm" method="post" action="/bids/addDeposit" th:object="${depositPayment}" enctype="multipart/form-data">
+        <form id="DepositForm" method="post" action="/payments/addpayment" th:object="${depositPayment}" enctype="multipart/form-data">
             <fieldset>
                 <input type="hidden" name="id" th:value="${depositPayment.id}"/>
                 <div class="row">

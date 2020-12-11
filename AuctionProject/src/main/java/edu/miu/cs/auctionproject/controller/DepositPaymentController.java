@@ -4,6 +4,7 @@ import edu.miu.cs.auctionproject.domain.DepositPayment;
 import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.service.DepositPaymentService;
+import edu.miu.cs.auctionproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,8 @@ public class DepositPaymentController {
 
     @Autowired
     DepositPaymentService depositPaymentService;
-
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/getall_payments")
     private String getAllDeposits(){
@@ -55,9 +57,11 @@ public class DepositPaymentController {
             return "payment/depositpayment";
         }
         Product product=(Product) model.getAttribute("prod");
-        product.setSold(true);
+        product.setPaidInFull(true);
+        System.out.println(product.getPaidInFull());
         depositPayment.setUser((User) model.getAttribute("user1"));
         depositPayment.setProduct(product);
+        productService.saveProduct(product);
         depositPaymentService.savePayments(depositPayment);
         return "redirect:/product/getallWonProduct";
     }

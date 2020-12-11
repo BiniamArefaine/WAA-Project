@@ -48,6 +48,8 @@ public class Product {
 
     private Double maxBidPrice=startingPrice;
     private Boolean shipped;
+
+    private Boolean paidInFull;
     @Transient
     public void addPhoto(String file) {
         photos.add(file);

@@ -21,19 +21,18 @@ public class DepositPayment {
     private String nameInCard;
     private Double deposit;
     @OneToOne
-    @JoinColumn
     private User user;
     @OneToOne
-    @JoinColumn(nullable = true)
     private Product product;
 
     private String cardNumber;
     private String cvv;
     private Double finalPayment;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate paymentDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate cardExpiration;
-    @OneToOne
+    @ManyToOne
     private Address address;
 
 }

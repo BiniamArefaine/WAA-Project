@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = {"/product"})
@@ -54,7 +55,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     if(users.isPresent()){
         user=users.get();
     }
-    List<Product> products=user.getWonProducts();
+    List<Product> products= productService.findWonProducts(user);
     modelAndView.addObject("products",products);
     modelAndView.addObject("searchString", "");
     modelAndView.addObject("productsCount", products.size());

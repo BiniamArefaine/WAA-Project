@@ -2,6 +2,7 @@ package edu.miu.cs.auctionproject.service;
 
 import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.domain.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface ProductService {
     List<Product> findAllProductsList();
 
     List<Product> findAllProductsByCategory(long categoryId);
+
+    List<Product> findWonProducts(User user);
 //    List<Product> findProductByCategoriesContains(Long categoryId);
 
 
