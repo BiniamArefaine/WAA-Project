@@ -1,6 +1,6 @@
 package edu.miu.cs.auctionproject.controller;
 
-import edu.miu.cs.auctionproject.IAuthenticationFacade;
+//import edu.miu.cs.auctionproject.IAuthenticationFacade;
 import edu.miu.cs.auctionproject.domain.Credential;
 import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.javaMailApi.SendEmailClass;
@@ -212,26 +212,26 @@ public class UserController {
 //
 //        return "dashboardUser";
 //    }
-    @Autowired
-    private IAuthenticationFacade authenticationFacade;
-
-        @RequestMapping(value = "/username", method = RequestMethod.GET)
-        @ResponseBody
-        public String currentUserNameSimple() {
-            Credential credential1 = null;
-            Authentication authentication = authenticationFacade.getAuthentication();
-            System.out.println(authentication);
-            String username=authentication.getName();
-            System.out.println(authentication.getName());
-            Optional<Credential> credential=credentialService.findByUserName(username);
-            if(credential.isPresent()) {
-                 credential1 = credential.get();
-            }
-            System.out.println(credential1.toString()+"==============-------------------");
-//            User user=userService.findByCredential_UserNameOrRole(credential1);
-//            System.out.println(user.toString());
-            return authentication.getName();
-        }
+//    @Autowired
+//    private IAuthenticationFacade authenticationFacade;
+//
+//        @RequestMapping(value = "/username", method = RequestMethod.GET)
+//        @ResponseBody
+//        public String currentUserNameSimple() {
+//            Credential credential1 = null;
+//            Authentication authentication = authenticationFacade.getAuthentication();
+//            System.out.println(authentication);
+//            String username=authentication.getName();
+//            System.out.println(authentication.getName());
+//            Optional<Credential> credential=credentialService.findByUserName(username);
+//            if(credential.isPresent()) {
+//                 credential1 = credential.get();
+//            }
+//            System.out.println(credential1.toString()+"==============-------------------");
+////            User user=userService.findByCredential_UserNameOrRole(credential1);
+////            System.out.println(user.toString());
+//            return authentication.getName();
+//        }
 
         @GetMapping(value = "/resetPassword")
         public String resetPasswordPage(Model model){

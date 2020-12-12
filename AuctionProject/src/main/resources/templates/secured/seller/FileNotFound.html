@@ -15,14 +15,11 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div style="padding-top:1em;" class="container">
-    <img src="/images/Puppet404.gif" >
-<!-- <h1 class="alert alert-danger" th:value="${fileNotFound}"></h1>-->
-
-<!--<%&#45;&#45; <H2 th:text="${requestScope['javax.servlet.error.message']}"></H2> &#45;&#45;%>-->
-<!-- 			<p>${url}</p>-->
-<!--			<p>${exception}</p>-->
-
-<!--</div>-->
+    <img src="/images/Puppet404.gif" style="align-content: center">
+    <div class="col-xs-4 text-center">
+        <a th:href="@{'/product/seller/new'}" class="btn btn-outline-success" th:align = center>Back</a>
+    </div>
+</div>
     <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
