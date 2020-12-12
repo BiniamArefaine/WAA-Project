@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="">
-    <link rel="icon" href="favicon.ico">
     <link
             href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
             rel="stylesheet"
@@ -15,16 +14,15 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<center>
-    <img  th:src="@{/images/error_page.jpg}" alt="Page not found">
- <h1 class="alert alert-danger"> ${fileNotFound}</h1>
-<%-- <H2>${requestScope['javax.servlet.error.message']}</H2> --%>
- 
- 			<p>${url}</p>
-			<p>${exception}</p>
- 
+<div style="padding-top:1em;" class="container">
+    <img src="/images/Puppet404.gif" >
+<!-- <h1 class="alert alert-danger" th:value="${fileNotFound}"></h1>-->
 
-</center>
-<div th:replace="fragments/footer :: footer"></div>
-  </body>
+<!--<%&#45;&#45; <H2 th:text="${requestScope['javax.servlet.error.message']}"></H2> &#45;&#45;%>-->
+<!-- 			<p>${url}</p>-->
+<!--			<p>${exception}</p>-->
+
+<!--</div>-->
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
 </html>
