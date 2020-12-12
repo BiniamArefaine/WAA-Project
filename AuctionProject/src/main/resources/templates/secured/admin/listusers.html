@@ -66,11 +66,14 @@
                 <td th:text="${usersList.email}"></td>
                 <td th:text="${usersList.role.name}"></td>
                 <td th:text="${usersList.licenceNumber}"></td>
-                <td><a th:href="@{'user/edit/{id}'(id=${usersList.id})}">Edit</a></td>
+                <td><a th:href="@{'/user/verify/' +  ${usersList.id}}">Verify</a></td>
                 <td>
                     <a  data-target="#confirmDeleteProductModal"
-                        th:href="@{'user/delete/' + ${usersList.id}}">Delete</a>
+                        th:href="@{'/user/delete/' + ${usersList.id}}">Delete</a>
                 </td>
+<!--                <td><a  class="btn btn-outline-success btn-lg"  th:if="${product.isShipped()}">Shipped</a>-->
+<!--                    <a  class="btn btn-outline-success btn-lg"  th:href="@{'ship/{id}'(id=${product.id})}" th:unless="${product.isShipped()}">Make Shipment</a>-->
+<!--                </td>-->
             </tr>
 <!--            <tr th:if="${listUsers < 1}">-->
 <!--                <td colspan="8" th:align="center">No student found</td>-->

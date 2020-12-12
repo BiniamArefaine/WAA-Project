@@ -27,7 +27,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(value = {"/user"})
-@SessionAttributes("email, userObject")
+@SessionAttributes("email")
 public class UserController {
     @Autowired
     UserService userService;
@@ -45,7 +45,7 @@ public class UserController {
     @PostMapping(value = {"/add"})
     public String addNewUser(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
-            System.out.println("-----------");
+            System.out.println("----------- erorrrrrrrrrrrrrrrr");
             return "adduser";
         }
 
@@ -54,10 +54,10 @@ public class UserController {
         String encodePassword = passwordEncoder.encode(user.getCredential().getPassword());
 //        System.out.println(encodePassword + user.getCredential().getPassword());
 //        user.getCredential().setPassword(encodePassword);
-        Object str = session.getAttribute("userId");
-        System.out.println("------------str"+str.toString());
+//        Object str = session.getAttribute("userId");
+//        System.out.println("------------str"+str.toString());
         model.addAttribute("email", user.getEmail());
-        model.addAttribute("userObject", user);
+//        model.addAttribute("userObject", user);
         sendEmailTo(user.getEmail(),model);
         System.out.println("-------------before");
         System.out.println(user.getCredential().getPassword());
@@ -145,7 +145,7 @@ public class UserController {
     }
 
     @GetMapping(value = {"/verify/{userId}"})
-    public String verifyUser(@PathVariable Long userId, Model model) {
+    public String verifyUser(@PathVariable("userId") Long userId, Model model) {
         System.out.println(userId);
         if(userService.findUserById(userId).isPresent()){
             User user = userService.findUserById(userId).get();
@@ -182,6 +182,7 @@ public class UserController {
     //biniam
     @RequestMapping(value = {"/adduser" })
     public String inputProduct(@ModelAttribute("users") User user, Model model) {
+        model.addAttribute("users",new User());
         return "adduser";
     }
     //new Verification
@@ -191,6 +192,13 @@ public class UserController {
         if(Integer.parseInt(pin) == (SendEmailClass.pinCode())){
             System.out.println("yes-----------");
             Object email = model.getAttribute("email");
+            System.out.println("-------------------"+email.toString());
+//            String emails = email.toString();
+//            System.out.println(emails);
+//            userService.findUserByEmail()
+            User usr  = userService.findUserByEmail(email.toString());
+            usr.setPinCode(true);
+            userService.saveUser(usr);
             assert email != null;
 
             return "emailsentforlogin";
@@ -271,5 +279,8 @@ public class UserController {
             model.addAttribute("user", new User());
             return "enterNewPasswordReset";
         }
+
+        //for logIn failed
+
 
 }

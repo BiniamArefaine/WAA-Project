@@ -17,6 +17,8 @@ public interface UserService {
 
     User getUserByEmailAndFirstName(String email, String firstName);
 
+    User findUserByEmail(String email);
+
 //
 //    User findByCredential_UserNameOrRole(Credential credential1);
 

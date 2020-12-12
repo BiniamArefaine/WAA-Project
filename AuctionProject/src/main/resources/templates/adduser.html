@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="description" content="">
-<link rel="icon" href="favicon.ico">
-<link
-        href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
-        crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -26,8 +26,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="firstName">First Name</label>
-<!--                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
-<!--                          class="alert alert-danger"></span>-->
+                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                              class="alert alert-danger"></span>
                     <input id="firstName" name="firstName" type="text" class="form-control" th:value="${users.firstName}">
                 </div>
             </div>
@@ -36,8 +36,8 @@
                     <div class="form-group">
                         <div class="form-group">
                             <label for="lastName">Last Name</label>
-<!--                            <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"-->
-<!--                                  class="alert alert-danger"></span>-->
+                                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                                                              class="alert alert-danger"></span>
                             <input id="lastName" name="lastName" type="text" class="form-control"
                                    th:value="${users.lastName}">
                         </div>
@@ -45,21 +45,21 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="form-group">-->
-<!--                <label for="email">Email Address</label>-->
-<!--&lt;!&ndash;                <span&ndash;&gt;-->
-<!--&lt;!&ndash;                    th:if="${#fields.hasErrors('email')}" th:errors="*{email}"&ndash;&gt;-->
-<!--&lt;!&ndash;                    class="alert alert-danger"></span> &ndash;&gt;-->
-<!--                <textarea id="email"-->
-<!--                                                              name="email" type="text" class="form-control" rows="3"-->
-<!--                                                                 th:value="${users.email}"></textarea>-->
+            <!--            <div class="form-group">-->
+            <!--                <label for="email">Email Address</label>-->
+            <!--&lt;!&ndash;                <span&ndash;&gt;-->
+            <!--&lt;!&ndash;                    th:if="${#fields.hasErrors('email')}" th:errors="*{email}"&ndash;&gt;-->
+            <!--&lt;!&ndash;                    class="alert alert-danger"></span> &ndash;&gt;-->
+            <!--                <textarea id="email"-->
+            <!--                                                              name="email" type="text" class="form-control" rows="3"-->
+            <!--                                                                 th:value="${users.email}"></textarea>-->
 
-<!--            </div>-->
+            <!--            </div>-->
             <div class="row">
                 <div class="col-md-6">
                     <label for="userName">User Name</label>
-                    <!--                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
-                    <!--                          class="alert alert-danger"></span>-->
+                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                              class="alert alert-danger"></span>
                     <input id="userName" name="userName" type="text" class="form-control" th:field="*{credential.userName}">
                     <span style="font-style: italic;" th:text="${users != null} ? ${#strings.toUpperCase(users.credential.userName)} : 'user is null'"></span>
 
@@ -68,8 +68,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="email">Email</label>
-                    <!--                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
-                    <!--                          class="alert alert-danger"></span>-->
+                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                              class="alert alert-danger"></span>
                     <input id="email" name="email" type="text" class="form-control" th:field="*{email}">
                 </div>
             </div>
@@ -77,41 +77,41 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="password">Password</label>
-                    <!--                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
-                    <!--                          class="alert alert-danger"></span>-->
+                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                              class="alert alert-danger"></span>
                     <input id="password" name="password" type="text" class="form-control" th:field="*{credential.password}">
                 </div>
             </div>
-<!--            <div class="form-group">-->
-<!--                <label for="licenceNumber">License Number</label>-->
-<!--&lt;!&ndash;                <span&ndash;&gt;-->
-<!--&lt;!&ndash;                    th:if="${#fields.hasErrors('liscenceNumber')}" th:errors="*{licenceNumber}"&ndash;&gt;-->
-<!--&lt;!&ndash;                    class="alert alert-danger"></span> &ndash;&gt;-->
-<!--                <textarea id="licenceNumber"-->
-<!--                                                                 name="email" type="text" class="form-control" rows="3"-->
-<!--                                                                 th:value="${users.licenceNumber}"></textarea>-->
+            <!--            <div class="form-group">-->
+            <!--                <label for="licenceNumber">License Number</label>-->
+            <!--&lt;!&ndash;                <span&ndash;&gt;-->
+            <!--&lt;!&ndash;                    th:if="${#fields.hasErrors('liscenceNumber')}" th:errors="*{licenceNumber}"&ndash;&gt;-->
+            <!--&lt;!&ndash;                    class="alert alert-danger"></span> &ndash;&gt;-->
+            <!--                <textarea id="licenceNumber"-->
+            <!--                                                                 name="email" type="text" class="form-control" rows="3"-->
+            <!--                                                                 th:value="${users.licenceNumber}"></textarea>-->
 
-<!--            </div>-->
+            <!--            </div>-->
             <div class="row">
                 <div class="col-md-6">
                     <label for="licenceNumber">Licence Number</label>
-                    <!--                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
-                    <!--                          class="alert alert-danger"></span>-->
-                    <input id="licenceNumber" name="licenceNumber" type="licenceNumber" class="form-control" th:field="${users.licenceNumber}">
+                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                              class="alert alert-danger"></span>
+                    <input id="licenceNumber" name="licenceNumber" type="text" class="form-control" th:field="${users.licenceNumber}">
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-6">
                     <select th:field="${users.role.id}">
-<!--                        <option th:value="" th:text="Select Role"></option>-->
+<!--                        <option th:value="">Select Role</option>-->
                         <option th:value="1" th:text="Customer"></option>
                         <option th:value="2" th:text="Seller"></option>
                     </select>
                 </div>
             </div>
             <div style="float:right;">
-                <a href="/user/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
+                <a href="/home" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
                 <button id="btnSubmit" type="submit" class="btn btn-outline-success">Save User</button>
             </div>
         </fieldset>

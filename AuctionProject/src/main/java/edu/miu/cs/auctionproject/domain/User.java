@@ -43,6 +43,9 @@ public class User {
     @OneToOne
     private Address address;
 
+    //added
+    private boolean pinCode;
+
 
 
 

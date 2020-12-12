@@ -1,10 +1,9 @@
 package edu.miu.cs.auctionproject.service.impl;
 
-import edu.miu.cs.auctionproject.controller.HomeController;
+import edu.miu.cs.auctionproject.controller.CategoryController;
 import edu.miu.cs.auctionproject.domain.Credential;
 import edu.miu.cs.auctionproject.repository.ICredentialRepository;
 
-import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -28,7 +27,7 @@ public class AuctionUserDetailsService implements UserDetailsService {
     private HttpSession session;
 
     @Autowired
-    private UserService userService;
+    private CategoryController userController;
 
 
 
@@ -54,9 +53,9 @@ public class AuctionUserDetailsService implements UserDetailsService {
         counts++;
         if(sessionIdent.equals(sessId) && counts==3){
             System.out.println("-------session-----");
-            HomeController homeController = new HomeController();
-            homeController.logInAttempt();
             counts = 0;
+            userController.logInFailed();
+            return;
         }
         sessionIdent = sessId;
     }

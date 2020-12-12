@@ -174,6 +174,10 @@ public class BidController {
         User winner = null;
         if(userService.findUserById(1L).isPresent()){
              winner = userService.findUserById(1L).get();
+             Optional<Product> prd = productService.findProductById(1L);
+             prd.get().setSold(true);
+             productService.saveProduct(prd.get());
+
         };
         //get the hashMap and get the user
         //fake usr object
