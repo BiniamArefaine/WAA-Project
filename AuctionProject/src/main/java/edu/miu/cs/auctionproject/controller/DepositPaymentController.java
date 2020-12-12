@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,6 +92,8 @@ public class DepositPaymentController {
         User user=userService.findUserById(userId).get();
         depositPayment.setProduct(product);
         depositPayment.setUser(user);
+        depositPayment.setPaymentDate(LocalDate.now());
+        product.setPaymentDate(LocalDate.now());
         productService.saveProduct(product);
         depositPaymentService.savePayments(depositPayment);
         model.addAttribute("usercomf",user);

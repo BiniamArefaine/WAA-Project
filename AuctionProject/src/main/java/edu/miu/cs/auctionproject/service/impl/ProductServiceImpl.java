@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllPaidProducts(User user) {
-        return user.getProduct().stream().filter(product -> product.isPaidInFull()==true).collect(Collectors.toList());
+        return user.getWonProducts().stream().filter(product -> product.isPaidInFull()==true).collect(Collectors.toList());
     }
 
 }

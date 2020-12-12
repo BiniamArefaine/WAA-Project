@@ -94,12 +94,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="deposit">Previous Deposit</label>
+                                <span th:if="${#fields.hasErrors('deposit')}" th:errors="*{deposit}"
+                                      class="alert alert-danger"></span>
+                                <input id="deposit" name="deposit" type="text" readonly class="form-control"
+                                       th:value="${depositPayment.deposit}">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="form-group">
-                                <label for="cardNumber">Make FinalPayment</label>
+                                <label for="finalPayment">Make FinalPayment</label>
                                 <span th:if="${#fields.hasErrors('finalPayment')}" th:errors="*{finalPayment}"
                                       class="alert alert-danger"></span>
                                 <input id="finalPayment" name="finalPayment" type="text" readonly class="form-control"

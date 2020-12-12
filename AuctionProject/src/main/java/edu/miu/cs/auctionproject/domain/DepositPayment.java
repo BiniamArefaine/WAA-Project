@@ -22,7 +22,7 @@ public class DepositPayment {
     private Double deposit;
     @OneToOne
     private User user;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Product product;
 
     private String cardNumber;
@@ -32,7 +32,7 @@ public class DepositPayment {
     private LocalDate paymentDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate cardExpiration;
-    @ManyToOne
-    private Address address;
+//    @ManyToOne
+//    private Address address;
 
 }

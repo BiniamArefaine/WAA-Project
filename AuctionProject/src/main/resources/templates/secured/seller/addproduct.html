@@ -27,32 +27,30 @@
                 <div class="col-md-6">
                     <label for="productName">Product Name</label>
                     <input id="productName" name="productName" placeholder="Product Name" type="text" class="form-control" th:value="${product.productName}">
-                    <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
-                          class="alert alert-danger"></span>
-                </div>
+
+                </div> <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
+                             class="alert alert-danger"></span>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <div class="form-group">
                             <label for="startingPrice">Starting Price</label>
                             <input id="startingPrice" name="startingPrice" placeholder="Starting Price" type="text" class="form-control"
                                    th:value="${product.startingPrice}">
-                            <span th:if="${#fields.hasErrors('startingPrice')}" th:errors="*{startingPrice}"
-                                  class="alert alert-danger"></span>
-                        </div>
 
-                    </div>
-                </div>
+                        </div>
+                    </div><span th:if="${#fields.hasErrors('startingPrice')}" th:errors="*{startingPrice}"
+                                class="alert alert-danger"></span>
+
             </div>
             <div class="row">
             <div class="col-md-6">
                 <label for="description">Description</label><textarea id="description" placeholder="Product Description"
                                                                  name="description" type="text" class="form-control" rows="2"
                                                                  th:value="${product.description}"></textarea>
-                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+
+            </div><span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
                         class="alert alert-danger"></span>
-            </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -69,11 +67,12 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="upLoadedDate">Creation date</label>
+
+                        <input id="upLoadedDate" name="upLoadedDate" readonly type="date" class="form-control"
+                               th:value="${product.upLoadedDate}">
 <!--                        <span th:if="${#fields.hasErrors('upLoadedDate')}" th:errors="*{upLoadedDate}"-->
 <!--                              class="alert alert-danger">-->
 <!--                            </span>-->
-                        <input id="upLoadedDate" name="upLoadedDate" readonly type="date" class="form-control"
-                               th:value="${product.upLoadedDate}">
                     </div>
                 </div>
             </div>
@@ -81,13 +80,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="dueDate">Due date</label>
-<!--                        <span th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"-->
-<!--                              class="alert alert-danger">-->
-<!--                            </span>-->
+
                         <input id="dueDate" name="dueDate" type="date" class="form-control"
                                th:value="${product.dueDate}">
+
                     </div>
-                </div>
+                </div><span th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"
+                            class="alert alert-danger">
+                            </span>
             </div>
             <div>
 
@@ -95,6 +95,7 @@
                 <input type="file" name="files" accept="image/png, image/jpeg" multiple enctype="multipart/form-data" />
 
             </div>
+
 
             <div class="row">
                 <div class="col-md-6">
@@ -107,6 +108,8 @@
                         <option value="No">No</option>
                     </select>
                 </div>
+                <span th:if="${#fields.hasErrors('release')}" th:errors="*{release}"
+                      class="alert alert-danger"></span>
             </div>
             <div style="float:right;">
                 <a href="/product/seller/getall" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;

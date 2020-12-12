@@ -73,7 +73,6 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public ModelAndView productPaidProducts(ModelAndView modelAndView,Model model) {
         User user=null;
         Optional<User> users=userService.findUserById((Long.parseLong(httpSession.getAttribute("userId").toString())));
-
         if(users.isPresent()){
             user=users.get();
         }
@@ -100,9 +99,13 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     @GetMapping(value={"/getall","/getall/pageNo"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
         Page<Product> products=productService.findAllProducts(pageNo);
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user1=userService.findUserById(userId).get();
+        List<Product>userProducts=user1.getProduct();
         List<Category>categories=categoryService.getAllCategories();
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
+        modelAndView.addObject("userproducts", userProducts);
         modelAndView.addObject("productsCount", products.getTotalElements());
         modelAndView.addObject("categories",categories);
         modelAndView.addObject("currentPageNo",pageNo);
@@ -114,7 +117,12 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public ModelAndView listProductByCategoryId(@PathVariable long categoryId,ModelAndView modelAndView) {
         List<Product> products=productService.findAllProductsByCategory(categoryId);
         List<Category>categories=categoryService.getAllCategories();
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user1=userService.findUserById(userId).get();
+        List<Product>userProducts=user1.getProduct();
+        modelAndView.addObject("userproducts", userProducts);
         modelAndView.addObject("products",products);
+        modelAndView.addObject("productsCount", products.size());
         modelAndView.addObject("categories",categories);
         modelAndView.setViewName("productListByFilter");
         return modelAndView;
@@ -123,7 +131,12 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public ModelAndView listProductByUploadedDate(ModelAndView modelAndView) {
         List<Product>products=productService.findAllByUploadedDate();
         List<Category>categories=categoryService.getAllCategories();
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user1=userService.findUserById(userId).get();
+        List<Product>userProducts=user1.getProduct();
+        modelAndView.addObject("userproducts", userProducts);
         modelAndView.addObject("products",products);
+        modelAndView.addObject("productsCount", products.size());
         modelAndView.addObject("categories",categories);
         modelAndView.setViewName("productListByFilter");
         return modelAndView;
@@ -133,10 +146,14 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         ModelAndView modelAndView = new ModelAndView();
         List<Category>categories=categoryService.getAllCategories();
         Page<Product> products = productService.searchProduct(pageNo,searchString);
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user1=userService.findUserById(userId).get();
+        List<Product>userProducts=user1.getProduct();
+        modelAndView.addObject("userproducts", userProducts);
         modelAndView.addObject("products", products);
         modelAndView.addObject("searchString", searchString);
         modelAndView.addObject("categories",categories);
-        modelAndView.addObject("ProductsCount", products.getTotalElements());
+        modelAndView.addObject("productsCount", products.getTotalElements());
         modelAndView.addObject("currentPageNo",pageNo);
         modelAndView.setViewName("listproduct");
         return modelAndView;
@@ -144,8 +161,13 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     @GetMapping(value = {"/details/{productId}"})
     public String productDetails(@PathVariable long productId, Model model) {
         Optional<Product> product = productService.findProductById(productId);
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user1=userService.findUserById(userId).get();
+        List<Product>userProducts=user1.getProduct();
+
         if (product.isPresent()) {
             model.addAttribute("product", product.get());
+            model.addAttribute("userproducts", userProducts);
             return "/productdetails";
         }
         return "listproduct";
@@ -177,7 +199,6 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         modelAndView.addObject("products",products);
         modelAndView.addObject("searchString", "");
         modelAndView.addObject("productsCount", products.size());
-        modelAndView.addObject("BidHasStarted","");
         modelAndView.setViewName("secured/seller/userproducts");
         return modelAndView;
     }
@@ -242,6 +263,8 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
                               @RequestParam("files") MultipartFile[] files,
                               Model model) throws IOException {
         if (bindingResult.hasErrors()) {
+            List<Category>categories = categoryService.getAllCategories();
+            model.addAttribute("categories", categories);
             return "/secured/seller/addproduct";
         }
         User user=null;
@@ -272,6 +295,8 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
                                 BindingResult bindingResult,@RequestParam("files") MultipartFile[] files,
                                 Model model) throws IOException {
         if (bindingResult.hasErrors()) {
+            List<Category>categories = categoryService.getAllCategories();
+            model.addAttribute("categories", categories);
             return "secured/seller/productEdit";
         }
         User user=null;

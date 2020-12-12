@@ -57,7 +57,17 @@
                 <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.bidcount}"></td>
                 <td th:text="${product.upLoadedDate}"></td>
-                <td><a class="btn btn-outline-success btn-lg" th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
+                <td>
+                    <a class="btn btn-outline-warning"
+                       th:if="${product.isSold()}">SOLD</a>
+                    <a th:unless="${product.isSold()}">
+                        <a class="btn btn-outline-success btn-lg"
+                           th:if="${userproducts.contains(product)}">Your Product</a>
+                        <a class="btn btn-outline-success btn-lg" th:href="@{'/bids/add/{id}'(id=${product.id})}"
+                           th:unless="${userproducts.contains(product)}">Bid</a>
+                    </a>
+                </td>
+
 
             </tr>
             </tbody>

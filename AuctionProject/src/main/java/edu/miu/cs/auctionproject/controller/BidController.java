@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -79,6 +80,7 @@ public class BidController {
         Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
         User user=userService.findUserById(userId).get();
         Optional<Product> product1=productService.findProductById(productId);
+        depositPayment.setPaymentDate(LocalDate.now());
         depositPayment.setUser(user);
         depositPayment.setProduct(product1.get());
         depositPaymentService.savePayments(depositPayment);
@@ -118,6 +120,8 @@ public class BidController {
         Optional<Product> product=productService.findProductById(productId);
         Bid bid=bidService.getBidByProductId(product.get().getId());
         Double bidPrice=bidService.getHighestPrice(bid,product.get());
+        model.addAttribute("maxbidprice",product.get().getMaxBidPrice());
+        model.addAttribute("enterLarger","");
         model.addAttribute("bidPrice", bidPrice);
 
         return "addBidPrice";
@@ -132,7 +136,11 @@ public class BidController {
         Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
         User user=userService.findUserById(userId).get();
         Bid bid=bidService.getBidByProductId(product.get().getId());
-
+        if(bidPrice<=product.get().getMaxBidPrice()){
+            model.addAttribute("maxbidprice",product.get().getMaxBidPrice());
+            model.addAttribute("enterLarger","Please Enter More than the value");
+                return "addBidPrice";
+        }
         if(bid==null){
             bid=new Bid();
             HashMap<Long,Double> userHashMap=new HashMap<Long, Double>();

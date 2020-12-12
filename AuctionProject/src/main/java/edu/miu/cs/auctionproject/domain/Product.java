@@ -40,7 +40,7 @@ public class Product {
     //added
     private boolean paidInFull;
 
-
+    @NotEmpty( message = "product release must be specified")
     private String release;
     private int bidcount;
 //    private LocalDate upLoadedDate;
@@ -48,7 +48,9 @@ public class Product {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate upLoadedDate=LocalDate.now();
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "please enter future date")
     private LocalDate dueDate;
+
     @ManyToMany
     private List<Category>categories;
     @ElementCollection
