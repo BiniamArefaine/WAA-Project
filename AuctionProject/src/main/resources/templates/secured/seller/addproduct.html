@@ -26,9 +26,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="productName">Product Name</label>
+                    <input id="productName" name="productName" placeholder="Product Name" type="text" class="form-control" th:value="${product.productName}">
                     <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
                           class="alert alert-danger"></span>
-                    <input id="productName" name="productName" type="text" class="form-control" th:value="${product.productName}">
                 </div>
             </div>
             <div class="row">
@@ -36,31 +36,34 @@
                     <div class="form-group">
                         <div class="form-group">
                             <label for="startingPrice">Starting Price</label>
+                            <input id="startingPrice" name="startingPrice" placeholder="Starting Price" type="text" class="form-control"
+                                   th:value="${product.startingPrice}">
                             <span th:if="${#fields.hasErrors('startingPrice')}" th:errors="*{startingPrice}"
                                   class="alert alert-danger"></span>
-                            <input id="startingPrice" name="startingPrice" type="text" class="form-control"
-                                   th:value="${product.startingPrice}">
                         </div>
 
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="description">Description</label><span
-                    th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-                    class="alert alert-danger"></span> <textarea id="description"
-                                                                 name="description" type="text" class="form-control" rows="3"
+            <div class="row">
+            <div class="col-md-6">
+                <label for="description">Description</label><textarea id="description" placeholder="Product Description"
+                                                                 name="description" type="text" class="form-control" rows="2"
                                                                  th:value="${product.description}"></textarea>
-
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                        class="alert alert-danger"></span>
             </div>
-            <div class="form-group">
+            </div>
+            <div class="row">
+                <div class="col-md-6">
                 <label for="category">Catogories</label>
-                <select id="category" class="form-control" th:field="*{categories}" size="1" multiple="multiple">
+                <select id="category" class="form-control" th:field="*{categories}" size="3" multiple="multiple">
                     <option th:each="category : ${categories}"
                             th:value="${{category}}"
                             th:text="${category.name}">
                     </option>
                 </select>
+            </div>
             </div>
             <div class="row">
                 <div class="col-md-6">

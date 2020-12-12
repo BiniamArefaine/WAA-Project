@@ -50,7 +50,7 @@
                 <td th:text="${product.release}"></td>
                 <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.upLoadedDate}"></td>
-                <td><a
+                <td><a class="btn btn-outline-success btn-lg"
                         th:href="@{'/product/payment/{id}'(id=${product.id})}">Make Payment</a>
                 </td>
             </tr>

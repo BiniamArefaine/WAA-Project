@@ -40,28 +40,18 @@
             <tr th:each="category,iterStat : ${categories}">
                 <th scope="row" th:text="${iterStat.count}+${'.'}"></th>
                 <td th:text="${category.name}"></td>
-                <td><a th:href="@{'edit/{id}'(id=${category.id})}">Edit</a></td>
-                <td>
-                    <a  data-target="#confirmDeleteProductModal"
-                        th:href="@{'delete/' + ${category.id}}">Delete</a>
-<!--                    <span th:if="${IthasProducts}" th:value="${IthasProducts}" th:text="It has Products" class="alert alert-danger"></span>-->
-
-                </td>
+                <td><a class="btn btn-outline-warning" th:href="@{'edit/{id}'(id=${category.id})}">Edit</a></td>
+                <td><a class="btn btn-outline-warning"
+                       th:if="${categoriesProducts.contains(category)}">Has Product</a>
+                <a class="btn btn-outline-warning"  th:href="@{'delete/' + ${category.id}}"
+                   th:unless="${categoriesProducts.contains(category)}">Delete</a>
+            </td>
             </tr>
             <tr th:if="${categorysCount < 1}">
                 <td colspan="8" th:align="center">No product found</td>
             </tr>
             </tbody>
         </table>
-<!--                <div>-->
-<!--                    <ul class="nav nav-pills">-->
-<!--                        <li class="nav-item"-->
-<!--                            th:each="i:${#numbers.sequence(0,proucts.totalPages-1)}">-->
-<!--                            <a th:href="@{/eauction/product/list(pageNo=${i})}" th:text="${i}" class="nav-link"-->
-<!--                               th:classappend="${currentPageNo}==${i}?'active'"></a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
     </div>
 
 

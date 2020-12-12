@@ -13,7 +13,7 @@
             crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <title>
-        List Products</title>
+        Sold Products</title>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -24,26 +24,6 @@
             href="/product/seller/new">Add a new Product</a>
 			</span>
     </div>
-    <!-- Search panel -->
-<!--    <form id="searchProduct" method="get"-->
-<!--          action="/product/seller/search">-->
-<!--        <div style="margin-top: 1em;" class="row">-->
-<!--            <div class="col-md-12">-->
-<!--                <div class="input-group">-->
-<!--                    <input type="text" class="form-control" id="searchString"-->
-<!--                           name="searchString"-->
-<!--                           placeholder="Enter a string to search for products"-->
-<!--                           th:value="${searchString}" autofocus/>-->
-<!--                    <div class="input-group-append">-->
-<!--                        <button id="btnSubmit" type="submit"-->
-<!--                                class="btn btn-outline-success">Search-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </form>-->
-    <a href="/product/seller/getallsold"><button class="btn btn-outline-success">Sold Products</button></a>
     <div style="font-size: 1em">
         <table class="table table-striped">
             <thead>
@@ -54,11 +34,12 @@
                 <th scope="col">Starting Price</th>
                 <th scope="col">Description</th>
                 <th scope="col">Due Date</th>
-                <th scope="col">Released</th>
                 <th scope="col">Highest BidPrice</th>
                 <th scope="col">Date Created</th>
-                <th scope="col"> </th>
-                <th scope="col"> </th>
+                <th scope="col">Paid InFull</th>
+                <th scope="col">Shipped</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -69,32 +50,24 @@
                 <td th:text="${product.startingPrice}"></td>
                 <td th:text="${product.description}"></td>
                 <td th:text="${product.dueDate}"></td>
-                <td th:text="${product.release}"></td>
                 <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.upLoadedDate}"></td>
-                <td><a class="btn btn-outline-warning" th:href="@{'edit/{id}'(id=${product.id})}" th:if="${product.bidcount==0}">Edit</a>
-                    <a class="btn btn-outline-warning" th:unless="${product.bidcount==0}">Bid Started</a>
+                <td th:text="${product.paidInFull}?'Paid':'NotPaid'"></td>
+                <td th:text="${product.shipped}?'Shipped':'NotShipped'"></td>
+<!--                <td><a class="btn btn-outline-success btn-lg" th:href="@{'ship/{id}'(id=${product.id})}">Make Shipment</a>-->
+<!--                </td>-->
+
+                <td><a  class="btn btn-outline-success btn-lg"  th:if="${product.isShipped()}">Shipped</a>
+                    <a  class="btn btn-outline-success btn-lg"  th:href="@{'ship/{id}'(id=${product.id})}" th:unless="${product.isShipped()}">Make Shipment</a>
                 </td>
-                <td><a class="btn btn-outline-warning" th:href="@{'delete/' + ${product.id}}" th:if="${product.bidcount==0}">Delete</a>
-                    <a class="btn btn-outline-warning" th:unless="${product.bidcount==0}">Bid Started</a>
-                </td>
-                <td th:text="${BidHasStarted}"></td>
+
             </tr>
+
             <tr th:if="${productsCount < 1}">
                 <td colspan="8" th:align="center">No product found</td>
             </tr>
             </tbody>
         </table>
-
-<!--        <div>-->
-<!--            <ul class="nav nav-pills">-->
-<!--                <li class="nav-item"-->
-<!--                    th:each="i:${#numbers.sequence(0,products.totalPages)}">-->
-<!--                    <a th:href="@{/getall(pageNo=${i})}" th:text="${i}" class="nav-link"-->
-<!--                       th:classappend="${currentPageNo}==${i}?'active'"></a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
     </div>
 
 </div>

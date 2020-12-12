@@ -93,6 +93,8 @@ public class DepositPaymentController {
         depositPayment.setUser(user);
         productService.saveProduct(product);
         depositPaymentService.savePayments(depositPayment);
-        return "redirect:/product/getallWonProduct";
+        model.addAttribute("usercomf",user);
+        model.addAttribute("depositpayment",depositPayment);
+        return "payment/paymentconfirmation";
     }
 }

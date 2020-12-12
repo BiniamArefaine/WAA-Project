@@ -57,7 +57,7 @@
                 <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.bidcount}"></td>
                 <td th:text="${product.upLoadedDate}"></td>
-                <td><a th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
+                <td><a class="btn btn-outline-success btn-lg" th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
 
             </tr>
             </tbody>

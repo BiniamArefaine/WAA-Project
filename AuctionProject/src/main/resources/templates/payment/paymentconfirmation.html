@@ -1,34 +1,40 @@
 <!DOCTYPE html>
-<html layout:decorator="public/shared/masterlayout"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="description" content="">
+	<!--    <link rel="icon" href="favicon.ico">-->
+	<link
+			href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+			crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
 <body>
-	<th:block layout:fragment="header">
+<div th:replace="fragments/header :: header"></div>
 		<div class="col-xs-4 text-center">
 			<h1>Your Payment Is Confirmed</h1>	
 		</div>
 	</th:block>
     <th:block layout:fragment="content">
     	<div class="col-xs-4 text-center">
-    		<h1>Thank You For Choosing Company</h1>
-    		<a>A payment confirmation email has been sent to eample123@gmail.com with your booking reference number and Payment Receipt</a>
-    		<br></br>
+
+			<p style="font-size: 18px">
+			<h2>Details:</h2>
+		<h3>Full Name: <span th:text="${usercomf.firstName}"></span> <span th:text="${usercomf.lastName}"></span>
+			<br/>
+			Payment Amount: <span th:text="${depositPayment.finalPayment}"></span>
+			</p></h3>
+			<h1>Thank You</h1>
     	</div>
-    	<!-- <table class="table table-white">
-			<thead>				
-				<th>Your Booking Reference Number</th>	
-			</thead>
-			<tbody>
-				<tr th:object= ${booking}>
-					<td th:text="${booking.bookingNumber}"></td>
-				</tr>
-			</tbody>
-		</table> -->
+
 		<div class="col-xs-4 text-center">
-			<a th:href="@{'/company/home'}" class="btn btn-outline-success" th:align = center>EXIT</a>
-<!-- 			<br></br>
-	        <a th:href="@{'/company/user/payments/add'}" class="btn btn-outline-warning" th:align = center>MAKE PAYMENT NOW</a>  -->       
+			<a th:href="@{'/product/getallWonProduct'}" class="btn btn-outline-success" th:align = center>EXIT</a>
     	</div>
     </th:block>
-    <th:block layout:fragment="footer"></th:block>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

@@ -51,6 +51,7 @@
     <a href="/product/getallbyuploadeddate/"><button class="btn btn-outline-success">Filter By Date</button></a>
     <a href="/categories/getallforcustomer"><button class="btn btn-outline-success">List Categories</button></a>
     <a href="/product/getallWonProduct"><button class="btn btn-outline-success">WonProducts</button></a>
+    <a href="/product/getallpaidproducts"><button class="btn btn-outline-success">Ordered</button></a>
     <div style="font-size: 1em">
         <table class="table table-striped">
             <thead>
@@ -78,8 +79,8 @@
                 <td th:text="${product.dueDate}"></td>
                 <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.bidcount}"></td>
-                <td><a th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
-                <td><a th:href="@{'/product/details/{id}'(id=${product.id})}">Product Details</a></td>
+                <td><a class="btn btn-outline-success btn-lg" th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
+                <td><a class="btn btn-outline-success btn-lg" th:href="@{'/product/details/{id}'(id=${product.id})}">Product Details</a></td>
 
             </tr>
             <tr th:if="${productsCount < 1}">

@@ -53,10 +53,9 @@ public class Product {
     private List<Category>categories;
     @ElementCollection
     private List<String> photos=new ArrayList<>();
-
-
     private Double maxBidPrice=startingPrice;
-    private Boolean shipped;
+    private boolean shipped;
+    private boolean received;
 
     @Transient
     public void addPhoto(String file) {

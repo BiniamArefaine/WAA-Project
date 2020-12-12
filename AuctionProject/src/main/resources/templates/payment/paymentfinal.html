@@ -102,7 +102,7 @@
                                 <label for="cardNumber">Make FinalPayment</label>
                                 <span th:if="${#fields.hasErrors('finalPayment')}" th:errors="*{finalPayment}"
                                       class="alert alert-danger"></span>
-                                <input id="finalPayment" name="deposit" type="text" readonly class="form-control"
+                                <input id="finalPayment" name="finalPayment" type="text" readonly class="form-control"
                                        th:value="${depositPayment.finalPayment}">
                             </div>
 

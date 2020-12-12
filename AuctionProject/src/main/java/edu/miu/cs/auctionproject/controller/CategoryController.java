@@ -77,8 +77,10 @@ public class CategoryController {
     @RequestMapping(value={"/getall"})
     public ModelAndView listCategories(@RequestParam(defaultValue = "0") int pageNo, ModelAndView modelAndView) {
         List<Category> categories = categoryService.getAllCategories();
+        List<Category>categoriesProducts=categoryService.findAllCategoriesHasProduct(categories);
         modelAndView.addObject("categories",categories);
         modelAndView.addObject("searchString", "");
+        modelAndView.addObject("categoriesProducts",categoriesProducts);
         modelAndView.addObject("categorysCount", categories.size());
         modelAndView.setViewName("/secured/admin/listcategory");
         return modelAndView;

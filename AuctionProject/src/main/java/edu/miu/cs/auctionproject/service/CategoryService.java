@@ -12,4 +12,5 @@ public interface CategoryService {
     void deleteCategoryById(Long id);
     Category findAllByName(String name);
 
+    List<Category> findAllCategoriesHasProduct(List<Category> categories);
 }

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="">
-    <link rel="icon" href="favicon.ico">
     <link
             href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
             rel="stylesheet"
@@ -23,15 +22,15 @@
         </div>
 
         <form id="editProductForm" method="post"
-              action="/product/seller/edit" th:object="${product}">
+              action="/product/seller/edit" th:object="${product}"  enctype="multipart/form-data">
             <fieldset>
                 <input type="hidden" name="id" th:value="${product.id}"/>
                 <div class="row">
                     <div class="col-md-6">
                         <label for="productName">Product Name</label>
+                        <input id="productName" name="productName" placeholder="Product Name" type="text" class="form-control" th:value="${product.productName}">
                         <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
                               class="alert alert-danger"></span>
-                        <input id="productName" name="productName" type="text" class="form-control" th:value="${product.productName}">
                     </div>
                 </div>
                 <div class="row">
@@ -39,39 +38,55 @@
                         <div class="form-group">
                             <div class="form-group">
                                 <label for="startingPrice">Starting Price</label>
+                                <input id="startingPrice" name="startingPrice" placeholder="Starting Price" type="text" class="form-control"
+                                       th:value="${product.startingPrice}">
                                 <span th:if="${#fields.hasErrors('startingPrice')}" th:errors="*{startingPrice}"
                                       class="alert alert-danger"></span>
-                                <input id="startingPrice" name="startingPrice" type="text" class="form-control"
-                                       th:value="${product.startingPrice}">
                             </div>
 
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="description">Description</label><span
-                        th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-                        class="alert alert-danger"></span> <textarea id="description"
-                                                                     name="description" type="text" class="form-control" rows="3"
-                                                                     th:value="${product.description}"></textarea>
-
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="description">Description</label>
+                        <textarea style="height: 75px" id="description" placeholder="Product Description"
+                                                                              name="description" type="text" class="form-control" rows="2"
+                                                            th:value="${product.description}"  th:text="${product.description}"></textarea>
+                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                              class="alert alert-danger"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="category">Catogories</label>
-                    <select id="category" class="form-control" th:field="*{categories}" size="1" multiple="multiple">
-                        <option th:each="category : ${categories}"
-                                th:value="${{category}}"
-                                th:text="${category.getName()}">
-                        </option>
-                    </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="category">Catogories</label>
+                        <select id="category" class="form-control" th:field="*{categories}" size="3" multiple="multiple">
+                            <option th:each="category : ${categories}"
+                                    th:value="${{category}}"
+                                    th:text="${category.name}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="upLoadedDate">Creation date</label>
+                            <!--                        <span th:if="${#fields.hasErrors('upLoadedDate')}" th:errors="*{upLoadedDate}"-->
+                            <!--                              class="alert alert-danger">-->
+                            <!--                            </span>-->
+                            <input id="upLoadedDate" name="upLoadedDate" readonly type="date" class="form-control"
+                                   th:value="${product.upLoadedDate}">
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="dueDate">Due date</label>
-                            <span th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"
-                                  class="alert alert-danger">
-                            </span>
+                            <!--                        <span th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"-->
+                            <!--                              class="alert alert-danger">-->
+                            <!--                            </span>-->
                             <input id="dueDate" name="dueDate" type="date" class="form-control"
                                    th:value="${product.dueDate}">
                         </div>
@@ -80,11 +95,11 @@
                 <div>
 
                     <label>Photos: </label>
-                    <input type="file" name="image" accept="image/png, image/jpeg" />
+                    <input type="file" name="files" accept="image/png, image/jpeg" multiple enctype="multipart/form-data" />
 
                 </div>
-                <div class="form-group">
-                    <label for="release"> Release</label>
+
+                <div class="row">
                     <div class="col-md-6">
                         <select name="release"
                                 id="release" type="text"
@@ -102,8 +117,6 @@
                     </div>
 
             </fieldset>
-
-
         </form>
     </div>
 

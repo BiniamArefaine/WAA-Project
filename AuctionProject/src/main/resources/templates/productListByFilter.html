@@ -79,8 +79,8 @@
                 <td th:text="${product.dueDate}"></td>
                 <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.bidcount}"></td>
-                <td><a th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
-                <td><a th:href="@{'/product/details/{id}'(id=${product.id})}">Product Details</a></td>
+                <td><a class="btn btn-outline-success btn-lg" th:href="@{'/bids/add/{id}'(id=${product.id})}">Bid</a></td>
+                <td><a class="btn btn-outline-success btn-lg" th:href="@{'/product/details/{id}'(id=${product.id})}">Product Details</a></td>
 
             </tr>
             <!--            <tr th:if="${productsCount < 1}">-->

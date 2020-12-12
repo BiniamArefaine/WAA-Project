@@ -73,4 +73,14 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAllByOrderByUpLoadedDate();
     }
 
+    @Override
+    public List<Product> getProductSold(User user) {
+        return user.getProduct().stream().filter(product -> product.isSold()==true).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> findAllPaidProducts(User user) {
+        return user.getProduct().stream().filter(product -> product.isPaidInFull()==true).collect(Collectors.toList());
+    }
+
 }

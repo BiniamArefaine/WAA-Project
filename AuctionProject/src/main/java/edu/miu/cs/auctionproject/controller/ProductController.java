@@ -69,7 +69,20 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     modelAndView.setViewName("wonproducts");
     return modelAndView;
 }
+    @RequestMapping(value={"/getallpaidproducts"})
+    public ModelAndView productPaidProducts(ModelAndView modelAndView,Model model) {
+        User user=null;
+        Optional<User> users=userService.findUserById((Long.parseLong(httpSession.getAttribute("userId").toString())));
 
+        if(users.isPresent()){
+            user=users.get();
+        }
+        List<Product> products= productService.findAllPaidProducts(user);
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("productsCount", products.size());
+        modelAndView.setViewName("paidproducts");
+        return modelAndView;
+    }
 
     @GetMapping(value = {"/payment/{productId}"})
     public String payProduct(@PathVariable long productId, Model model) {
@@ -83,14 +96,6 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         model.addAttribute("depositPayment",depositPayment);
         return "payment/paymentfinal";
     }
-
-
-
-
-
-
-
-
 
     @GetMapping(value={"/getall","/getall/pageNo"})
     public ModelAndView listProducts(@RequestParam(defaultValue = "0") int pageNo,ModelAndView modelAndView) {
@@ -146,6 +151,18 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         return "listproduct";
     }
 
+    @GetMapping(value = {"/received/{productId}"})
+    public String orderReceived(@PathVariable long productId, Model model) {
+        Optional<Product> product = productService.findProductById(productId);
+        if (product.isPresent()) {
+            product.get().setReceived(true);
+            productService.saveProduct(product.get());
+            return "redirect:/product/getallpaidproducts";
+        }
+        return "redirect:/product/getallpaidproducts";
+    }
+
+
 //----------------------------------------seller--------------------------------------------
 
     @RequestMapping(value={"/seller/getall"})
@@ -165,6 +182,50 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         return modelAndView;
     }
 
+    @RequestMapping(value={"/seller/getallsold"})
+    public ModelAndView listProductsSold(ModelAndView modelAndView,Model model) {
+        User user=null;
+        Optional<User> users=userService.findUserById((Long.parseLong(httpSession.getAttribute("userId").toString())));
+
+        if(users.isPresent()){
+            user=users.get();
+        }
+        List<Product> products=productService.getProductSold(user);
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("productsCount", products.size());
+        modelAndView.addObject("BidHasStarted","");
+        modelAndView.setViewName("secured/seller/soldproducts");
+        return modelAndView;
+    }
+
+
+    @GetMapping(value = {"/seller/ship/{productId}"})
+    public String shipProduct(@PathVariable long productId, Model model) {
+        Optional<Product> product = productService.findProductById(productId);
+        if (product.isPresent()) {
+            DepositPayment depositPayment=depositPaymentService.getPaymentByProductId(productId);
+            User user=depositPayment.getUser();
+            Optional<User> users=userService.findUserById((Long.parseLong(
+                    httpSession.getAttribute("userId").toString())));
+            model.addAttribute("productShippedId",productId);
+            model.addAttribute("customer",user);
+            model.addAttribute("seller",users.get());
+            return "secured/seller/shipment";
+        }
+        return "redirect:/product/seller/getallsold";
+    }
+
+    @GetMapping(value = {"/seller/shipped/{productId}"})
+    public String saveShipment(@PathVariable long productId, Model model) {
+        Optional<Product> product = productService.findProductById(productId);
+        if (product.isPresent()) {
+            product.get().setShipped(true);
+            productService.saveProduct(product.get());
+            return "redirect:/product/seller/getallsold";
+        }
+        return "redirect:/product/seller/getallsold";
+    }
+
 
 
     @RequestMapping(value = {"/seller/new" })
@@ -180,10 +241,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
                               @RequestParam("files") MultipartFile[] files,
                               Model model) throws IOException {
-    System.out.println(product.getProductName());
         if (bindingResult.hasErrors()) {
-            System.out.println("jfklsjfklsjdfklsjfdslkjfdskl");
-            System.out.println(bindingResult);
             return "/secured/seller/addproduct";
         }
         User user=null;
@@ -211,9 +269,23 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
 
     @PostMapping(value = {"/seller/edit"})
     public String updateProduct(@Validated @ModelAttribute("product") Product product,
-                                BindingResult bindingResult,Model model) {
+                                BindingResult bindingResult,@RequestParam("files") MultipartFile[] files,
+                                Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             return "secured/seller/productEdit";
+        }
+        User user=null;
+        Optional<User> users=userService.findUserById((Long.parseLong(
+                httpSession.getAttribute("userId").toString())));
+        if(users.isPresent()){
+            user=users.get();
+        }
+        String fileName="";
+        for(MultipartFile file:files){
+            fileName=StringUtils.cleanPath(file.getOriginalFilename());
+            product.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
+            String uploadDir = "src/main/resources/static/images/product-photos/" +user.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, file);
         }
         product.setMaxBidPrice(product.getStartingPrice());
         productService.saveProduct(product);
