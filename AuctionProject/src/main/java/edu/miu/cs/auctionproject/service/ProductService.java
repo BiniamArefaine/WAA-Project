@@ -26,6 +26,10 @@ public interface ProductService {
     List<Product> getProductSold(User user);
 
     List<Product> findAllPaidProducts(User user);
+
+    Boolean checkSetDepsoit(Product product);
+
+    double calculateDepositPayment(Product product);
 //    List<Product> findProductByCategoriesContains(Long categoryId);
 
 

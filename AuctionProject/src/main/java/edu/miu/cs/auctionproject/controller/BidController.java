@@ -2,11 +2,8 @@ package edu.miu.cs.auctionproject.controller;
 
 
 import edu.miu.cs.auctionproject.domain.*;
-import edu.miu.cs.auctionproject.service.BidService;
+import edu.miu.cs.auctionproject.service.*;
 
-import edu.miu.cs.auctionproject.service.DepositPaymentService;
-import edu.miu.cs.auctionproject.service.ProductService;
-import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +29,8 @@ public class BidController {
     @Autowired
     HttpSession httpSession;
 
+    @Autowired
+    BidHistoryService bidHistoryService;
 
     @Autowired
     private ProductService productService;
@@ -74,7 +73,7 @@ public class BidController {
                                     BindingResult bindingResult,
                                Model model) {
         if (bindingResult.hasErrors()) {
-            return "depositpayment";
+            return "payment/depositpayment";
         }
         Long productId= (Long.parseLong(httpSession.getAttribute("productId").toString()));
         Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
@@ -95,12 +94,12 @@ public class BidController {
         Optional<Product> product = productService.findProductById(productId);
         DepositPayment depositPayment=depositPaymentService.checkDeposit(productId,userId);
         if(user.isVerification()) {
-//            if(user.getProduct().contains(product.get())){
-//            return "redirect:/product/getall";
-//            }
+            if(user.getProduct().contains(product.get())){
+            return "redirect:/product/getall";
+            }
             if (depositPayment == null) {
                 DepositPayment depositPayment1 = new DepositPayment();
-                depositPayment1.setDeposit(product.get().getStartingPrice() * 0.01);
+                depositPayment1.setDeposit(product.get().getDepositpayment());
                 model.addAttribute("bidproduct", product.get());
 //                model.addAttribute("user", userService.findUserById(userId).get());
                 model.addAttribute("depositPayment", depositPayment1);
@@ -156,7 +155,7 @@ public class BidController {
         product.get().setBidcount(product.get().getBidcount()+1);
         product.get().setMaxBidPrice(bidPrice);
 //        productService.saveProduct(product);
-
+        bidHistoryService.createBidHistory(product,user,bidPrice);
         bidService.save(bid);
         return "redirect:/product/getall";
     }

@@ -41,6 +41,18 @@
                                    th:value="${product.startingPrice}">
 
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="depositpayment">Set DepositPayment 10% or Greater of Starting Price</label>
+                                    <input id="depositpayment" name="depositpayment" placeholder="Minimum default 10%" type="text" class="form-control"
+                                           th:value="${product.depositpayment}">
+                                </div>
+                            </div><span th:if="${#fields.hasErrors('startingPrice')}" th:errors="*{startingPrice}"
+                                        class="alert alert-danger"></span> <span style="color: red" th:text="${depomessage}"></span>
+                        </div>
+
                     </div><span th:if="${#fields.hasErrors('startingPrice')}" th:errors="*{startingPrice}"
                                 class="alert alert-danger"></span>
 
@@ -91,6 +103,21 @@
                                 class="alert alert-danger">
                             </span>
                 </div>
+                <div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="paymentDate">Set Payment DueDate</label>
+
+                                <input id="paymentDate" name="paymentDate" type="date" class="form-control"
+                                       th:value="${product.paymentDate}">
+
+                            </div>
+                        </div><span th:if="${#fields.hasErrors('paymentDate')}" th:errors="*{paymentDate}"
+                                    class="alert alert-danger">
+                            </span>
+                    </div>
+                    <div>
                 <div>
 
                     <label>Photos: </label>

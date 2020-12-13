@@ -5,8 +5,6 @@ import edu.miu.cs.auctionproject.domain.*;
 import edu.miu.cs.auctionproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -16,19 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = {"/product"})
@@ -253,6 +244,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public String inputProduct(@ModelAttribute("product") Product product,Model model) {
         List<Category>categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
+        model.addAttribute("depomessage","");
         return "/secured/seller/addproduct";
 //        return "redirect:/bids/duedate_done";
     }
@@ -262,8 +254,12 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
                               @RequestParam("files") MultipartFile[] files,
                               Model model) throws IOException {
-        if (bindingResult.hasErrors()) {
+        Boolean depositpayment=productService.checkSetDepsoit(product);
+        double calculateDeposit=productService.calculateDepositPayment(product);
+        if (bindingResult.hasErrors()|| depositpayment) {
             List<Category>categories = categoryService.getAllCategories();
+            product.setDepositpayment(calculateDeposit);
+            model.addAttribute("depomessage","Deposit must be greater than 10% of starting price");
             model.addAttribute("categories", categories);
             return "/secured/seller/addproduct";
         }
@@ -294,7 +290,11 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public String updateProduct(@Validated @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,@RequestParam("files") MultipartFile[] files,
                                 Model model) throws IOException {
-        if (bindingResult.hasErrors()) {
+        Boolean depositpayment=productService.checkSetDepsoit(product);
+        double calculateDeposit=productService.calculateDepositPayment(product);
+        if (bindingResult.hasErrors()|| depositpayment) {
+            product.setDepositpayment(calculateDeposit);
+            model.addAttribute("depomessage","Deposit must be greater than 10% of starting price");
             List<Category>categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories);
             return "secured/seller/productEdit";
@@ -328,6 +328,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
             }
         }
         if (product.isPresent()) {
+            model.addAttribute("depomessage","");
             model.addAttribute("product", product.get());
             model.addAttribute("categories",categoryService.getAllCategories());
             return "secured/seller/productEdit";

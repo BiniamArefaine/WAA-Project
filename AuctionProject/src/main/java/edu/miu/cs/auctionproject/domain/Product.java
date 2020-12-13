@@ -58,6 +58,7 @@ public class Product {
     private Double maxBidPrice=startingPrice;
     private boolean shipped;
     private boolean received;
+    private double depositpayment;
 
     @Transient
     public void addPhoto(String file) {

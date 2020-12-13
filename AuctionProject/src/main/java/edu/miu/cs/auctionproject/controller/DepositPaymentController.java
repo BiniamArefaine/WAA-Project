@@ -84,7 +84,7 @@ public class DepositPaymentController {
                                     BindingResult bindingResult,
                                     Model model) {
         if (bindingResult.hasErrors()) {
-            return "payment/depositpayment";
+            return "payment/paymentfinal";
         }
         Product product=(Product) model.getAttribute("prod");
         product.setPaidInFull(true);
@@ -93,7 +93,6 @@ public class DepositPaymentController {
         depositPayment.setProduct(product);
         depositPayment.setUser(user);
         depositPayment.setPaymentDate(LocalDate.now());
-        product.setPaymentDate(LocalDate.now());
         productService.saveProduct(product);
         depositPaymentService.savePayments(depositPayment);
         model.addAttribute("usercomf",user);

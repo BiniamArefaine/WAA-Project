@@ -53,48 +53,47 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label for="nameInCard">Card Name</label>
-                        <span th:if="${#fields.hasErrors('nameInCard')}" th:errors="*{nameInCard}"
-                              class="alert alert-danger"></span>
+
                         <input id="nameInCard" name="nameInCard" type="text" class="form-control" th:value="${depositPayment.nameInCard}">
-                    </div>
+                    </div>   <span th:if="${#fields.hasErrors('nameInCard')}" th:errors="*{nameInCard}"
+                                          class="alert alert-danger"></span>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="form-group">
                                 <label for="cardNumber">Card Number</label>
-                                <span th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}"
-                                      class="alert alert-danger"></span>
+
                                 <input id="cardNumber" name="cardNumber" type="text" class="form-control"
                                        th:value="${depositPayment.cardNumber}">
                             </div>
 
                         </div>
-                    </div>
+                    </div>    <span th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}"
+                                     class="alert alert-danger"></span>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="cardExpiration">CVV</label>
-                            <span th:if="${#fields.hasErrors('cvv')}" th:errors="*{cvv}"
-                                  class="alert alert-danger">
-                            </span>
+
                             <input id="cvv" name="cvv"  type="text" class="form-control"
-                                   th:value="${depositPayment.cvv}">
+                                   th:value="${depositPayment.cvv}" maxlength="3" minlength="3">
                         </div>
-                    </div>
+                    </div>   <span th:if="${#fields.hasErrors('cvv')}" th:errors="*{cvv}"
+                                      class="alert alert-danger">
+                            </span>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="cardExpiration">Card Expiration date</label>
-                            <span th:if="${#fields.hasErrors('cardExpiration')}" th:errors="*{cardExpiration}"
-                                  class="alert alert-danger">
-                            </span>
-                            <input id="cardExpiration" name="cardExpiration"  type="date" class="form-control"
+                            <input id="cardExpiration" name="cardExpiration"  type="date"  class="form-control"
                                    th:value="${depositPayment.cardExpiration}">
                         </div>
-                    </div>
+                    </div>   <span th:if="${#fields.hasErrors('cardExpiration')}" th:errors="*{cardExpiration}"
+                                           class="alert alert-danger">
+                            </span>
                 </div>
 
                 <div class="row">
@@ -102,14 +101,14 @@
                         <div class="form-group">
                             <div class="form-group">
                                 <label for="cardNumber">Make Deposit</label>
-                                <span th:if="${#fields.hasErrors('deposit')}" th:errors="*{deposit}"
-                                      class="alert alert-danger"></span>
-                                <input id="deposit" name="deposit" type="text" class="form-control"
+
+                                <input id="deposit" name="deposit" readonly type="text" class="form-control"
                                        th:value="${depositPayment.deposit}">
                             </div>
 
                         </div>
-                    </div>
+                    </div>   <span th:if="${#fields.hasErrors('deposit')}" th:errors="*{deposit}"
+                                   class="alert alert-danger"></span>
                 </div>
 
 

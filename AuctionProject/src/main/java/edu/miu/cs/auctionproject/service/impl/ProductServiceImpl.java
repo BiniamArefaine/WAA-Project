@@ -83,4 +83,16 @@ public class ProductServiceImpl implements ProductService {
         return user.getWonProducts().stream().filter(product -> product.isPaidInFull()==true).collect(Collectors.toList());
     }
 
+    @Override
+    public Boolean checkSetDepsoit(Product product) {
+
+    return product.getStartingPrice()*0.01>product.getDepositpayment();
+
+    }
+
+    @Override
+    public double calculateDepositPayment(Product product) {
+        return product.getStartingPrice()*0.01;
+    }
+
 }

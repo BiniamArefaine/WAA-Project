@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <title>
+        Bid History</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div style="margin-top: 1em; margin-bottom: 1em;" class="container">
+    <div>
+        <span style="font-size: 2em; color: #32a5e7;">Bid History</span>
+    </div>
+    <select class="btn btn-outline-success" th:onchange="'window.location.href = \'' + @{/product/getallByCategoryId/} + '\' + this.value ' ">
+        <option value="">filter category</option>
+        <option th:each="category : ${categories}"
+                th:value="${category.id} "
+                th:text="${category.name}"></option>
+    </select>
+
+    <a href="/product/getallbyuploadeddate/"><button class="btn btn-outline-success">Filter By Date</button></a>
+    <a href="/categories/getallforcustomer"><button class="btn btn-outline-success">List Categories</button></a>
+    <a href="/product/getallWonProduct"><button class="btn btn-outline-success">WonProducts</button></a>
+    <a href="/product/getallpaidproducts"><button class="btn btn-outline-success">Ordered</button></a>
+    <div style="font-size: 1em">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Date of Bid</th>
+                <th scope="col">Amount of Bid </th>
+                <th scope="col">Product Name </th>
+                <th scope="col">Product Descripion </th>
+                <th scope="col">Product Due Date</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bid,iterStat : ${bidHistorys}">
+                <th scope="row" th:text="${iterStat.count}+${'.'}">1</th>
+                <td th:text="${bid.user.firstName}"></td>
+                <td th:text="${bid.user.lastName}"></td>
+                <td th:text="${bid.dateOfBid}"></td>
+                <td th:text="${bid.bidAmount}"></td>
+                <td th:text="${bid.product.productName}"></td>
+                <td th:text="${bid.product.description}"></td>
+                <td th:text="${bid.product.dueDate}"></td>
+<!--                -->
+<!--                <td th:each="cat,iterStat : ${bid.product.categories}">-->
+<!--                <th th:text="${}">Dawit1</th>-->
+
+
+            </tr>
+            <tr th:if="${bidHistorysCount < 1}">
+                <td colspan="8" th:align="center">No product found</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <!--                    <ul class="nav nav-pills">-->
+        <!--                        <li class="nav-item"-->
+        <!--                            th:each="i:${#numbers.sequence(0,proucts.totalPages-1)}">-->
+        <!--                            <a th:href="@{/eauction/product/list(pageNo=${i})}" th:text="${i}" class="nav-link"-->
+        <!--                               th:classappend="${currentPageNo}==${i}?'active'"></a>-->
+        <!--                        </li>-->
+        <!--                    </ul>-->
+        <!--                </div>-->
+    </div>
+
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>
