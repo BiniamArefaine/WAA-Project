@@ -67,8 +67,9 @@
                            th:unless="${userproducts.contains(product)}">Bid</a>
                     </a>
                 </td>
-
-
+                <td>
+                    <a class="btn btn-outline-success btn-lg" th:href="@{'/bidHistory/getHistoryById/{id}'(id=${product.id})}">Show BidHistory</a>
+                </td>
             </tr>
             </tbody>
         </table>

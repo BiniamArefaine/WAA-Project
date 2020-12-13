@@ -55,6 +55,10 @@
                     <a class="btn btn-outline-success btn-lg" th:unless="${product.isShipped()}">Not Shipped</a>
                 </a>
                 </td>
+
+                <td>
+                    <a class="btn btn-outline-success btn-lg" th:href="@{'/bidHistory/getInvoiceById/{id}'(id=${product.id})}">Print Invoice</a>
+                </td>
             </tr>
             <tr th:if="${productsCount < 1}">
                 <td colspan="8" th:align="center">No product found</td>

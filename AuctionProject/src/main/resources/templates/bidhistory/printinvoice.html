@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <title>
+        Product Invoice</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div style="margin-top: 1em; margin-bottom: 1em;" class="container">
+    <div>
+        <span style="font-size: 2em; color: #32a5e7;">Product Invoice</span>
+    </div>
+    <div style="margin-left: 6em;" th:object="${bidHistory}">
+        <div style="border: black solid 2px; align-content: center; margin-top: 70px;">
+            <div style="margin-left: 10%">
+                <div>
+                    <h3>Here is the Invoice of the <span th:text="${bidHistory.product.productName}"></span> you Bid and
+                        Won</h3>
+                </div>
+                <p >First Name----------------<span th:text="${bidHistory.user.firstName}"> </span></p>
+                <p>Last Name -----------------<span th:text="${bidHistory.user.lastName}"></span></p>
+                <p>Product Name---------------<span th:text="${bidHistory.product.productName}"></span></p>
+                <p>Date of your last Bid------<span th:text="${bidHistory.dateOfBid}"></span></p>
+                <p>Date You Won---------------<span th:text="${bidHistory.product.dueDate}"></span></p>
+                <p>Amount You Paid------------<span th:text="${bidHistory.bidAmount}"></span></p>
+                <button style="margin-right: 70%">print</button> </div>
+
+        </div>
+        <a href="/product/getallpaidproducts"><button class="btn btn-outline-success">Back</button></a>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
+</body>
+</html>
+
+
