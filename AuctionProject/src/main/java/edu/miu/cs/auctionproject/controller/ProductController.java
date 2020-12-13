@@ -2,6 +2,7 @@ package edu.miu.cs.auctionproject.controller;
 
 import edu.miu.cs.auctionproject.FileUploadUtil;
 import edu.miu.cs.auctionproject.domain.*;
+import edu.miu.cs.auctionproject.dynamicscheduling.MyJob;
 import edu.miu.cs.auctionproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,6 +53,9 @@ public class ProductController {
 
     @Autowired
     DepositPaymentService depositPaymentService;
+
+    @Autowired
+    MyJob myJob;
 
 //--------------------------------customer-----------------------------
 @RequestMapping(value={"/getallWonProduct"})
@@ -267,6 +271,8 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
             model.addAttribute("categories", categories);
             return "/secured/seller/addproduct";
         }
+
+
         User user=null;
         Optional<User> users=userService.findUserById((Long.parseLong(
                 httpSession.getAttribute("userId").toString())));

@@ -14,6 +14,5 @@ public interface ICredentialRepository extends JpaRepository<Credential, Long> {
     @Query("select c from Credential c where c.user.pinCode=true and c.userName= :username")
     Optional<Credential> findByUserName(String username);
 
-//    Optional<Credential> findByUserNameAndUserPinCode
 
 }

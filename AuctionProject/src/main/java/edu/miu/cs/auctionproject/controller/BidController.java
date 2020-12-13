@@ -2,6 +2,7 @@ package edu.miu.cs.auctionproject.controller;
 
 
 import edu.miu.cs.auctionproject.domain.*;
+import edu.miu.cs.auctionproject.dynamicscheduling.MyJob;
 import edu.miu.cs.auctionproject.service.BidService;
 
 import edu.miu.cs.auctionproject.service.DepositPaymentService;
@@ -13,12 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 @Controller
 @SessionAttributes({"bidproduct"})
@@ -38,6 +38,10 @@ public class BidController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    MyJob myJob;
+
 
     @Autowired
     private DepositPaymentService depositPaymentService;
@@ -133,6 +137,12 @@ public class BidController {
 
         Long productId= (Long.parseLong(httpSession.getAttribute("productId").toString()));
         Optional<Product> product=productService.findProductById(productId);
+        long productIds = product.get().getId();
+        //MyJob class scheduler
+        System.out.println("dave----inside save Bid" + productIds);
+        LocalDate localDate = product.get().getDueDate();
+        myJob.timeHashMap(productIds,localDate.atStartOfDay());
+
         Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
         User user=userService.findUserById(userId).get();
         Bid bid=bidService.getBidByProductId(product.get().getId());
@@ -164,7 +174,7 @@ public class BidController {
     //for scheduling and bidding
 //    @Scheduled(fixedRate = )
     @GetMapping(value = "/before_duedate")
-    public String scheduleTime(Long productId, Model model){
+    public String scheduleTime(Long productId){
         System.out.println("----------inside scheludetime in BidController");
        Bid bid = bidService.getBidByProductId(productId);
         System.out.println("------ bid passed");
@@ -182,11 +192,16 @@ public class BidController {
         //get the hashMap and get the user
         //fake usr object
         System.out.println("-----after null");
-        model.addAttribute("winner", winner);
+        ModelAndView modelAndView =new ModelAndView();
+        modelAndView.addObject("winner", winner);
         System.out.println("-----after winner");
-
         //fake bidId
         System.out.println("----------inside END scheludetime in BidController");
         return "forward:/payments/return_all_payments";
+    }
+
+    public void scheduler(Long productId){
+        System.out.println("inside scheduler------BidController");
+        scheduleTime(productId);
     }
 }

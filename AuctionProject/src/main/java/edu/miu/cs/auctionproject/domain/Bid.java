@@ -22,7 +22,7 @@ public class Bid {
     @JoinColumn
     private Product product;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name="user")
     @Column(name="price")
     @CollectionTable(name="bid_user", joinColumns=@JoinColumn(name="bid_id"))
