@@ -30,8 +30,8 @@ public class User {
     private List<Product>wonProducts;
 
     private boolean verification;
-    @OneToOne
-    @JoinColumn(nullable = true)
+    @ManyToOne
+//    @JoinColumn(nullable = true)
     private Role role;
     //added
 

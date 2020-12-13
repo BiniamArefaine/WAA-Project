@@ -50,7 +50,7 @@
                         <input id="depositpayment" name="depositpayment" placeholder="Minimum default 10%" type="text" class="form-control"
                                th:value="${product.depositpayment}">
                     </div>
-                </div><span th:if="${#fields.hasErrors('startingPrice')}" th:errors="*{startingPrice}"
+                </div><span th:if="${#fields.hasErrors('depositpayment')}" th:errors="*{depositpayment}"
                             class="alert alert-danger"></span>
                 <span style="color: red" th:text="${depomessage}"></span>
             </div>

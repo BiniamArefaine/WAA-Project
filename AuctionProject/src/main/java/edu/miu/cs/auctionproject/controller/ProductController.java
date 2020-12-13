@@ -279,7 +279,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         for(MultipartFile file:files){
             fileName=StringUtils.cleanPath(file.getOriginalFilename());
             product.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
-            String uploadDir = "src/main/resources/static/images/product-photos/" +user.getId();
+            String uploadDir = "target/classes/static/images/product-photos/" +user.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, file);
         }
         List<Product> products=user.getProduct();
@@ -315,7 +315,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         for(MultipartFile file:files){
             fileName=StringUtils.cleanPath(file.getOriginalFilename());
             product.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
-            String uploadDir = "src/main/resources/static/images/product-photos/" +user.getId();
+            String uploadDir = "target/classes/static/images/product-photos/" +user.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, file);
         }
         product.setMaxBidPrice(product.getStartingPrice());
