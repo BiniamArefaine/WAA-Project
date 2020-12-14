@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label for="street">City</label>
                         <input id="street" name="street" placeholder="street" type="text" class="form-control"
-                               th:value="${address.stret}">
+                               th:value="${address.street}">
                     </div>
                 </div>
                 <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}"

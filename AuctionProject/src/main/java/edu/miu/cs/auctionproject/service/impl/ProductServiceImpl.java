@@ -1,5 +1,6 @@
 package edu.miu.cs.auctionproject.service.impl;
 
+import edu.miu.cs.auctionproject.domain.Category;
 import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.repository.ProductRepository;
@@ -9,10 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,16 +39,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> findAllProducts(int pageNo) {
-        return  productRepository.findAllReleased(PageRequest.of(pageNo,2, Sort.by("startingPrice")));
+        return productRepository.findAllReleased(PageRequest.of(pageNo, 2, Sort.by("startingPrice")));
     }
 
 
-
-
     @Override
-    public Page<Product> searchProduct(int pageNo,String searchString) {
-       // System.out.println(pageNo+" "+searchString);
-        return productRepository.findByProductName(PageRequest.of(pageNo,2,Sort.by("productName")),searchString);
+    public Page<Product> searchProduct(int pageNo, String searchString) {
+        // System.out.println(pageNo+" "+searchString);
+        return productRepository.findByProductName(PageRequest.of(pageNo, 2, Sort.by("productName")), searchString);
     }
 
     @Override
@@ -57,15 +54,33 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
+    //    @Override
+//    public List<Product> findAllProductsByCategory(long categoryId) {
+//
+//        return productRepository.findAllByCategoryId(categoryId);
+//    }
     @Override
     public List<Product> findAllProductsByCategory(long categoryId) {
 
-        return productRepository.findAllByCategoryId(categoryId);
+        List<Product> pro = new ArrayList<>();
+        List<Product> products = productRepository.findAll();
+        for (Product product : products) {
+            List<Category> categoriesWithProduct = new ArrayList<>();
+            categoriesWithProduct.addAll(product.getCategories());
+            for (Category c : categoriesWithProduct) {
+                if (c.getId() == categoryId) {
+                    pro.add(product);
+                }
+            }
+
+        }
+        return pro;
+
     }
 
     @Override
     public List<Product> findWonProducts(User user) {
-        return (user.getWonProducts().stream().filter(product -> product.isPaidInFull()==false)).collect(Collectors.toList());
+        return (user.getWonProducts().stream().filter(product -> product.isPaidInFull() == false)).collect(Collectors.toList());
     }
 
     @Override
@@ -75,24 +90,24 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductSold(User user) {
-        return user.getProduct().stream().filter(product -> product.isSold()==true).collect(Collectors.toList());
+        return user.getProduct().stream().filter(product -> product.isSold() == true).collect(Collectors.toList());
     }
 
     @Override
     public List<Product> findAllPaidProducts(User user) {
-        return user.getWonProducts().stream().filter(product -> product.isPaidInFull()==true).collect(Collectors.toList());
+        return user.getWonProducts().stream().filter(product -> product.isPaidInFull() == true).collect(Collectors.toList());
     }
 
     @Override
     public Boolean checkSetDepsoit(Product product) {
 
-    return product.getStartingPrice()*0.01>product.getDepositpayment();
+        return product.getStartingPrice() * 0.01 > product.getDepositpayment();
 
     }
 
     @Override
     public double calculateDepositPayment(Product product) {
-        return product.getStartingPrice()*0.01;
+        return product.getStartingPrice() * 0.01;
     }
 
 }

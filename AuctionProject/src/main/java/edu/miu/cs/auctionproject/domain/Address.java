@@ -29,7 +29,8 @@ public class Address {
     private String state;
     @NotBlank(message="Please Enter ZipCode")
     private String zipcode;
-    @OneToOne(mappedBy = "address")
+
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
     User user;
 
 }

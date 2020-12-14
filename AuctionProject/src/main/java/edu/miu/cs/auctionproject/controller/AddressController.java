@@ -7,6 +7,7 @@ import edu.miu.cs.auctionproject.domain.Product;
 import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.service.AddressService;
 import edu.miu.cs.auctionproject.service.CategoryService;
+import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,9 @@ public class AddressController {
     HttpSession httpSession;
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = {"/new/{productId}" })
     public String inputAddress(@PathVariable long productId, Model model) {
@@ -65,6 +69,7 @@ public class AddressController {
         if (bindingResult.hasErrors()) {
             return "addressEdit";
         }
+
         addressService.saveAddress(address);
         return "redirect:/product/getall";
     }
@@ -78,18 +83,25 @@ public class AddressController {
         if (bindingResult.hasErrors()) {
             return "address";
         }
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user=userService.findUserById(userId).get();
+        user.setAddress(address);
         addressService.saveAddress(address);
+        userService.saveUser(user);
         return "redirect:/product/payment/";
     }
 
     @PostMapping(value = "/seller/save")
     public String saveSellerAddress(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult,
                               Model model) {
-        System.out.println("==================+++++++++++");
         if (bindingResult.hasErrors()) {
             return "/secured/seller/address";
         }
+        Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
+        User user=userService.findUserById(userId).get();
+        user.setAddress(address);
         addressService.saveAddress(address);
+//        userService.saveUser(user);
         List<Category>categories = categoryService.getAllCategories();
         model.addAttribute("product",new Product());
         model.addAttribute("categories", categories);
