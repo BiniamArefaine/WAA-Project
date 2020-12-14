@@ -40,10 +40,10 @@ public class DepositPaymentServiceImpl implements DepositPaymentService {
     public DepositPayment checkDeposit(long productId, Long userId) {
         return depositPaymentRepository.getDepositPaymentByProductAndUser(productId,userId);
     }
-    @Override
-    public DepositPayment getPaymentByProductId(long productId) {
-        return depositPaymentRepository.getDepositPaymentByProductId(productId);
-    }
+//    @Override
+//    public DepositPayment getPaymentByProductId(long productId) {
+//        return depositPaymentRepository.getDepositPaymentByProductAndUser(productId);
+//    }
     @Override
     public List<DepositPayment> getAllExceptWinner(Long userId) {
         return depositPaymentRepository.getAllExceptWinner(userId);

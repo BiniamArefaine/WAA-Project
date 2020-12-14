@@ -25,6 +25,7 @@ public class BidHistoryController {
     @GetMapping("/getHistoryById/{productId}")
     public String findAllBidHistoryById(@PathVariable("productId") long productId, Model model){
        List<BidHistory> bidHistorys=bidHistoryService.findAllBidHistoryByProductId(productId);
+            model.addAttribute("historycount", bidHistorys.size());
             model.addAttribute("bidHistorys",bidHistorys);
             model.addAttribute("historycount", bidHistorys.size());
 

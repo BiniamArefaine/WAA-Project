@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <link rel="icon" href="favicon.ico">
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs"
+            crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div style="padding-top:1em;" class="container">
+    <div style="margin-bottom: 1em;">
+        <span style="font-size: 2em; color: #32a5e7;">Shipping Address Form</span>
+    </div>
+
+    <form id="addressform" method="post" action="/address/save" th:object="${address}">
+        <fieldset>
+            <input type="hidden" name="id" th:value="${address.id}"/>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="street">City</label>
+                        <input id="street" name="street" placeholder="street" type="text" class="form-control"
+                               th:value="${address.street}">
+                    </div>
+                </div>
+                <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}"
+                      class="alert alert-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input id="city" name="city" placeholder="city" type="text" class="form-control"
+                               th:value="${address.city}">
+                    </div>
+                </div>
+                <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"
+                      class="alert alert-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input id="state" name="state" placeholder="state" type="text" class="form-control"
+                               th:value="${address.state}">
+                    </div>
+                </div>
+                <span th:if="${#fields.hasErrors('state')}" th:errors="*{state}"
+                      class="alert alert-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="zipcode">zipCode</label>
+                        <input id="zipcode" name="zipcode" placeholder="zipcode" type="text" class="form-control"
+                               th:value="${address.zipcode}">
+                    </div>
+                </div>
+                <span th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}"
+                      class="alert alert-danger"></span>
+            </div>
+
+            <div style="float:right;">
+                <a href="/product/getallWonProduct" class="btn btn-outline-warning">Cancel</a>
+                <button id="btnSubmit" type="submit" class="btn btn-outline-success">Proceed Payment</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

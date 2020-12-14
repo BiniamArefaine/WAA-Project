@@ -11,7 +11,6 @@ import java.util.List;
 public interface DepositPaymentRepository extends JpaRepository<DepositPayment, Long> {
     @Query("select d from DepositPayment d where d.user.id=:userId and d.product.id=:productId")
     DepositPayment getDepositPaymentByProductAndUser(Long productId,Long userId );
-
     @Query("select d from DepositPayment d where d.user.id <> :userId")
     List<DepositPayment> getAllExceptWinner(Long userId);
     DepositPayment getDepositPaymentByProductId(Long id);

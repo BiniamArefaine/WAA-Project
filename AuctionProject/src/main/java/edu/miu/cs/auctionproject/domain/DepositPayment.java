@@ -22,9 +22,9 @@ public class DepositPayment {
     private String nameInCard;
 
     private Double deposit;
-    @OneToOne
+    @ManyToOne
     private User user;
-    @OneToOne
+    @ManyToOne
     private Product product;
 
     @NotNull(message = "Please Enter Card Number")
@@ -43,7 +43,5 @@ public class DepositPayment {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate cardExpiration;
-//    @ManyToOne
-//    private Address address;
 
 }

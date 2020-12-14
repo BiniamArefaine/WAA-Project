@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 //@AllArgsConstructor
@@ -18,10 +19,17 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String street;
-    private String city;
-    private String state;
-    private String zipcode;
 
+    @NotBlank(message = "Please Enter Street")
+    private String street;
+    @NotBlank(message = "Please Enter City")
+    private String city;
+    @NotBlank(message="Please Enter state")
+    @Size(min = 2, max = 2)
+    private String state;
+    @NotBlank(message="Please Enter ZipCode")
+    private String zipcode;
+    @OneToOne(mappedBy = "address")
+    User user;
 
 }

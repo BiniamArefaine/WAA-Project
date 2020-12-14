@@ -17,103 +17,82 @@
 <div th:replace="fragments/header :: header"></div>
 <div style="padding-top:1em;" class="container">
     <div style="margin-bottom: 1em;">
-        <span style="font-size: 2em; color: #32a5e7;">Register New User Form</span>
+        <span style="font-size: 2em; color: #32a5e7;">Add User Form</span>
     </div>
 
-    <form id="newUserForm" method="post" th:action="@{/user/add}" th:object="${users}">
+    <form id="newProductForm" method="post" action="/user/add" th:object="${user}" enctype="multipart/form-data">
         <fieldset>
-            <input type="hidden" name="userId" th:value="*{id}"/>
+            <input type="hidden" name="id" th:value="${user.id}"/>
             <div class="row">
                 <div class="col-md-6">
                     <label for="firstName">First Name</label>
-                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                                              class="alert alert-danger"></span>
-                    <input id="firstName" name="firstName" type="text" class="form-control" th:value="${users.firstName}">
+                    <input id="firstName" name="firstName" placeholder="First Name" type="text"
+                           class="form-control" th:value="${user.firstName}">
+
                 </div>
+                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                      class="alert alert-danger"></span>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-                                                              class="alert alert-danger"></span>
-                            <input id="lastName" name="lastName" type="text" class="form-control"
-                                   th:value="${users.lastName}">
-                        </div>
+                    <label for="lastName">Last Name</label>
+                    <input id="lastName" name="lastName" placeholder="Last Name" type="text"
+                           class="form-control" th:value="${user.lastName}">
 
-                    </div>
                 </div>
+                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                      class="alert alert-danger"></span>
             </div>
-            <!--            <div class="form-group">-->
-            <!--                <label for="email">Email Address</label>-->
-            <!--&lt;!&ndash;                <span&ndash;&gt;-->
-            <!--&lt;!&ndash;                    th:if="${#fields.hasErrors('email')}" th:errors="*{email}"&ndash;&gt;-->
-            <!--&lt;!&ndash;                    class="alert alert-danger"></span> &ndash;&gt;-->
-            <!--                <textarea id="email"-->
-            <!--                                                              name="email" type="text" class="form-control" rows="3"-->
-            <!--                                                                 th:value="${users.email}"></textarea>-->
-
-            <!--            </div>-->
             <div class="row">
                 <div class="col-md-6">
                     <label for="userName">User Name</label>
-                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                                              class="alert alert-danger"></span>
-                    <input id="userName" name="userName" type="text" class="form-control" th:field="*{credential.userName}">
-                    <span style="font-style: italic;" th:text="${users != null} ? ${#strings.toUpperCase(users.credential.userName)} : 'user is null'"></span>
+<!--                                        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{credential.userName}"-->
+<!--                                              class="alert alert-danger"></span>-->
+                    <input id="userName" required name="userName" type="text" class="form-control" th:field="*{credential.userName}">
+<!--                    <span style="font-style: italic;" th:text="${users != null} ? ${#strings.toUpperCase(users.credential.userName)} : 'user is null'"></span>-->
 
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="email">Email</label>
-                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                                              class="alert alert-danger"></span>
-                    <input id="email" name="email" type="text" class="form-control" th:field="*{email}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" placeholder="email@miu.edu" type="email"
+                               class="form-control" th:text="${user.email}">
+                    </div>
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                          class="alert alert-danger"></span>
                 </div>
-            </div>
-
             <div class="row">
                 <div class="col-md-6">
                     <label for="password">Password</label>
-                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                                              class="alert alert-danger"></span>
-                    <input id="password" name="password" type="text" class="form-control" th:field="*{credential.password}">
+                    <!--                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
+                    <!--                          class="alert alert-danger"></span>-->
+                    <input id="password" required name="password" type="password" class="form-control" th:field="*{credential.password}">
                 </div>
             </div>
-            <!--            <div class="form-group">-->
-            <!--                <label for="licenceNumber">License Number</label>-->
-            <!--&lt;!&ndash;                <span&ndash;&gt;-->
-            <!--&lt;!&ndash;                    th:if="${#fields.hasErrors('liscenceNumber')}" th:errors="*{licenceNumber}"&ndash;&gt;-->
-            <!--&lt;!&ndash;                    class="alert alert-danger"></span> &ndash;&gt;-->
-            <!--                <textarea id="licenceNumber"-->
-            <!--                                                                 name="email" type="text" class="form-control" rows="3"-->
-            <!--                                                                 th:value="${users.licenceNumber}"></textarea>-->
-
-            <!--            </div>-->
             <div class="row">
-                <div class="col-md-6">
-                    <label for="licenceNumber">Licence Number</label>
-                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                                              class="alert alert-danger"></span>
-                    <input id="licenceNumber" name="licenceNumber" type="text" class="form-control" th:field="${users.licenceNumber}">
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <select th:field="${users.role.id}">
-<!--                        <option th:value="">Select Role</option>-->
-                        <option th:value="1" th:text="Customer"></option>
-                        <option th:value="2" th:text="Seller"></option>
+                <div class="col-md-2">
+                    <label for="role">Customer Or Seller</label>
+                    <select id="role" class="form-control" th:field="*{role}">
+                        <option th:value="${{CUSTOMER}}" th:text="CUSTOMER"></option>
+                        <option th:value="${{SELLER}}" th:text="SELLER"></option>
                     </select>
                 </div>
-            </div>
-            <div style="float:right;">
-                <a href="/home" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
-                <button id="btnSubmit" type="submit" class="btn btn-outline-success">Save User</button>
-            </div>
+                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="licenceNumber">Licence Number</label>
+                            <input id="licenceNumber" name="licenceNumber" placeholder="licenceNumber" type="text"
+                                   class="form-control" th:value="${user.licenceNumber}">
+                                            </div> <span th:if="${#fields.hasErrors('licenceNumber')}" th:errors="*{licenceNumber}"
+                                                         class="alert alert-danger"></span>
+                        </div>
+
+
+                        <div style="float:right;">
+                            <a href="/home" class="btn btn-outline-warning">Cancel</a>
+                            <button id="btnSubmit" type="submit" class="btn btn-outline-success">Save User</button>
+                        </div>
         </fieldset>
     </form>
 </div>

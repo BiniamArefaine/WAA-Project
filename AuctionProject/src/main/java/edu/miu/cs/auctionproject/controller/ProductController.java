@@ -32,6 +32,11 @@ public class ProductController {
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    BidHistoryService bidHistoryService;
+
+    @Autowired
+    AddressService addressService;
 
     @Autowired
     UserService userService;
@@ -78,12 +83,13 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         return modelAndView;
     }
 
-    @GetMapping(value = {"/payment/{productId}"})
-    public String payProduct(@PathVariable long productId, Model model) {
+    @GetMapping(value = {"/payment"})
+    public String payProduct( Model model) {
+        Long productId=(Long.parseLong(httpSession.getAttribute("proId").toString()));
         Optional<Product> product = productService.findProductById(productId);
         Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
         User user1=userService.findUserById(userId).get();
-        DepositPayment depositPayment=depositPaymentService.getPaymentByProductId(productId);
+        DepositPayment depositPayment=depositPaymentService.checkDeposit(productId,userId);
         depositPayment.setFinalPayment(product.get().getMaxBidPrice()-depositPayment.getDeposit());
         model.addAttribute("prod", product.get());
         model.addAttribute("user1",user1);
@@ -219,8 +225,10 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public String shipProduct(@PathVariable long productId, Model model) {
         Optional<Product> product = productService.findProductById(productId);
         if (product.isPresent()) {
-            DepositPayment depositPayment=depositPaymentService.getPaymentByProductId(productId);
-            User user=depositPayment.getUser();
+            BidHistory bidHistory=bidHistoryService.printInvoiceByProductId(productId);
+//            DepositPayment depositPayment=depositPaymentService.getPaymentByProductId(productId);
+            User user=bidHistory.getUser();
+            System.out.println(user.getLastName());
             Optional<User> users=userService.findUserById((Long.parseLong(
                     httpSession.getAttribute("userId").toString())));
             model.addAttribute("productShippedId",productId);
@@ -246,6 +254,15 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
 
     @RequestMapping(value = {"/seller/new" })
     public String inputProduct(@ModelAttribute("product") Product product,Model model) {
+
+        Long userId=Long.parseLong(httpSession.getAttribute("userId").toString());
+        Address address=addressService.findAddressByUserId(userId);
+        System.out.println(address);
+        if(address==null){
+            Address address1=new Address();
+            model.addAttribute("address",address1);
+            return "/secured/seller/address";
+        }
         List<Category>categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("depomessage","");

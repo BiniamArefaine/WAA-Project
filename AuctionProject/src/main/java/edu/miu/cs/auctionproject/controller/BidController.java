@@ -113,7 +113,7 @@ public class BidController {
 
         }
         else {
-            return "redirect:/product/getall";
+            return "notVerified";
         }
 
         return "redirect:/bids/addBid";

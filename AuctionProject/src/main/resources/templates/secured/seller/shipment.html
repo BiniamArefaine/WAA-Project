@@ -19,30 +19,35 @@
     <div style="margin-bottom: 1em;">
         <span style="font-size: 2em; color: #32a5e7;">Shipment Process</span>
     </div>
-        <form >
-            <fieldset>
-                <div style="font-size: 18px">From :<span th:text="${seller.firstName}"></span> <span th:text="${seller.lastName}"></span>
+    <form>
+        <fieldset>
+            <div style="font-size: 18px">From :<span th:text="${seller.firstName}"></span> <span
+                    th:text="${seller.lastName}"></span>
+                <br/>
+                Address:<br/>
+                <div th:text="${seller.address?.street}"></div>
+                <div th:text="${seller.address?.city}"></div>
+                <div th:text="${seller.address?.state}"></span>
+                    <div th:text="${seller.address?.zipcode}"></div>
+                </div>
+                <br/>
+                <div style="font-size: 18px">To :<span th:text="${customer.firstName}"></span> <span
+                        th:text="${customer.lastName}"></span>
                     <br/>
                     Address:<br/>
-                            <div th:text="${seller.address.street}"></div>
-                            <div th:text="${seller.address.city}"></div>
-                            <div th:text="${seller.address.state}"></span>
-                            <div th:text="${seller.address.zipcode}"></div>
-                </div><br/>
-                <div style="font-size: 18px">To :<span th:text="${customer.firstName}"></span> <span th:text="${seller.lastName}"></span>
-                    <br/>
-                    Address:<br/>
-                            <div th:text="${customer.address.street}"></div>
-                            <div th:text="${customer.address.city}"></div>
-                            <div th:text="${customer.address.state}"></div>
-                            <div th:text="${customer.address.zipcode}"></div>
+                    <div th:text="${customer.address?.street}"></div>
+                    <div th:text="${customer.address?.city}"></div>
+                    <div th:text="${customer.address?.state}"></div>
+                    <div th:text="${customer.address?.zipcode}"></div>
                 </div>
                 <div style="float:right;">
                     <a href="/product/seller/getallsold" class="btn btn-outline-warning">Cancel</a>&nbsp;&nbsp;&nbsp;
-                    <a  class="btn btn-outline-success btn-lg" th:href="@{'/product/seller/shipped/{id}'(id=${productShippedId})}">Shipped</a>
+                    <a class="btn btn-outline-success btn-lg"
+                       th:href="@{'/product/seller/shipped/{id}'(id=${productShippedId})}">Shipped</a>
                 </div>
-            </fieldset>
-        </form>
+            </div>
+        </fieldset>
+    </form>
     </form>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

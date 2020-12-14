@@ -1,6 +1,7 @@
 package edu.miu.cs.auctionproject.domain;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Currency;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,6 +56,7 @@ public class Product {
     private List<Category>categories;
     @ElementCollection
     private List<String> photos=new ArrayList<>();
+
     private Double maxBidPrice=startingPrice;
     private boolean shipped;
     private boolean received;

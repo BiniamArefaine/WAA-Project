@@ -16,9 +16,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "FirstName required!")
     private String firstName;
+    @NotBlank(message = "LastName required!")
     private String lastName;
+    @NotBlank(message = "Email required!")
     private String email;
+    @NotBlank(message = "LicenceNumber required!")
     private String licenceNumber;
 
 

@@ -51,7 +51,7 @@
                 <td th:text="${product.maxBidPrice}"></td>
                 <td th:text="${product.upLoadedDate}"></td>
                 <td><a class="btn btn-outline-success btn-lg"
-                        th:href="@{'/product/payment/{id}'(id=${product.id})}">Make Payment</a>
+                        th:href="@{'/address/new/{id}'(id=${product.id})}">Make Payment</a>
                 </td>
             </tr>
             <tr th:if="${productsCount < 1}">

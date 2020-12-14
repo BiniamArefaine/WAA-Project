@@ -1,10 +1,10 @@
 package edu.miu.cs.auctionproject.controller;
 
 //import edu.miu.cs.auctionproject.IAuthenticationFacade;
-import edu.miu.cs.auctionproject.domain.Credential;
-import edu.miu.cs.auctionproject.domain.User;
+import edu.miu.cs.auctionproject.domain.*;
 import edu.miu.cs.auctionproject.javaMailApi.SendEmailClass;
 import edu.miu.cs.auctionproject.service.CredentialService;
+import edu.miu.cs.auctionproject.service.RoleService;
 import edu.miu.cs.auctionproject.service.UserService;
 //import edu.miu.cs.auctionproject.verificationAPI.Verification;
 import edu.miu.cs.auctionproject.verificationAPI.Verification;
@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -39,17 +41,18 @@ public class UserController {
     HttpSession session;
 
     @Autowired
+    RoleService roleService;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
 
     @PostMapping(value = {"/add"})
     public String addNewUser(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
-            System.out.println("----------- erorrrrrrrrrrrrrrrr");
             return "adduser";
         }
-
-        // save product here
+            // save product here
         System.out.println("----------5-");
         String encodePassword = passwordEncoder.encode(user.getCredential().getPassword());
 //        System.out.println(encodePassword + user.getCredential().getPassword());
@@ -181,10 +184,13 @@ public class UserController {
     }
     //biniam
     @RequestMapping(value = {"/adduser" })
-    public String inputProduct(@ModelAttribute("users") User user, Model model) {
-        model.addAttribute("users",new User());
+    public String inputProduct(@ModelAttribute("user") User user, Model model) {
+        List<Role>roles=roleService.findAllRoles();
+        model.addAttribute("SELLER",roles.get(1));
+        model.addAttribute("CUSTOMER",roles.get(2));
         return "adduser";
     }
+
     //new Verification
     @RequestMapping(value = {"/get_verified"})
     public String verify(@ModelAttribute String str, @RequestParam(value = "pin", required = false)  String pin, BindingResult bindingResult, Model model) throws Exception {
