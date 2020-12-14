@@ -37,7 +37,7 @@ public class Product {
     //added
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate paymentDate;
+    private LocalDate paymentDueDate;
     //added
     private boolean paidInFull;
 

@@ -62,10 +62,6 @@ public class UserController {
         model.addAttribute("email", user.getEmail());
 //        model.addAttribute("userObject", user);
         sendEmailTo(user.getEmail(),model);
-        System.out.println("-------------before");
-        System.out.println(user.getCredential().getPassword());
-        System.out.println(user.getCredential().getUserName());
-
         user.getCredential().setPassword(passwordEncoder.encode(user.getCredential().getPassword()));
         userService.saveUser(user);
         System.out.println("-------------after");

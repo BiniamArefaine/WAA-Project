@@ -313,10 +313,12 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     public String updateProduct(@Validated @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,@RequestParam("files") MultipartFile[] files,
                                 Model model) throws IOException {
-        Boolean depositpayment=productService.checkSetDepsoit(product);
-        double calculateDeposit=productService.calculateDepositPayment(product);
+        Product product1=productService.findProductById(product.getId()).get();
+        Boolean depositpayment=productService.checkSetDepsoit(product1);
+        double calculateDeposit=productService.calculateDepositPayment(product1);
+
         if (bindingResult.hasErrors()|| depositpayment) {
-            product.setDepositpayment(calculateDeposit);
+            product1.setDepositpayment(calculateDeposit);
             model.addAttribute("depomessage","Deposit must be greater than 10% of starting price");
             List<Category>categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories);
@@ -331,12 +333,16 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         String fileName="";
         for(MultipartFile file:files){
             fileName=StringUtils.cleanPath(file.getOriginalFilename());
-            product.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
+            product1.getPhotos().clear();
+            product1.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
             String uploadDir = "target/classes/static/images/product-photos/" +user.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, file);
         }
-        product.setMaxBidPrice(product.getStartingPrice());
-        productService.saveProduct(product);
+        product1.setMaxBidPrice(product1.getStartingPrice());
+        List<Product> products=user.getProduct();
+        products.add(product1);
+        productService.saveProduct(product1);
+        userService.saveUser(user);
         return "redirect:/product/seller/getall";
     }
 
@@ -382,7 +388,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         if(productService.findProductById(productId).isPresent()){
            Product productToBeShipped = productService.findProductById(productIds).get();
            if(!productToBeShipped.isPaidInFull()
-                   && !LocalDate.now().isAfter(productToBeShipped.getPaymentDate())){
+                   && !LocalDate.now().isAfter(productToBeShipped.getPaymentDueDate())){
                return "redirect:/product/shipped";
            }
         };
