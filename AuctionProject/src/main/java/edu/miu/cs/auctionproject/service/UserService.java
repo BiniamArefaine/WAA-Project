@@ -21,6 +21,8 @@ public interface UserService {
 
     User finduserByName(String userName);
 
+    User findUserByProductId(long productId);
+
 //
 //    User findByCredential_UserNameOrRole(Credential credential1);
 

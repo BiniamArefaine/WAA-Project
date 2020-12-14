@@ -13,4 +13,11 @@ public interface DepositPaymentService {
     DepositPayment checkDeposit(long productId, Long userId);
 //    DepositPayment getPaymentByProductId(long productId);
     List<DepositPayment> getAllExceptWinner(Long userId);
+
+//    User getUserByProductIdPaidFull(Long productId);
+    DepositPayment findDepositByProductId(Long productId);
+
+    List<DepositPayment> findAllDepositsBypId(Long pId);
+
+    DepositPayment findDepositByUserIdAndPId(Long id, long productIds);
 }

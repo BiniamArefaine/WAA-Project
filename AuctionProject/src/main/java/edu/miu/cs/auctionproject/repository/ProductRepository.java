@@ -1,6 +1,7 @@
 package edu.miu.cs.auctionproject.repository;
 
 import edu.miu.cs.auctionproject.domain.Product;
+import edu.miu.cs.auctionproject.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,5 +27,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //      @Query(value="select p from Product p where p.id=:categoryId")
 //      List<Product> findAllByCategoryId(long categoryId);
       List<Product> findAllByOrderByUpLoadedDate();
+
+      @Query("select p.user from Product p where p.id=: pId")
+      User findUserByProductId(Long pId);
 }
 

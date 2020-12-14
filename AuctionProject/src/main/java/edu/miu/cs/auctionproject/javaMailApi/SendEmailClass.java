@@ -21,7 +21,6 @@ public class SendEmailClass{
     static int randomNumber =  0;
     static int randomNumberReset = 0;
 
-
     public static void sendMailTo(String receipt) throws Exception{
         System.out.println("preparing to send.....");
         Properties properties = new Properties();
@@ -100,8 +99,8 @@ public class SendEmailClass{
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(reciept));
             message.setSubject("New Account Created With this Email");
-            randomNumber = ( int )( Math. random() * 99999 );
-            message.setText("To confirm please enter this code in the security tab!\n" + randomNumberReset);
+            randomNumberReset = ( int )( Math. random() * 99999 );
+            message.setText("To confirm please enter this code in the security tab. " + randomNumberReset);
             return message;
         } catch (Exception e) {
             Logger.getLogger(SendEmailClass.class.getName()).log(Level.SEVERE, null, e);

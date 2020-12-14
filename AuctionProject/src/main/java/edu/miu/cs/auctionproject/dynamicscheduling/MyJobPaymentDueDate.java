@@ -1,6 +1,7 @@
 package edu.miu.cs.auctionproject.dynamicscheduling;
 
 import edu.miu.cs.auctionproject.controller.BidController;
+import edu.miu.cs.auctionproject.controller.ProductController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.TaskScheduler;
@@ -16,10 +17,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TreeMap;
 
 @Component
-public class MyJob implements SchedulingConfigurer {
+public class MyJobPaymentDueDate implements SchedulingConfigurer {
 	private long product = 0;
 //	private long prodId = 0;
 	LocalDateTime dueBeginner = LocalDateTime.of(LocalDate.of(2030, 12, 11)
@@ -27,7 +31,7 @@ public class MyJob implements SchedulingConfigurer {
 
 
 	@Autowired
-	BidController bidController;
+	ProductController productController;
 
 
 	@Override
@@ -41,26 +45,23 @@ public class MyJob implements SchedulingConfigurer {
 				// Do not put @Scheduled annotation above this method, we don't need it anymore.
 				System.out.println("Running Scheduler----");
 				System.out.println("product id =" + selectedProdId());
-				bidController.scheduler(selectedProdId());
+				productController.paymentDatedue(selectedProdId());
 
 			}
 
-		}, new Trigger() {
-			@Override
-			public Date nextExecutionTime(TriggerContext triggerContext) {
-				Calendar nextExecutionTime = new GregorianCalendar();
-				Date lastActualExecutionTime = triggerContext.lastActualExecutionTime();
-				nextExecutionTime.setTime(lastActualExecutionTime != null ? lastActualExecutionTime : new Date());
-				nextExecutionTime.add(Calendar.MILLISECOND, (int) getNewExecutionTime());
-				return nextExecutionTime.getTime();
-			}
+		}, triggerContext -> {
+			Calendar nextExecutionTime = new GregorianCalendar();
+			Date lastActualExecutionTime = triggerContext.lastActualExecutionTime();
+			nextExecutionTime.setTime(lastActualExecutionTime != null ? lastActualExecutionTime : new Date());
+			nextExecutionTime.add(Calendar.MILLISECOND, (int) getNewExecutionTime());
+			return nextExecutionTime.getTime();
 		});
 	}
 
 
 	public long getNewExecutionTime() {
-		System.out.println("-------------inside getExecution" + timeHashMap(product,dueBeginner));
-		return 10000;
+		System.out.println("-------------inside getExecution" + timePaymentHashMap(product,dueBeginner));
+		return 40000;
 	}
 
 
@@ -68,9 +69,9 @@ public class MyJob implements SchedulingConfigurer {
 	long simon = 15000;
 	long selectedId = 0;
 
-	static TreeMap<Long, Long> dueDate = new TreeMap<>();
-	public long timeHashMap(Long productId, LocalDateTime due) {
-		System.out.println(productId +"and ---- insde due date:" + dueDate);
+	static TreeMap<Long, Long> paymentdueDate = new TreeMap<>();
+	public long timePaymentHashMap(Long productId, LocalDateTime due) {
+		System.out.println(productId +"and ---- insde due date:" + paymentdueDate);
 		LocalDateTime dueProduct = due;
 		long prodId = productId;
 		minutes = 1000000000000000000L;
@@ -82,12 +83,12 @@ public class MyJob implements SchedulingConfigurer {
 		long dueEpochi = dueProduct.atZone(ZoneId.of("America/Chicago")).toInstant().toEpochMilli()
 				- LocalDateTime.now().atZone(ZoneId.of("America/Chicago")).toInstant().toEpochMilli();
 
-		dueDate.put(dueEpochi, prodId);
-		System.out.println(dueDate.size() + " " + dueDate.firstKey());
-		minutes = dueDate.firstKey();
-		System.out.println(dueDate.toString());
+		paymentdueDate.put(dueEpochi, prodId);
+		System.out.println(paymentdueDate.size() + " " + paymentdueDate.firstKey());
+		minutes = paymentdueDate.firstKey();
+		System.out.println(paymentdueDate.toString());
 
-				selectedId = dueDate.get(minutes);
+				selectedId = paymentdueDate.get(minutes);
 				System.out.println("id" + product);
 
 		System.out.println(product);
@@ -99,7 +100,7 @@ public class MyJob implements SchedulingConfigurer {
 	}
 
 		@Bean
-		public TaskScheduler poolScheduler () {
+		public TaskScheduler poolPaymentScheduler() {
 			ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
 			scheduler.setThreadNamePrefix("ThreadPoolTaskScheduler");
 			scheduler.setPoolSize(1);

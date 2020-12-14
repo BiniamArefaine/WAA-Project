@@ -3,6 +3,7 @@ package edu.miu.cs.auctionproject.controller;
 import edu.miu.cs.auctionproject.FileUploadUtil;
 import edu.miu.cs.auctionproject.domain.*;
 import edu.miu.cs.auctionproject.dynamicscheduling.MyJob;
+import edu.miu.cs.auctionproject.dynamicscheduling.MyJobThirtyDaysAfterShipping;
 import edu.miu.cs.auctionproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,7 +54,13 @@ public class ProductController {
     @Autowired
     MyJob myJob;
 
-//--------------------------------customer-----------------------------
+    @Autowired
+    MyJobThirtyDaysAfterShipping myJobThirtyDaysAfterShipping;
+
+//    @Autowired
+//    private BidHistoryService bidHistoryService;
+
+    //--------------------------------customer-----------------------------
 @RequestMapping(value={"/getallWonProduct"})
 public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     User user=null;
@@ -180,6 +187,17 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         if (product.isPresent()) {
             product.get().setReceived(true);
             productService.saveProduct(product.get());
+            //seller gets full amount
+            User userSeller = userService.findUserByProductId(productId);
+            System.out.println("productId is " + productId + " "
+                    + userSeller.getId());
+            long userId = userSeller.getId();
+            DepositPayment dp = depositPaymentService.checkDeposit(productId,userId);
+//            System.out.println("dp "+ dp.toString());
+            System.out.println("$"+ dp.getFinalPayment() + " has been paid to "
+                    +  userSeller.getFirstName() +" "+ userSeller.getLastName());
+
+            dp.setFinalPayment(0.0);
             return "redirect:/product/getallpaidproducts";
         }
         return "redirect:/product/getallpaidproducts";
@@ -244,6 +262,7 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         Optional<Product> product = productService.findProductById(productId);
         if (product.isPresent()) {
             product.get().setShipped(true);
+            thirtyDaysAfterShipping(productId);
             productService.saveProduct(product.get());
             return "redirect:/product/seller/getallsold";
         }
@@ -384,11 +403,25 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
     @GetMapping("/ispaid")
     public String isPaidBeforePaymentDay(Long productId){
         //fake id
-        long productIds = 1L;
+        System.out.println("--------------------------------2" );
+
+        long productIds = productId;
         if(productService.findProductById(productId).isPresent()){
-           Product productToBeShipped = productService.findProductById(productIds).get();
+            System.out.println("--------------------------------3" );
+
+            Product productToBeShipped = productService.findProductById(productIds).get();
            if(!productToBeShipped.isPaidInFull()
                    && !LocalDate.now().isAfter(productToBeShipped.getPaymentDueDate())){
+               System.out.println("--------------------------------4" );
+
+               Bid bid = bidservice.getBidByProductId(productId);
+               User winner = bidservice.getUserBidById(productId);
+               DepositPayment deposit = depositPaymentService.findDepositByUserIdAndPId(winner.getId(),productIds);
+               User seller = productService.findUserByProductId(productId);
+
+               System.out.println("$" + deposit.getDeposit() + " deposit is paid to "
+                       + seller.getFirstName() +" "+seller.getLastName());
+
                return "redirect:/product/shipped";
            }
         };
@@ -409,6 +442,16 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         }
 
         return "congratulationsShipped";
+    }
+
+    //In 30 days after shipping
+    public void thirtyDaysAfterShipping(Long pId){
+       myJobThirtyDaysAfterShipping.timeThirtyDaysHashMap(pId);
+    }
+    //paymentDue date
+    public void paymentDatedue(long id){
+        System.out.println("--------------------------------1" );
+        isPaidBeforePaymentDay(id);
     }
 
 

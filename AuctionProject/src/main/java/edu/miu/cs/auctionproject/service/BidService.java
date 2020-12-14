@@ -15,7 +15,8 @@ public interface BidService {
     void deleteById(Long id);
     User getUserBidById(Long id);
     Bid getBidByProductId(Long id);
-
+    //added
+    List<Long> allNonWinningUsers(Long usrId);
 
     Double getHighestPrice(Bid bid, Product product);
 }

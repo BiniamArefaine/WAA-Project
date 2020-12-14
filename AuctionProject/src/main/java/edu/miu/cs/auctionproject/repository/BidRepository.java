@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface BidRepository extends JpaRepository<Bid, Long> {
         Bid findByProductId(Long produtId);
 
+//        @Query("select b from Bid b where b.product.id=: id")
         Bid getBidByProductId(Long id);
 }

@@ -30,6 +30,8 @@ public interface ProductService {
     Boolean checkSetDepsoit(Product product);
 
     double calculateDepositPayment(Product product);
+
+    User findUserByProductId(long productId);
 //    List<Product> findProductByCategoriesContains(Long categoryId);
 
 

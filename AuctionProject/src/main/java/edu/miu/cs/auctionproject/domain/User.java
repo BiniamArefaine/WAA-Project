@@ -30,7 +30,7 @@ public class User {
     @JoinColumn(name = "user_id",nullable = true)
     private List<Product>product;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Product>wonProducts;
 
     private boolean verification;

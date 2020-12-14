@@ -43,5 +43,7 @@ public class DepositPayment {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate cardExpiration;
+//    @ManyToOne
+//    private Address address;
 
 }

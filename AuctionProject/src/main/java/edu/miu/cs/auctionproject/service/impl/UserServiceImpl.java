@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService{
         return userRepository.findUserByCredentialUserName(userName);
     }
 
+    @Override
+    public User findUserByProductId(long productId) {
+        return userRepository.findUserByproductId(productId);
+    }
+
 //    @Override
 //    public String logInAttempt() {
 //        return null;

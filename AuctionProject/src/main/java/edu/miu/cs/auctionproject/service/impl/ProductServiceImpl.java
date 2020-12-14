@@ -110,4 +110,9 @@ public class ProductServiceImpl implements ProductService {
         return product.getStartingPrice() * 0.01;
     }
 
+    @Override
+    public User findUserByProductId(long productId) {
+        return productRepository.findUserByProductId(productId);
+    }
+
 }

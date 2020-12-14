@@ -1,6 +1,7 @@
 package edu.miu.cs.auctionproject.service.impl;
 
 import edu.miu.cs.auctionproject.domain.DepositPayment;
+import edu.miu.cs.auctionproject.domain.User;
 import edu.miu.cs.auctionproject.repository.DepositPaymentRepository;
 import edu.miu.cs.auctionproject.service.DepositPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +42,31 @@ public class DepositPaymentServiceImpl implements DepositPaymentService {
         return depositPaymentRepository.getDepositPaymentByProductAndUser(productId,userId);
     }
 //    @Override
-//    public DepositPayment getPaymentByProductId(long productId) {
-//        return depositPaymentRepository.getDepositPaymentByProductAndUser(productId);
+//    public DepositPayment getPaymentByProductId(long productId, long usrId) {
+//        return depositPaymentRepository.getDepositPaymentByProductId(productId, usrId);
 //    }
     @Override
     public List<DepositPayment> getAllExceptWinner(Long userId) {
         return depositPaymentRepository.getAllExceptWinner(userId);
+    }
+
+//    @Override
+//    public User getUserByProductIdPaidFull(Long productId) {
+//        return depositPaymentRepository.findUserByProductId(productId);
+//    }
+
+    @Override
+    public DepositPayment findDepositByProductId(Long productId) {
+        return null;
+    }
+
+    @Override
+    public List<DepositPayment> findAllDepositsBypId(Long pId) {
+        return depositPaymentRepository.findAllByproductId(pId);
+    }
+
+    @Override
+    public DepositPayment findDepositByUserIdAndPId(Long id, long productIds) {
+        return depositPaymentRepository.findByUseIdAndPId(id,productIds);
     }
 }

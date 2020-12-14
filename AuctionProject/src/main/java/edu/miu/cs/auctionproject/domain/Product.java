@@ -51,6 +51,9 @@ public class Product {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "please enter future date")
     private LocalDate dueDate;
+//added
+    @ManyToOne
+    private User user;
 
     @ManyToMany
     private List<Category>categories;

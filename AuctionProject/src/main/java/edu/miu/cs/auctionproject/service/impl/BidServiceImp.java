@@ -9,6 +9,7 @@ import edu.miu.cs.auctionproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -93,7 +94,31 @@ public class BidServiceImp implements BidService {
         return bidRepository.getBidByProductId(id);
     }
 
+    @Override
+    public List<Long> allNonWinningUsers(Long bidId) {
+        double max = 0;
+        User user = null;
+        List<Long> list = new ArrayList<>();
+        if(bidRepository.findById(bidId).isPresent()){
+            System.out.println("-----inside hashmap-----");
+            Bid bid = bidRepository.findById(bidId).get();
+            System.out.println("-----inside hashmap 2-----");
+            for (Double d : bid.getUsers().values()){
+                if(d > max){
+                    max = d;
+                }
+            }
+            for(Long userId : bid.getUsers().keySet()){
+                if(!bid.getUsers().get(userId).equals(max)){
+                    list.add(userId);
+//                    user = userService.findUserById(userId).get();
+                };
+            }
 
+        };
+
+        return list;
+    }
 
 
 }
