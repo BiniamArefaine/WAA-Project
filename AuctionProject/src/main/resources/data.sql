@@ -183,15 +183,16 @@ insert into credentials values ( 5,'$2a$10$7HLAc9IuKNUC6T.TK4teou8IG9BxVDdYxgVa3
 
 
 --- Inserted Photos for products on Essey
-insert into product_photos values ( 1,'/images/product-photos/2/background pic.jpg');
-insert into product_photos values ( 2,'/images/product-photos/2/background pic.jpg');
-insert into product_photos values ( 3,'/images/product-photos/2/background pic.jpg');
+insert into product_photos values ( 1,'/images/product-photos/2/phone.jpg');
+insert into product_photos values ( 2,'/images/product-photos/2/toyota.jpg');
+insert into product_photos values ( 3,'/images/product-photos/2/Table.jpg');
 
 
 ---Inserted Photos for Seller Dawit
-insert into product_photos values ( 4,'/images/product-photos/2/background pic.jpg');
-insert into product_photos values ( 5,'/images/product-photos/2/background pic.jpg');
-insert into product_photos values ( 6,'/images/product-photos/2/background pic.jpg');
+insert into product_photos values ( 4,'/images/product-photos/3/laptop.jpg');
+insert into product_photos values ( 4,'/images/product-photos/3/laptop2.jpg');
+insert into product_photos values ( 5,'/images/product-photos/3/hyudai.jpeg');
+insert into product_photos values ( 6,'/images/product-photos/3/sofa.jpg');
 
 
 ------------------ Poducts Catagory----------

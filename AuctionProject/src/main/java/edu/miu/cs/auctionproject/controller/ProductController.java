@@ -350,9 +350,10 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
             user=users.get();
         }
         String fileName="";
+        product1.getPhotos().clear();
         for(MultipartFile file:files){
             fileName=StringUtils.cleanPath(file.getOriginalFilename());
-            product1.getPhotos().clear();
+
             product1.addPhoto("/images/product-photos/" + user.getId()+ "/" +fileName);
             String uploadDir = "target/classes/static/images/product-photos/" +user.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, file);
