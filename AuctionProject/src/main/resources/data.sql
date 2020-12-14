@@ -154,20 +154,23 @@ insert into user values(4,'wgebrehawaryat@miu.edu','Wegahta','Gebremariam','W123
 insert into user values(5,'eweldeyohannes@miu.edu','Eyob','Weldeyohannes','EY12345',1,1,2,5,3);
 
 ---Essey Products as Seller
-insert into product values(1,0,400,'Essey Product','2020-03-20',0.00,0,'2020-12-14','Phone',0,'Yes',0,0,40000.00,'2020-12-12',2);
-insert into product values(2,0,400,'Essey Product','2020-03-20',0.00,0,'2020-12-14','Toyota',0,'Yes',0,0,40000.00,'2020-12-12',2);
-insert into product values(3,0,400,'Essey Product','2020-03-20',0.00,0,'2020-12-14','Table',0,'Yes',0,0,40000.00,'2020-12-12',2);
+insert into product values(1,0,400,'Essey Product','2020-12-13',600,0,'2021-12-18','Phone',0,'Yes',0,1,40000.00,'2020-10-12',2);
+insert into product values(2,0,400,'Essey Product','2021-03-20',0.00,0,'2021-12-14','Toyota',0,'Yes',0,0,40000.00,'2020-12-12',2);
+insert into product values(3,0,400,'Essey Product','2021-03-20',0.00,0,'2021-12-14','Table',0,'Yes',0,0,40000.00,'2020-12-12',2);
 
 
 --Dawit As a Seller Products
 
-insert into product values(4,0,400,'Dawit Product','2020-03-20',0.00,0,'2020-12-14','Laptop',0,'Yes',0,0,40000.00,'2020-12-12',3);
-insert into product values(5,0,400,'Dawit Product','2020-03-20',0.00,0,'2020-12-14','Hyundai',0,'Yes',0,0,40000.00,'2020-12-12',3);
-insert into product values(6,0,400,'Dawit Product','2020-03-20',0.00,0,'2020-12-14','Sofa',0,'Yes',0,0,40000.00,'2020-12-12',3);
+insert into product values(4,0,400,'Dawit Product','2021-03-20',0.00,0,'2021-12-14','Laptop',0,'Yes',0,0,40000.00,'2020-12-12',3);
+insert into product values(5,0,400,'Dawit Product','2021-03-20',0.00,0,'2021-12-14','Hyundai',0,'Yes',0,0,40000.00,'2020-12-12',3);
+insert into product values(6,0,400,'Dawit Product','2021-03-20',0.00,0,'2021-12-14','Sofa',0,'Yes',0,0,40000.00,'2020-12-12',3);
 
+insert into deposit_payment values (1,'2021-01-02','5678908765378965','565','400',0,'essey',null,1,3);
 
-
-
+insert into bid values ( 1,2 );
+insert into bid_user values ( 1,600,3 );
+insert into USER_WON_PRODUCTS values(3,1);
+insert into bid_history values ( 1,600,'2020-12-14',1,3);
 -- insert into bid values(1,1);
 -- -- insert into product values(2,'perfect product','322868_1100-1100x628.jpg','car',0,0,20000,'2020-03-02',1);
 -- -- insert into product values(3,'perfect product','322868_1100-1100x628.jpg','car',0,0,20000,'2020-03-02',1);

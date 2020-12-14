@@ -96,6 +96,8 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
         Optional<Product> product = productService.findProductById(productId);
         Long userId=(Long.parseLong(httpSession.getAttribute("userId").toString()));
         User user1=userService.findUserById(userId).get();
+        System.out.println(user1.getLastName());
+        System.out.println(productId);
         DepositPayment depositPayment=depositPaymentService.checkDeposit(productId,userId);
         depositPayment.setFinalPayment(product.get().getMaxBidPrice()-depositPayment.getDeposit());
         model.addAttribute("prod", product.get());
@@ -191,12 +193,15 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
             User userSeller = userService.findUserByProductId(productId);
             System.out.println("productId is " + productId + " "
                     + userSeller.getId());
-            long userId = userSeller.getId();
+//            long userId = userSeller.getId();
+            BidHistory bidHistory=bidHistoryService.printInvoiceByProductId(productId);
+            long userId=bidHistory.getUser().getId();
             DepositPayment dp = depositPaymentService.checkDeposit(productId,userId);
 //            System.out.println("dp "+ dp.toString());
+            System.out.println("---------------------payment-----------------------------------");
             System.out.println("$"+ dp.getFinalPayment() + " has been paid to "
                     +  userSeller.getFirstName() +" "+ userSeller.getLastName());
-
+            System.out.println("---------------------Done--------------------------------------");
             dp.setFinalPayment(0.0);
             return "redirect:/product/getallpaidproducts";
         }
@@ -419,10 +424,10 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
                User winner = bidservice.getUserBidById(productId);
                DepositPayment deposit = depositPaymentService.findDepositByUserIdAndPId(winner.getId(),productIds);
                User seller = productService.findUserByProductId(productId);
-
+               System.out.println("----------------------------------------payment--------------------------------");
                System.out.println("$" + deposit.getDeposit() + " deposit is paid to "
                        + seller.getFirstName() +" "+seller.getLastName());
-
+               System.out.println("----------------------------------------Done--------------------------------");
                return "redirect:/product/shipped";
            }
         };
