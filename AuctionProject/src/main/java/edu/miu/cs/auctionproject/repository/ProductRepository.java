@@ -28,7 +28,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //      List<Product> findAllByCategoryId(long categoryId);
       List<Product> findAllByOrderByUpLoadedDate();
 
-      @Query("select p.user from Product p where p.id=: pId")
+      @Query("select p.user from Product p where p.id= :pId")
       User findUserByProductId(Long pId);
 }
 

@@ -60,7 +60,7 @@ public class MyJob implements SchedulingConfigurer {
 
 	public long getNewExecutionTime() {
 		System.out.println("-------------inside getExecution" + timeHashMap(product,dueBeginner));
-		return 10000;
+		return 60000;
 	}
 
 

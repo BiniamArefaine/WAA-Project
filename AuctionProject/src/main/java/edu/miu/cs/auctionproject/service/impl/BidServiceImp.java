@@ -56,13 +56,19 @@ public class BidServiceImp implements BidService {
            Bid bid = bidRepository.findById(bidId).get();
            System.out.println("-----inside hashmap 2-----");
            for (Double d : bid.getUsers().values()){
-                  if(d > max){
+               System.out.println("-----inside hashmap doubles-----" + d);
+
+               if(d > max){
                       max = d;
+                      System.out.println("-----inside hashmap 2-----" + max);
+
                   }
            }
           for(Long userId : bid.getUsers().keySet()){
               if(bid.getUsers().get(userId).equals(max)){
                   user = userService.findUserById(userId).get();
+                  System.out.println("-----inside hashmap 2-----" + user.getFirstName());
+
               };
           }
 

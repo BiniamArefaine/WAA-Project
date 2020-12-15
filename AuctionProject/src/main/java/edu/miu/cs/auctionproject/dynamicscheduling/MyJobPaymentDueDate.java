@@ -61,7 +61,7 @@ public class MyJobPaymentDueDate implements SchedulingConfigurer {
 
 	public long getNewExecutionTime() {
 		System.out.println("-------------inside getExecution" + timePaymentHashMap(product,dueBeginner));
-		return 40000;
+		return 4000000;
 	}
 
 

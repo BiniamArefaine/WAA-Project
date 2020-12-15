@@ -74,6 +74,7 @@ public class DepositPaymentController {
     private String returnAllPayments(User winner, Bid bid, List<Long> users, Long pId) {
         System.out.println("----------inside return all payment in DepositController");
         System.out.println(winner.getId() +""+ bid.getId() +""+ users.size()+""+pId);
+        System.out.println("------- winnner is "+winner.getFirstName());
         List<Long> listIds = users;
         List<DepositPayment> allDeposits = depositPaymentService.findAllDepositsBypId(pId);
         System.out.println(allDeposits.size());
@@ -85,7 +86,6 @@ public class DepositPaymentController {
                 System.out.println(depositPayment.getDeposit() + " dollars is returned to " + depositPayment.getUser().getFirstName()
                         + " " + depositPayment.getUser().getLastName());
 //                SendEmailClass.sendMailTo(depositPayment.getUser().getEmail());
-
                 depositPayment.setDeposit(0.0);
                 depositPaymentService.savePayments(depositPayment);
             }

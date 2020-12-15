@@ -175,11 +175,11 @@ SET foreign_key_checks = 0;
 
 
 -- insert into credentials values ( 1,'eyob' ,'eyob');
-insert into credentials values ( 1,'$2a$10$xRx8xiDeumkhJz5SYeIzxujH3Z78fjLjSbMTGhN1j0xstTF3zJojC' ,'bini');
-insert into credentials values ( 2,'$2a$10$xgZo5DsCs3j4Z9nHqeIc0u.Tsm5UADlSuwTH32lww/rJMZSSYhXTu' ,'essey');
-insert into credentials values ( 3,'$2a$10$7HLAc9IuKNUC6T.TK4teou8IG9BxVDdYxgVa3QGPtBPeiaxGZspSO' ,'dawit');
-insert into credentials values ( 4,'$2a$10$xgZo5DsCs3j4Z9nHqeIc0u.Tsm5UADlSuwTH32lww/rJMZSSYhXTu' ,'wegahta');
-insert into credentials values ( 5,'$2a$10$7HLAc9IuKNUC6T.TK4teou8IG9BxVDdYxgVa3QGPtBPeiaxGZspSO' ,'eyob');
+insert into credentials values ( 1,'$2a$10$QyjwOSYmGYZF.GPrf.7L6.I.aBukmhv9eOVjycF84qDxI.GlIrYXG' ,'bini');
+insert into credentials values ( 2,'$2a$10$g791zK/LRxP9ZCy2PyER/u5dePlAUZefNd7yjdFxEE.1oJq.Jd.7q' ,'essey');
+insert into credentials values ( 3,'$2a$10$weck1DMNP/zGw5wff5yMAe2V9/3YxXOL/hDxspajAExmJqHTHbh/i' ,'dawit');
+insert into credentials values ( 4,'$2a$10$1DZaOowPaGI8lfuVcDWpZ.x0n8564v1EFetULYtDvotAIKoWa8CWa' ,'wegahta');
+insert into credentials values ( 5,'$2a$10$wW2qR0wVsCve2bJWzU0SFuBGRhVJeDO9aCP7qHepTsXG29iC1yLMG' ,'eyob');
 
 
 --- Inserted Photos for products on Essey
