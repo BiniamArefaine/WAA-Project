@@ -28,30 +28,6 @@ public class CategoryController {
     @Autowired
     HttpSession session;
 
-//
-//    @GetMapping("/getall")
-//    private String getAllBids(){
-//        List<Category> allCategories = categoryService.getAllCategories();
-//        System.out.println(allCategories + "---------------");
-//        return "Home";
-//    }
-//
-//    @PostMapping("/save_categories")
-//    private void saveCategory(Category category){
-//        categoryService.save(category);
-//    }
-//
-//    @GetMapping("/get_categoriesById")
-//    private String getCategoriesById(Long id){
-//        Optional<Category> category = categoryService.getCategoryById(id);
-//        System.out.println(category + "---------------");
-//        return "Home";
-//    }
-//    @DeleteMapping("/delete_categroy")
-//    private void deleteCategory(Long id){
-//        categoryService.deleteCategoryById(id);
-//    }
-
 
     @GetMapping(value = {"edit/{categoryId}"})
     public String editCategory(@PathVariable long categoryId, Model model) {
@@ -85,16 +61,6 @@ public class CategoryController {
         return modelAndView;
     }
 
-//    @GetMapping(value = {"/search"})
-//    public ModelAndView searchStudents(@RequestParam String searchString) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        List<Category> categorys = categoryService.searchCategory(searchString);
-//        modelAndView.addObject("categorys", categorys);
-//        modelAndView.addObject("searchString", searchString);
-//        modelAndView.addObject("CategorysCount", categorys.size());
-//        modelAndView.setViewName("Categorys");
-//        return modelAndView;
-//    }
 
     @RequestMapping(value = {"/getallforcustomer"})
     public ModelAndView listCategoriescustomer(@RequestParam(defaultValue = "0") int pageNo, ModelAndView modelAndView) {
@@ -119,11 +85,6 @@ public class CategoryController {
         if (bindingResult.hasErrors()) {
             return "secured/admin/addcategory";
         }
-//        if(categoryService.findAllByName(category.getName())!=null){
-//            model.addAttribute("categoryExists","categoryExists");
-//            return "addcategory";
-//        }
-
         // save category here
         categoryService.save(category);
         System.out.println("----in category");
@@ -135,10 +96,6 @@ public class CategoryController {
 
     @GetMapping(value = {"/delete/{categoryId}"})
     public String deleteCategory(@PathVariable Long categoryId, ModelAndView model) {
-//        if(productService.findProductByCategoriesContains(categoryId)!=null){
-//            model.addObject("IthasProducts","It has products");
-//            return "forward:/categories/getall";
-//        }
         categoryService.deleteCategoryById(categoryId);
         return "redirect:/categories/getall";
     }

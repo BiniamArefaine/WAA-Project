@@ -23,7 +23,5 @@ public interface UserService {
 
     User findUserByProductId(long productId);
 
-//
-//    User findByCredential_UserNameOrRole(Credential credential1);
 
 }

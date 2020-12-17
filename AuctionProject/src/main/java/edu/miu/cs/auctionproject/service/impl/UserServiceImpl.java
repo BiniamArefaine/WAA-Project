@@ -71,24 +71,5 @@ public class UserServiceImpl implements UserService{
         return userRepository.findUserByproductId(productId);
     }
 
-//    @Override
-//    public String logInAttempt() {
-//        return null;
-//    }
 
-
-//    @Override
-//    public User findByCredential_UserNameOrRole(Credential credential1) {
-//        return userRepository.getUserByCredential(credential1);
-//    }
-//
-//    @Override
-//    public UserDetails getUser(String username) {
-//        return loadUserByUsername(username);
-//    }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) {
-//        return (UserDetails) userRepository.findUserByFirstName(username);
-//    }
 }

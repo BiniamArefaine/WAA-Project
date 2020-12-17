@@ -199,7 +199,8 @@ public ModelAndView productWon(ModelAndView modelAndView,Model model) {
             DepositPayment dp = depositPaymentService.checkDeposit(productId,userId);
 //            System.out.println("dp "+ dp.toString());
             System.out.println("---------------------payment-----------------------------------");
-            System.out.println("$"+ dp.getFinalPayment() + " has been paid to "
+            double pay=dp.getFinalPayment()+dp.getDeposit();
+            System.out.println("$"+ pay + " has been paid to "
                     +  userSeller.getFirstName() +" "+ userSeller.getLastName());
             System.out.println("---------------------Done--------------------------------------");
             dp.setFinalPayment(0.0);

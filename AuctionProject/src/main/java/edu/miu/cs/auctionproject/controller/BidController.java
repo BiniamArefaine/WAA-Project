@@ -56,31 +56,6 @@ public class BidController {
     @Autowired
     MyJobPaymentDueDate myJobPaymentDueDate;
 
-//
-//    @GetMapping("/getall_bids")
-//    private String getAllBids(){
-//        List<Bid> allBids = bidService.getAllBids();
-//        System.out.println(allBids + "---------------");
-//        return "Home";
-//    }
-
-//    @PostMapping("/save_bid")
-//    private void saveBid(Bid bid){
-//        bidService.save(bid);
-//    }
-
-//    @GetMapping("/get_bidbyid/{id}")
-//    private Bid getBidsById(@PathVariable("id") Long id){
-//        System.out.println("------dava----");
-//        Bid bid = bidService.getBidById(id);
-//        System.out.println(bid + "---------------");
-//        return bid;
-//    }
-//    @DeleteMapping("/delete_bid")
-//    private void deleteBid(Long id){
-//        bidService.deleteById(id);
-//    }
-
 
     //---------------------------making bid---------------------------------------
     @PostMapping(value = {"/addDeposit"})
@@ -214,14 +189,11 @@ public class BidController {
 
         }
         ;
-        //get the hashMap and get the user
-        //fake usr object
-        System.out.println("-----after null");
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("winner", winner);
         modelAndView.addObject("bid", bid);
         modelAndView.addObject("listOfNonWinning", listUserIds);
-        System.out.println("-----after winner");
 
         System.out.println("----------inside END scheludetime in BidController");
         returnToAllPayments(winner,bid,listUserIds,productId);

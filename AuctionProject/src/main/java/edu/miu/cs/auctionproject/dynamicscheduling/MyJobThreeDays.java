@@ -31,7 +31,7 @@ public class MyJobThreeDays implements SchedulingConfigurer {
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
 		System.out.println(taskRegistrar);
 		taskRegistrar.addTriggerTask(new Runnable() {
-			@Scheduled(fixedRate = 10000)
+			@Scheduled(fixedRate = 100000)
 			@Override
 			public void run() {
 
@@ -80,7 +80,9 @@ public class MyJobThreeDays implements SchedulingConfigurer {
 		System.out.println("----------selectedId que number "+selectedId+"---");
 		queue.remove();
 		System.out.println(queue);
-		return 200000000;
+
+		//increase of decrease essey
+		return 60000;
 	}
 
 	public long selectedProdId(){

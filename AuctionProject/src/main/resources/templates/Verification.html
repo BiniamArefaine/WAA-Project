@@ -20,27 +20,15 @@
 
     <form method="get" action="/user/get_verified">
 
-<!--            <div class="row">-->
-<!--                <div class="col-md-6">-->
-<!--                    <input  name="pin" type="number">-->
-<!--                </div>-->
-<!--            </div>-->
         <div class="row">
             <div class="col-md-6">
                 <label for="pin">Enter Pin Code</label>
-<!--                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
-<!--                      class="alert alert-danger"></span>-->
                 <input id="pin" name="pin" type="number" class="form-control">
             </div>
         </div>
         <br/>
         <a href="/user/resend_email" class="btn btn-outline-warning">Resend</a>&nbsp;&nbsp;&nbsp;
         <button id="btnSubmit" type="submit" class="btn btn-outline-success">Submit</button>
-
-<!--    <form method="GET" action="/user/get_verified">-->
-<!--    Pin Code: <input type="text" name="pin"/> <br/>-->
-<!--        <a href="/user/resend_email" class="btn btn-outline-warning">Resend</a>-->
-<!--            <input type="submit" name="pin" value="Send" />-->
     </form>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

@@ -1,6 +1,5 @@
 package edu.miu.cs.auctionproject.controller;
 
-//import edu.miu.cs.auctionproject.IAuthenticationFacade;
 import edu.miu.cs.auctionproject.domain.*;
 import edu.miu.cs.auctionproject.javaMailApi.SendEmailClass;
 import edu.miu.cs.auctionproject.service.CredentialService;
@@ -55,18 +54,11 @@ public class UserController {
             // save product here
         System.out.println("----------5-");
         String encodePassword = passwordEncoder.encode(user.getCredential().getPassword());
-//        System.out.println(encodePassword + user.getCredential().getPassword());
-//        user.getCredential().setPassword(encodePassword);
-//        Object str = session.getAttribute("userId");
-//        System.out.println("------------str"+str.toString());
         model.addAttribute("email", user.getEmail());
-//        model.addAttribute("userObject", user);
         sendEmailTo(user.getEmail(),model);
         user.getCredential().setPassword(passwordEncoder.encode(user.getCredential().getPassword()));
         userService.saveUser(user);
         System.out.println("-------------after");
-//        User user1 = userService.getUserByPasswordAndUserName(user.getCredential().getPassword(), user.getCredential().getUserName());
-
         return "Verification";
 
     }
@@ -98,10 +90,11 @@ public class UserController {
     public Optional<User> getUserbyId(@PathVariable(value = "id") Long id){
         return userService.findUserById(id);
     }
-    @DeleteMapping(value = {"/delete/{id}"})
+
+    @RequestMapping(value = {"/delete/{id}"})
     public String deleteUserById(@PathVariable(value="id")Long id){
         userService.deleteUser(id);
-        return "redirect:/user/getall";
+        return "redirect:/auction/admin/listUsers";
 
     }
 
@@ -109,7 +102,7 @@ public class UserController {
     public String getAllUsers(Model model){
         System.out.println("----get all------");
         model.addAttribute("listUsers",userService.findAllUsers());
-       return "listusers";
+       return "/listusers";
     }
 
     @GetMapping(value = {"edit/{userId}"})
@@ -215,34 +208,6 @@ public class UserController {
 
         return true;
     }
-//    @RequestMapping("/dashboardUser")
-//    public String dashboardPageList(Model model, @AuthenticationPrincipal UserDetails currentUser ) {
-//        User user = (User) userService.getUser(currentUser.getUsername());
-//        model.addAttribute("currentStudent", user);
-//
-//        return "dashboardUser";
-//    }
-//    @Autowired
-//    private IAuthenticationFacade authenticationFacade;
-//
-//        @RequestMapping(value = "/username", method = RequestMethod.GET)
-//        @ResponseBody
-//        public String currentUserNameSimple() {
-//            Credential credential1 = null;
-//            Authentication authentication = authenticationFacade.getAuthentication();
-//            System.out.println(authentication);
-//            String username=authentication.getName();
-//            System.out.println(authentication.getName());
-//            Optional<Credential> credential=credentialService.findByUserName(username);
-//            if(credential.isPresent()) {
-//                 credential1 = credential.get();
-//            }
-//            System.out.println(credential1.toString()+"==============-------------------");
-////            User user=userService.findByCredential_UserNameOrRole(credential1);
-////            System.out.println(user.toString());
-//            return authentication.getName();
-//        }
-
         @GetMapping(value = "/resetPassword")
         public String resetPasswordPage(Model model){
             model.addAttribute("users", new User());

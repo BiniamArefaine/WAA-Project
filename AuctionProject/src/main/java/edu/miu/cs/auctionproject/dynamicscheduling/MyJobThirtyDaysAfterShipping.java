@@ -65,7 +65,7 @@ public class MyJobThirtyDaysAfterShipping implements SchedulingConfigurer {
 
 	Queue<Long> queue = new LinkedList<>();
 	public long timeThirtyDaysHashMap(Long productId) {
-
+		System.out.println("----=======================");
 		long prodId = productId;
 		minutes = 10000000008888L;
 		if(prodId == 0){
@@ -81,7 +81,10 @@ public class MyJobThirtyDaysAfterShipping implements SchedulingConfigurer {
 		System.out.println("----------selectedId thirty "+ selectedId+"---");
 		queue.remove();
 		System.out.println(queue);
-		return 200000000;
+
+
+		//increase of decrease essey(30000)
+		return 3000000;
 	}
 
 	public long selectedProdId(){
